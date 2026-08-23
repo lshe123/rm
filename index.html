@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🃏 بوت القمار - النسخة المظلمة</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #0a0a0f;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-image: radial-gradient(circle at 20% 50%, #1a0a2e 0%, #0a0a0f 70%);
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(20, 20, 35, 0.92);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.05);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f7d94e, #f0a500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .balance-box {
+            background: rgba(255, 215, 0, 0.08);
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            font-weight: 600;
+            font-size: 18px;
+            color: #f7d94e;
+        }
+
+        .balance-box span {
+            color: #fff;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0 25px;
+        }
+
+        .game-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 16px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #aaa;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .game-btn:hover {
+            background: rgba(255, 215, 0, 0.08);
+            border-color: rgba(255, 215, 0, 0.3);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.05);
+        }
+
+        .game-btn.active {
+            background: rgba(255, 215, 0, 0.12);
+            border-color: #f7d94e;
+            color: #f7d94e;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.05);
+        }
+
+        .game-btn .icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .bet-area {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .bet-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .bet-row label {
+            font-size: 14px;
+            color: #888;
+            min-width: 70px;
+        }
+
+        .bet-input {
+            flex: 1;
+            min-width: 120px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .bet-input:focus {
+            border-color: #f7d94e;
+            background: rgba(255, 215, 0, 0.04);
+        }
+
+        .multiplier-display {
+            background: rgba(255, 215, 0, 0.06);
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 700;
+            color: #f7d94e;
+            font-size: 18px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .prize-preview {
+            background: rgba(0, 255, 200, 0.04);
+            border: 1px dashed rgba(0, 255, 200, 0.15);
+            border-radius: 16px;
+            padding: 12px 18px;
+            margin: 12px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .prize-preview .value {
+            color: #00ffc8;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f7d94e, #e6a800);
+            color: #0a0a0f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 35px rgba(255, 215, 0, 0.2);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .gift-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .gift-result.show {
+            display: block;
+        }
+
+        .gift-card {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .gift-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            object-fit: contain;
+        }
+
+        .gift-info {
+            flex: 1;
+        }
+
+        .gift-info h3 {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .gift-info .price {
+            color: #f7d94e;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .gift-info .status {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 6px;
+        }
+
+        .status.won {
+            background: rgba(0, 255, 100, 0.15);
+            color: #00ff64;
+            border: 1px solid rgba(0, 255, 100, 0.2);
+        }
+
+        .status.lost {
+            background: rgba(255, 50, 50, 0.12);
+            color: #ff4444;
+            border: 1px solid rgba(255, 50, 50, 0.15);
+        }
+
+        .history {
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 16px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #777;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .history-item .win {
+            color: #00ff64;
+        }
+
+        .history-item .loss {
+            color: #ff4444;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fragment-badge {
+            text-align: center;
+            font-size: 12px;
+            color: #444;
+            margin-top: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.1);
+            border-top: 2px solid #f7d94e;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px;
+            }
+            .games-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .game-btn {
+                padding: 12px 4px;
+                font-size: 13px;
+            }
+            .game-btn .icon {
+                font-size: 22px;
+            }
+            .bet-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .gift-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="app">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>♠️ بوت القمار</h1>
+            <div class="balance-box">💰 <span id="balanceDisplay">10.00</span> TON</div>
+        </div>
+
+        <!-- GAMES -->
+        <div class="games-grid">
+            <div class="game-btn active" data-game="dice">
+                <span class="icon">🎲</span> نرد
+            </div>
+            <div class="game-btn" data-game="roulette">
+                <span class="icon">🎡</span> دولاب
+            </div>
+            <div class="game-btn" data-game="coinflip">
+                <span class="icon">🪙</span> عملة
+            </div>
+        </div>
+
+        <!-- BET AREA -->
+        <div class="bet-area">
+            <div class="bet-row">
+                <label>💰 الرهان</label>
+                <input type="number" class="bet-input" id="betAmount" value="1.0" step="0.1" min="0.1">
+                <span class="multiplier-display" id="multiplierDisplay">× 1.3</span>
+            </div>
+            <div class="prize-preview">
+                <span>🎁 قيمة الجائزة المتوقعة</span>
+                <span class="value" id="prizeValue">1.30 TON</span>
+            </div>
+            <button class="action-btn" id="playBtn">🎰 ابدأ اللعب</button>
+        </div>
+
+        <!-- GIFT RESULT -->
+        <div class="gift-result" id="giftResult">
+            <div class="gift-card">
+                <img id="giftImage" src="" alt="الهدية">
+                <div class="gift-info">
+                    <h3 id="giftName">هدية رائعة</h3>
+                    <div class="price" id="giftPrice">0.00 TON</div>
+                    <div class="status" id="giftStatus">🎉 فوز</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HISTORY -->
+        <div class="history" id="historyContainer">
+            <div style="font-size:13px; color:#555; margin-bottom:6px;">📜 آخر النتائج</div>
+            <div id="historyList">
+                <div class="history-item"><span>🎲 نرد 4</span><span class="win">+1.2 TON</span></div>
+                <div class="history-item"><span>🪙 وجه</span><span class="loss">-1.0 TON</span></div>
+            </div>
+        </div>
+
+        <div class="fragment-badge">⚡ مدمج مع Fragment.com • هدايا فورية</div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ========== بيانات وهمية لهدايا Fragment ==========
+            // في الواقع يتم جلبها عبر API, لكن هنا نحاكيها لعرض سلس
+            const GIFT_DATABASE = [
+                { id: 1, name: '🌟 نجمة تون', image: 'https://fragment.com/images/gifts/star.png', price: 1.2 },
+                { id: 2, name: '💎 ماسة زرقاء', image: 'https://fragment.com/images/gifts/diamond.png', price: 2.5 },
+                { id: 3, name: '🪐 كوكب المشتري', image: 'https://fragment.com/images/gifts/jupiter.png', price: 3.8 },
+                { id: 4, name: '🚀 صاروخ تون', image: 'https://fragment.com/images/gifts/rocket.png', price: 5.0 },
+                { id: 5, name: '👑 تاج الملك', image: 'https://fragment.com/images/gifts/crown.png', price: 7.2 },
+                { id: 6, name: '🦄 يونيكورن', image: 'https://fragment.com/images/gifts/unicorn.png', price: 9.9 },
+                { id: 7, name: '🌹 وردة ذهبية', image: 'https://fragment.com/images/gifts/rose.png', price: 1.8 },
+                { id: 8, name: '⚡ صاعقة', image: 'https://fragment.com/images/gifts/lightning.png', price: 2.2 },
+                { id: 9, name: '🌀 دوامة', image: 'https://fragment.com/images/gifts/vortex.png', price: 4.1 },
+                { id: 10, name: '🔥 نار أبدية', image: 'https://fragment.com/images/gifts/fire.png', price: 6.3 },
+            ];
+
+            // ========== الحالة ==========
+            let balance = 10.0;
+            let currentGame = 'dice';
+            let history = [];
+
+            // عناصر DOM
+            const balanceDisplay = document.getElementById('balanceDisplay');
+            const betAmountInput = document.getElementById('betAmount');
+            const multiplierDisplay = document.getElementById('multiplierDisplay');
+            const prizeValueSpan = document.getElementById('prizeValue');
+            const playBtn = document.getElementById('playBtn');
+            const giftResult = document.getElementById('giftResult');
+            const giftImage = document.getElementById('giftImage');
+            const giftName = document.getElementById('giftName');
+            const giftPrice = document.getElementById('giftPrice');
+            const giftStatus = document.getElementById('giftStatus');
+            const historyList = document.getElementById('historyList');
+            const gameBtns = document.querySelectorAll('.game-btn');
+
+            // ========== تحديث معاينة الجائزة ==========
+            function updatePrizePreview() {
+                const bet = parseFloat(betAmountInput.value) || 0;
+                let multiplier = 1.3;
+
+                if (currentGame === 'dice') multiplier = 1.6;
+                else if (currentGame === 'roulette') multiplier = 1.8;
+                else if (currentGame === 'coinflip') multiplier = 1.3;
+
+                multiplierDisplay.textContent = `× ${multiplier.toFixed(1)}`;
+                const prize = bet * multiplier;
+                prizeValueSpan.textContent = prize.toFixed(2) + ' TON';
+                return { bet, multiplier, prize };
+            }
+
+            // ========== البحث عن هدية من Fragment ==========
+            function findGiftByPrice(maxPrice) {
+                // تصفية الهدايا التي تناسب السعر
+                const eligible = GIFT_DATABASE.filter(g => g.price <= maxPrice);
+                if (eligible.length === 0) return null;
+                // اختيار أقرب هدية للسعر
+                return eligible.reduce((prev, curr) => {
+                    return (Math.abs(curr.price - maxPrice) < Math.abs(prev.price - maxPrice)) ? curr : prev;
+                });
+            }
+
+            // ========== محاكاة اللعبة ==========
+            function playGame(gameType, betAmount) {
+                let result, won, multiplier;
+
+                switch (gameType) {
+                    case 'dice':
+                        const dice = Math.floor(Math.random() * 6) + 1;
+                        won = dice >= 4;
+                        multiplier = won ? 1.6 : 0;
+                        result = `🎲 نرد ${dice}`;
+                        break;
+                    case 'roulette':
+                        const colors = ['أحمر', 'أسود', 'أحمر', 'أسود', 'أخضر'];
+                        const spin = colors[Math.floor(Math.random() * colors.length)];
+                        won = spin === 'أحمر';
+                        multiplier = won ? 1.8 : 0;
+                        result = `🎡 ${spin}`;
+                        break;
+                    case 'coinflip':
+                        const coin = Math.random() < 0.5 ? 'وجه' : 'كتابة';
+                        won = coin === 'وجه';
+                        multiplier = won ? 1.3 : 0;
+                        result = `🪙 ${coin}`;
+                        break;
+                    default:
+                        return { result: 'خطأ', won: false, multiplier: 0, prize: 0 };
+                }
+
+                const prize = won ? betAmount * multiplier : 0;
+                return { result, won, multiplier, prize };
+            }
+
+            // ========== تنفيذ الرهان ==========
+            function placeBet() {
+                const bet = parseFloat(betAmountInput.value) || 0;
+                if (bet <= 0) {
+                    alert('⚠️ أدخل مبلغ رهان صحيح!');
+                    return;
+                }
+                if (bet > balance) {
+                    alert(`❌ رصيدك غير كافٍ! لديك ${balance.toFixed(2)} TON`);
+                    return;
+                }
+
+                // خصم الرهان
+                balance -= bet;
+                updateBalance();
+
+                // تشغيل اللعبة
+                const gameResult = playGame(currentGame, bet);
+
+                let gift = null;
+                let prizeAmount = 0;
+
+                if (gameResult.won) {
+                    prizeAmount = gameResult.prize;
+                    // البحث عن هدية من Fragment
+                    gift = findGiftByPrice(prizeAmount);
+                    if (gift) {
+                        // إضافة الرصيد (محاكاة شراء الهدية)
+                        balance += prizeAmount;
+                        updateBalance();
+                    } else {
+                        // لو مافيش هدية بالسعر، نعطي قيمة TON
+                        balance += prizeAmount;
+                        updateBalance();
+                    }
+                }
+
+                // تسجيل التاريخ
+                const historyEntry = {
+                    game: gameResult.result,
+                    won: gameResult.won,
+                    amount: gameResult.won ? prizeAmount : -bet
+                };
+                history.unshift(historyEntry);
+                if (history.length > 10) history.pop();
+                renderHistory();
+
+                // عرض النتيجة
+                showResult(gameResult, gift, prizeAmount);
+            }
+
+            // ========== عرض النتيجة ==========
+            function showResult(gameResult, gift, prizeAmount) {
+                giftResult.classList.add('show');
+
+                if (gameResult.won && gift) {
+                    giftImage.src = gift.image || 'https://fragment.com/images/gifts/default.png';
+                    giftImage.alt = gift.name;
+                    giftName.textContent = `🎁 ${gift.name}`;
+                    giftPrice.textContent = `${gift.price.toFixed(2)} TON`;
+                    giftStatus.textContent = `✅ فوز! +${prizeAmount.toFixed(2)} TON`;
+                    giftStatus.className = 'status won';
+                } else if (gameResult.won && !gift) {
+                    giftImage.src = 'https://fragment.com/images/gifts/default.png';
+                    giftImage.alt = 'جائزة نقدية';
+                    giftName.textContent = '💰 جائزة نقدية';
+                    giftPrice.textContent = `${prizeAmount.toFixed(2)} TON`;
+                    giftStatus.textContent = `✅ فوز! +${prizeAmount.toFixed(2)} TON`;
+                    giftStatus.className = 'status won';
+                } else {
+                    giftImage.src = 'https://fragment.com/images/gifts/default.png';
+                    giftImage.alt = 'خسارة';
+                    giftName.textContent = '😔 للأسف';
+                    giftPrice.textContent = '0.00 TON';
+                    giftStatus.textContent = `❌ خسارة -${Math.abs(gameResult.prize - (gameResult.won ? 0 : 0)) || 1.0} TON`;
+                    giftStatus.className = 'status lost';
+                }
+
+                // إضافة تأثير
+                giftResult.style.animation = 'none';
+                setTimeout(() => {
+                    giftResult.style.animation = 'fadeIn 0.5s ease';
+                }, 10);
+            }
+
+            // ========== تحديث الرصيد ==========
+            function updateBalance() {
+                balanceDisplay.textContent = balance.toFixed(2);
+                if (balance < 0.5) {
+                    balanceDisplay.style.color = '#ff4444';
+                } else {
+                    balanceDisplay.style.color = '#f7d94e';
+                }
+            }
+
+            // ========== عرض التاريخ ==========
+            function renderHistory() {
+                historyList.innerHTML = history.map(h => {
+                    const cls = h.won ? 'win' : 'loss';
+                    const sign = h.won ? '+' : '';
+                    return `<div class="history-item"><span>${h.game}</span><span class="${cls}">${sign}${h.amount.toFixed(2)} TON</span></div>`;
+                }).join('');
+            }
+
+            // ========== تبديل اللعبة ==========
+            gameBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    gameBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentGame = this.dataset.game;
+                    updatePrizePreview();
+                });
+            });
+
+            // ========== أحداث ==========
+            betAmountInput.addEventListener('input', updatePrizePreview);
+            playBtn.addEventListener('click', placeBet);
+
+            // ========== تهيئة ==========
+            updatePrizePreview();
+            updateBalance();
+            renderHistory();
+
+            // ========== محاكاة اتصال Fragment.com ==========
+            console.log('⚡ بوت القمار جاهز - مدمج مع Fragment.com');
+            console.log('📦 قاعدة الهدايا:', GIFT_DATABASE.length, 'هدية');
+
+            // عرض هدية افتراضية للترحيب
+            setTimeout(() => {
+                const welcomeGift = GIFT_DATABASE[0];
+                giftImage.src = welcomeGift.image || 'https://fragment.com/images/gifts/default.png';
+                giftName.textContent = `🌟 ${welcomeGift.name}`;
+                giftPrice.textContent = `${welcomeGift.price.toFixed(2)} TON`;
+                giftStatus.textContent = '🔄 جاهز للعب';
+                giftStatus.className = 'status';
+                giftResult.classList.add('show');
+            }, 300);
+
+        })();
+    </script>
+
+</body>
+                  </html>
