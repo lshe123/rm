@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🃏 بوت القمار - النسخة المظلمة</title>
+    <title>🎰 بوت القمار - النسخة الذهبية</title>
     <style>
         * {
             margin: 0;
@@ -13,201 +13,268 @@
         }
 
         body {
-            background: #0a0a0f;
-            color: #e0e0e0;
+            background: #0a0a12;
+            color: #e8e8e8;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            background-image: radial-gradient(circle at 20% 50%, #1a0a2e 0%, #0a0a0f 70%);
+            padding: 16px;
+            background-image: radial-gradient(circle at 30% 20%, #1a0f2a 0%, #07070e 80%);
         }
 
         .container {
-            max-width: 800px;
+            max-width: 480px;
             width: 100%;
-            background: rgba(20, 20, 35, 0.92);
-            backdrop-filter: blur(20px);
-            border-radius: 32px;
-            padding: 30px;
-            border: 1px solid rgba(255, 215, 0, 0.15);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.05);
+            background: rgba(16, 16, 30, 0.95);
+            backdrop-filter: blur(24px);
+            border-radius: 36px;
+            padding: 24px 20px 30px;
+            border: 1px solid rgba(255, 215, 0, 0.08);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 60px rgba(255, 215, 0, 0.02);
         }
 
+        /* ===== HEADER مع الرصيد والإيداع ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-            padding-bottom: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .header h1 {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 800;
             background: linear-gradient(135deg, #f7d94e, #f0a500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+        }
+
+        .balance-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .balance-box {
-            background: rgba(255, 215, 0, 0.08);
-            padding: 8px 20px;
+            background: rgba(255, 215, 0, 0.06);
+            padding: 6px 16px;
             border-radius: 40px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            font-weight: 600;
+            border: 1px solid rgba(255, 215, 0, 0.12);
+            font-weight: 700;
             font-size: 18px;
             color: #f7d94e;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .balance-box span {
             color: #fff;
         }
 
+        .deposit-btn {
+            background: linear-gradient(135deg, #00c853, #00e676);
+            border: none;
+            color: #0a0a12;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 20px rgba(0, 200, 80, 0.2);
+        }
+
+        .deposit-btn:hover {
+            transform: scale(1.04);
+            box-shadow: 0 6px 30px rgba(0, 200, 80, 0.35);
+        }
+
+        .withdraw-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #aaa;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .withdraw-btn:hover {
+            background: rgba(255, 50, 50, 0.1);
+            border-color: rgba(255, 50, 50, 0.2);
+            color: #ff6666;
+        }
+
+        /* ===== أزرار الألعاب ===== */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin: 20px 0 25px;
+            gap: 10px;
+            margin: 16px 0 20px;
         }
 
         .game-btn {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
-            padding: 16px 8px;
+            padding: 14px 6px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            color: #aaa;
+            color: #777;
             font-weight: 600;
             font-size: 15px;
-        }
-
-        .game-btn:hover {
-            background: rgba(255, 215, 0, 0.08);
-            border-color: rgba(255, 215, 0, 0.3);
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.05);
-        }
-
-        .game-btn.active {
-            background: rgba(255, 215, 0, 0.12);
-            border-color: #f7d94e;
-            color: #f7d94e;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.05);
+            position: relative;
         }
 
         .game-btn .icon {
             font-size: 28px;
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
-        .bet-area {
-            background: rgba(0, 0, 0, 0.3);
+        .game-btn:hover {
+            background: rgba(255, 215, 0, 0.05);
+            border-color: rgba(255, 215, 0, 0.15);
+            color: #ccc;
+        }
+
+        .game-btn.active {
+            background: rgba(255, 215, 0, 0.08);
+            border-color: #f7d94e;
+            color: #f7d94e;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.04);
+        }
+
+        .game-btn .badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #f7d94e;
+            color: #0a0a12;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 8px;
             border-radius: 20px;
-            padding: 20px;
-            margin: 15px 0;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        /* ===== منطقة الرهان ===== */
+        .bet-area {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 20px;
+            padding: 18px 16px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .bet-row {
             display: flex;
+            align-items: center;
             gap: 12px;
             flex-wrap: wrap;
-            align-items: center;
         }
 
         .bet-row label {
             font-size: 14px;
             color: #888;
-            min-width: 70px;
+            font-weight: 500;
         }
 
         .bet-input {
             flex: 1;
-            min-width: 120px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            min-width: 80px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
-            padding: 12px 16px;
+            padding: 10px 14px;
             color: #fff;
-            font-size: 16px;
+            font-size: 18px;
+            font-weight: 600;
             outline: none;
             transition: 0.3s;
+            width: 100px;
         }
 
         .bet-input:focus {
             border-color: #f7d94e;
-            background: rgba(255, 215, 0, 0.04);
+            background: rgba(255, 215, 0, 0.03);
         }
 
         .multiplier-display {
-            background: rgba(255, 215, 0, 0.06);
-            padding: 8px 16px;
+            background: rgba(255, 215, 0, 0.07);
+            padding: 6px 16px;
             border-radius: 40px;
             font-weight: 700;
             color: #f7d94e;
-            font-size: 18px;
-            border: 1px solid rgba(255, 215, 0, 0.1);
+            font-size: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.08);
+            min-width: 60px;
+            text-align: center;
         }
 
         .prize-preview {
-            background: rgba(0, 255, 200, 0.04);
-            border: 1px dashed rgba(0, 255, 200, 0.15);
-            border-radius: 16px;
-            padding: 12px 18px;
-            margin: 12px 0;
+            background: rgba(0, 255, 200, 0.03);
+            border: 1px dashed rgba(0, 255, 200, 0.08);
+            border-radius: 14px;
+            padding: 10px 16px;
+            margin: 12px 0 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 14px;
+            color: #888;
         }
 
         .prize-preview .value {
             color: #00ffc8;
             font-weight: 700;
-            font-size: 20px;
+            font-size: 22px;
         }
 
-        .action-btn {
+        /* ===== زر اللعب ===== */
+        .play-btn {
             width: 100%;
             padding: 16px;
             border: none;
             border-radius: 16px;
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 20px;
+            font-weight: 800;
             background: linear-gradient(135deg, #f7d94e, #e6a800);
-            color: #0a0a0f;
+            color: #0a0a12;
             cursor: pointer;
             transition: all 0.3s ease;
-            letter-spacing: 0.5px;
-            margin-top: 8px;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            box-shadow: 0 6px 30px rgba(255, 215, 0, 0.08);
         }
 
-        .action-btn:hover {
+        .play-btn:hover {
             transform: scale(1.01);
-            box-shadow: 0 8px 35px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 8px 40px rgba(255, 215, 0, 0.18);
         }
 
-        .action-btn:disabled {
+        .play-btn:disabled {
             opacity: 0.4;
             cursor: not-allowed;
             transform: none;
         }
 
+        /* ===== نتيجة الهدية ===== */
         .gift-result {
-            margin-top: 20px;
-            padding: 20px;
+            margin-top: 18px;
+            padding: 16px 18px;
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
             display: none;
-            animation: fadeIn 0.5s ease;
+            animation: fadeSlide 0.5s ease;
         }
 
         .gift-result.show {
@@ -216,17 +283,27 @@
 
         .gift-card {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             align-items: center;
             flex-wrap: wrap;
         }
 
-        .gift-card img {
-            width: 100px;
-            height: 100px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+        .gift-card .gift-img-wrapper {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .gift-card .gift-img-wrapper img {
+            width: 100%;
+            height: 100%;
             object-fit: contain;
         }
 
@@ -235,50 +312,91 @@
         }
 
         .gift-info h3 {
-            font-size: 20px;
+            font-size: 18px;
             color: #fff;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .gift-info .price {
             color: #f7d94e;
             font-weight: 600;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .gift-info .status {
             display: inline-block;
-            padding: 4px 14px;
+            padding: 3px 14px;
             border-radius: 40px;
             font-size: 13px;
             font-weight: 600;
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
         .status.won {
-            background: rgba(0, 255, 100, 0.15);
+            background: rgba(0, 255, 100, 0.12);
             color: #00ff64;
-            border: 1px solid rgba(0, 255, 100, 0.2);
+            border: 1px solid rgba(0, 255, 100, 0.12);
         }
 
         .status.lost {
-            background: rgba(255, 50, 50, 0.12);
-            color: #ff4444;
-            border: 1px solid rgba(255, 50, 50, 0.15);
+            background: rgba(255, 50, 50, 0.08);
+            color: #ff5555;
+            border: 1px solid rgba(255, 50, 50, 0.08);
         }
 
+        .status.pending {
+            background: rgba(255, 215, 0, 0.08);
+            color: #f7d94e;
+            border: 1px solid rgba(255, 215, 0, 0.08);
+        }
+
+        /* ===== زر سحب الهدية ===== */
+        .claim-gift-btn {
+            background: linear-gradient(135deg, #7c4dff, #651fff);
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 10px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+            box-shadow: 0 4px 25px rgba(100, 50, 255, 0.15);
+        }
+
+        .claim-gift-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 35px rgba(100, 50, 255, 0.25);
+        }
+
+        .claim-gift-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* ===== التاريخ ===== */
         .history {
-            margin-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            padding-top: 16px;
+            margin-top: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding-top: 14px;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 6px;
         }
 
         .history-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 6px 0;
             font-size: 14px;
-            color: #777;
+            color: #888;
             border-bottom: 1px solid rgba(255, 255, 255, 0.02);
         }
 
@@ -287,13 +405,14 @@
         }
 
         .history-item .loss {
-            color: #ff4444;
+            color: #ff5555;
         }
 
-        @keyframes fadeIn {
+        /* ===== أنيميشن ===== */
+        @keyframes fadeSlide {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(12px);
             }
             to {
                 opacity: 1;
@@ -301,141 +420,279 @@
             }
         }
 
-        .fragment-badge {
-            text-align: center;
-            font-size: 12px;
-            color: #444;
-            margin-top: 20px;
-            letter-spacing: 0.5px;
+        /* ===== مودال الإيداع ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
         }
 
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 215, 0, 0.1);
-            border-top: 2px solid #f7d94e;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-right: 10px;
-            vertical-align: middle;
+        .modal-overlay.show {
+            display: flex;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        .modal {
+            background: rgba(20, 20, 40, 0.98);
+            border: 1px solid rgba(255, 215, 0, 0.08);
+            border-radius: 32px;
+            padding: 32px 28px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
+            animation: fadeSlide 0.4s ease;
         }
 
-        @media (max-width: 600px) {
+        .modal h2 {
+            color: #f7d94e;
+            margin-bottom: 16px;
+            font-size: 24px;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            outline: none;
+            margin: 8px 0 16px;
+        }
+
+        .modal input:focus {
+            border-color: #f7d94e;
+        }
+
+        .modal .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal .modal-actions button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .modal .confirm-btn {
+            background: linear-gradient(135deg, #f7d94e, #e6a800);
+            color: #0a0a12;
+        }
+
+        .modal .cancel-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: #888;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .modal .confirm-btn:hover {
+            transform: scale(1.02);
+        }
+        .modal .cancel-btn:hover {
+            background: rgba(255, 50, 50, 0.05);
+            color: #ff6666;
+        }
+
+        /* ===== responsive ===== */
+        @media (max-width: 480px) {
             .container {
-                padding: 16px;
+                padding: 16px 12px 20px;
             }
-            .games-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
+            .header h1 {
+                font-size: 18px;
+            }
+            .balance-box {
+                font-size: 15px;
+                padding: 4px 12px;
+            }
+            .deposit-btn,
+            .withdraw-btn {
+                font-size: 12px;
+                padding: 6px 14px;
             }
             .game-btn {
-                padding: 12px 4px;
+                padding: 10px 4px;
                 font-size: 13px;
             }
             .game-btn .icon {
                 font-size: 22px;
             }
-            .bet-row {
-                flex-direction: column;
-                align-items: stretch;
+            .bet-input {
+                font-size: 16px;
+                padding: 8px 12px;
             }
-            .gift-card {
-                flex-direction: column;
-                text-align: center;
+            .multiplier-display {
+                font-size: 17px;
+                padding: 4px 12px;
+            }
+            .prize-preview .value {
+                font-size: 18px;
+            }
+            .play-btn {
+                font-size: 17px;
+                padding: 14px;
+            }
+            .gift-card .gift-img-wrapper {
+                width: 60px;
+                height: 60px;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- ==================== التطبيق ==================== -->
     <div class="container" id="app">
+
         <!-- HEADER -->
         <div class="header">
-            <h1>♠️ بوت القمار</h1>
-            <div class="balance-box">💰 <span id="balanceDisplay">10.00</span> TON</div>
+            <h1>🎰 بوت القمار</h1>
+            <div class="balance-section">
+                <div class="balance-box">💰 <span id="balanceDisplay">10.00</span></div>
+                <button class="deposit-btn" id="depositBtn">➕ إيداع</button>
+                <button class="withdraw-btn" id="withdrawBtn">↗️ سحب</button>
+            </div>
         </div>
 
-        <!-- GAMES -->
+        <!-- ألعاب -->
         <div class="games-grid">
-            <div class="game-btn active" data-game="dice">
-                <span class="icon">🎲</span> نرد
+            <div class="game-btn active" data-game="coinflip">
+                <span class="icon">🪙</span> عملة
+                <span class="badge">1.3×</span>
             </div>
             <div class="game-btn" data-game="roulette">
                 <span class="icon">🎡</span> دولاب
+                <span class="badge">1.8×</span>
             </div>
-            <div class="game-btn" data-game="coinflip">
-                <span class="icon">🪙</span> عملة
+            <div class="game-btn" data-game="dice">
+                <span class="icon">🎲</span> نرد
+                <span class="badge">1.6×</span>
             </div>
         </div>
 
-        <!-- BET AREA -->
+        <!-- منطقة الرهان -->
         <div class="bet-area">
             <div class="bet-row">
                 <label>💰 الرهان</label>
-                <input type="number" class="bet-input" id="betAmount" value="1.0" step="0.1" min="0.1">
+                <input type="number" class="bet-input" id="betAmount" value="5" step="0.5" min="0.5">
                 <span class="multiplier-display" id="multiplierDisplay">× 1.3</span>
             </div>
             <div class="prize-preview">
                 <span>🎁 قيمة الجائزة المتوقعة</span>
-                <span class="value" id="prizeValue">1.30 TON</span>
+                <span class="value" id="prizeValue">6.50 TON</span>
             </div>
-            <button class="action-btn" id="playBtn">🎰 ابدأ اللعب</button>
+            <button class="play-btn" id="playBtn">🚀 ابدأ اللعب</button>
         </div>
 
-        <!-- GIFT RESULT -->
+        <!-- نتيجة الهدية -->
         <div class="gift-result" id="giftResult">
             <div class="gift-card">
-                <img id="giftImage" src="" alt="الهدية">
+                <div class="gift-img-wrapper">
+                    <img id="giftImage" src="" alt="الهدية">
+                </div>
                 <div class="gift-info">
-                    <h3 id="giftName">هدية رائعة</h3>
-                    <div class="price" id="giftPrice">0.00 TON</div>
-                    <div class="status" id="giftStatus">🎉 فوز</div>
+                    <h3 id="giftName">تاج الملك</h3>
+                    <div class="price" id="giftPrice">7.20 TON</div>
+                    <div class="status pending" id="giftStatus">🎉 فوز</div>
+                    <button class="claim-gift-btn" id="claimGiftBtn">📦 سحب الهدية</button>
                 </div>
             </div>
         </div>
 
-        <!-- HISTORY -->
-        <div class="history" id="historyContainer">
-            <div style="font-size:13px; color:#555; margin-bottom:6px;">📜 آخر النتائج</div>
+        <!-- التاريخ -->
+        <div class="history">
+            <div class="history-header">
+                <span>📜 آخر النتائج</span>
+                <span style="color:#444;">آخر 5</span>
+            </div>
             <div id="historyList">
-                <div class="history-item"><span>🎲 نرد 4</span><span class="win">+1.2 TON</span></div>
-                <div class="history-item"><span>🪙 وجه</span><span class="loss">-1.0 TON</span></div>
+                <div class="history-item"><span>🪙 عملة - وجه</span><span class="win">+6.50 TON</span></div>
+                <div class="history-item"><span>🎡 دولاب - أحمر</span><span class="win">+9.00 TON</span></div>
+                <div class="history-item"><span>🎲 نرد - 2</span><span class="loss">-5.00 TON</span></div>
             </div>
         </div>
+    </div>
 
-        <div class="fragment-badge">⚡ مدمج مع Fragment.com • هدايا فورية</div>
+    <!-- ==================== مودال الإيداع ==================== -->
+    <div class="modal-overlay" id="depositModal">
+        <div class="modal">
+            <h2>💎 إيداع TON</h2>
+            <p style="color:#888;font-size:14px;margin-bottom:10px;">أدخل المبلغ المراد إيداعه</p>
+            <input type="number" id="depositAmount" value="10" step="1" min="1">
+            <div class="modal-actions">
+                <button class="cancel-btn" id="cancelDeposit">إلغاء</button>
+                <button class="confirm-btn" id="confirmDeposit">✅ تأكيد الإيداع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== مودال السحب ==================== -->
+    <div class="modal-overlay" id="withdrawModal">
+        <div class="modal">
+            <h2>↗️ سحب الهدية</h2>
+            <p style="color:#888;font-size:14px;margin-bottom:6px;">سيتم تحويل الهدية إلى محفظتك</p>
+            <div style="background:rgba(255,215,0,0.04);padding:14px;border-radius:14px;margin:12px 0;">
+                <div style="display:flex;justify-content:space-between;color:#aaa;font-size:14px;">
+                    <span>الهدية الحالية</span>
+                    <span id="withdrawGiftName" style="color:#f7d94e;">تاج الملك</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;color:#aaa;font-size:14px;margin-top:4px;">
+                    <span>القيمة</span>
+                    <span id="withdrawGiftPrice" style="color:#00ffc8;">7.20 TON</span>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" id="cancelWithdraw">إلغاء</button>
+                <button class="confirm-btn" id="confirmWithdraw">✅ تأكيد السحب</button>
+            </div>
+        </div>
     </div>
 
     <script>
         (function() {
             'use strict';
 
-            // ========== بيانات وهمية لهدايا Fragment ==========
-            // في الواقع يتم جلبها عبر API, لكن هنا نحاكيها لعرض سلس
+            // ============================================================
+            // 1. قاعدة بيانات الهدايا - مستوردة من Fragment.com (محاكاة)
+            // ============================================================
             const GIFT_DATABASE = [
-                { id: 1, name: '🌟 نجمة تون', image: 'https://fragment.com/images/gifts/star.png', price: 1.2 },
-                { id: 2, name: '💎 ماسة زرقاء', image: 'https://fragment.com/images/gifts/diamond.png', price: 2.5 },
-                { id: 3, name: '🪐 كوكب المشتري', image: 'https://fragment.com/images/gifts/jupiter.png', price: 3.8 },
-                { id: 4, name: '🚀 صاروخ تون', image: 'https://fragment.com/images/gifts/rocket.png', price: 5.0 },
-                { id: 5, name: '👑 تاج الملك', image: 'https://fragment.com/images/gifts/crown.png', price: 7.2 },
-                { id: 6, name: '🦄 يونيكورن', image: 'https://fragment.com/images/gifts/unicorn.png', price: 9.9 },
-                { id: 7, name: '🌹 وردة ذهبية', image: 'https://fragment.com/images/gifts/rose.png', price: 1.8 },
-                { id: 8, name: '⚡ صاعقة', image: 'https://fragment.com/images/gifts/lightning.png', price: 2.2 },
-                { id: 9, name: '🌀 دوامة', image: 'https://fragment.com/images/gifts/vortex.png', price: 4.1 },
-                { id: 10, name: '🔥 نار أبدية', image: 'https://fragment.com/images/gifts/fire.png', price: 6.3 },
+                { id: 1, name: '🌟 نجمة تون', image: 'https://fragment.com/images/gifts/star.png', price: 1.80 },
+                { id: 2, name: '💎 ماسة زرقاء', image: 'https://fragment.com/images/gifts/diamond.png', price: 3.50 },
+                { id: 3, name: '🪐 كوكب المشتري', image: 'https://fragment.com/images/gifts/jupiter.png', price: 5.20 },
+                { id: 4, name: '🚀 صاروخ تون', image: 'https://fragment.com/images/gifts/rocket.png', price: 4.00 },
+                { id: 5, name: '👑 تاج الملك', image: 'https://fragment.com/images/gifts/crown.png', price: 7.20 },
+                { id: 6, name: '🦄 يونيكورن', image: 'https://fragment.com/images/gifts/unicorn.png', price: 9.90 },
+                { id: 7, name: '🌹 وردة ذهبية', image: 'https://fragment.com/images/gifts/rose.png', price: 2.30 },
+                { id: 8, name: '⚡ صاعقة', image: 'https://fragment.com/images/gifts/lightning.png', price: 3.10 },
+                { id: 9, name: '🌀 دوامة', image: 'https://fragment.com/images/gifts/vortex.png', price: 4.70 },
+                { id: 10, name: '🔥 نار أبدية', image: 'https://fragment.com/images/gifts/fire.png', price: 6.80 },
+                { id: 11, name: '🎭 قناع ذهبي', image: 'https://fragment.com/images/gifts/mask.png', price: 2.90 },
+                { id: 12, name: '🏆 كأس النصر', image: 'https://fragment.com/images/gifts/trophy.png', price: 8.50 },
             ];
 
-            // ========== الحالة ==========
-            let balance = 10.0;
-            let currentGame = 'dice';
+            // ============================================================
+            // 2. الحالة
+            // ============================================================
+            let balance = 10.00;
+            let currentGame = 'coinflip';
             let history = [];
+            let currentGift = null; // الهدية التي فاز بها المستخدم حالياً
+            let isPlaying = false;
 
             // عناصر DOM
             const balanceDisplay = document.getElementById('balanceDisplay');
@@ -448,69 +705,120 @@
             const giftName = document.getElementById('giftName');
             const giftPrice = document.getElementById('giftPrice');
             const giftStatus = document.getElementById('giftStatus');
+            const claimGiftBtn = document.getElementById('claimGiftBtn');
             const historyList = document.getElementById('historyList');
             const gameBtns = document.querySelectorAll('.game-btn');
 
-            // ========== تحديث معاينة الجائزة ==========
-            function updatePrizePreview() {
-                const bet = parseFloat(betAmountInput.value) || 0;
-                let multiplier = 1.3;
+            // ============================================================
+            // 3. دوال الألعاب الواقعية
+            // ============================================================
 
-                if (currentGame === 'dice') multiplier = 1.6;
-                else if (currentGame === 'roulette') multiplier = 1.8;
-                else if (currentGame === 'coinflip') multiplier = 1.3;
-
-                multiplierDisplay.textContent = `× ${multiplier.toFixed(1)}`;
-                const prize = bet * multiplier;
-                prizeValueSpan.textContent = prize.toFixed(2) + ' TON';
-                return { bet, multiplier, prize };
+            // لعبة العملة - محاكاة واقعية (وزن العملة 50/50 مع تأثير بسيط)
+            function playCoinflip() {
+                const outcomes = ['وجه', 'كتابة'];
+                // محاكاة وزن العملة الفيزيائي (انحراف طفيف)
+                const rand = Math.random();
+                let result;
+                if (rand < 0.495) result = 'وجه';
+                else if (rand < 0.990) result = 'كتابة';
+                else result = 'حافة'; // احتمال نادر 1%
+                const won = result === 'وجه';
+                const multiplier = won ? 1.3 : 0;
+                const emoji = result === 'وجه' ? '🪙' : result === 'كتابة' ? '🪙' : '🪙';
+                return {
+                    result: `${emoji} ${result}`,
+                    won: won,
+                    multiplier: multiplier,
+                    detail: result
+                };
             }
 
-            // ========== البحث عن هدية من Fragment ==========
+            // لعبة الدولاب - محاكاة واقعية (دولاب أوروبي: 18 أحمر، 18 أسود، 1 أخضر)
+            function playRoulette() {
+                const numbers = [];
+                for (let i = 0; i < 37; i++) {
+                    if (i === 0) numbers.push({ num: i, color: 'أخضر' });
+                    else if (i % 2 === 0) numbers.push({ num: i, color: 'أحمر' });
+                    else numbers.push({ num: i, color: 'أسود' });
+                }
+                // تعديل لتوزيع واقعي
+                const reds = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
+                const blacks = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35];
+                const allNums = [0, ...reds, ...blacks];
+                const selected = allNums[Math.floor(Math.random() * allNums.length)];
+                let color;
+                if (selected === 0) color = 'أخضر';
+                else if (reds.includes(selected)) color = 'أحمر';
+                else color = 'أسود';
+
+                // الرهان على الأحمر في هذا البوت
+                const won = color === 'أحمر';
+                const multiplier = won ? 1.8 : 0;
+                const emoji = color === 'أحمر' ? '🔴' : color === 'أسود' ? '⚫' : '🟢';
+                return {
+                    result: `🎡 ${emoji} ${color} (${selected})`,
+                    won: won,
+                    multiplier: multiplier,
+                    detail: color
+                };
+            }
+
+            // لعبة النرد - محاكاة واقعية (نرد 6 أوجه مع توزيع طبيعي)
+            function playDice() {
+                // محاكاة نرد فيزيائي مع توزيع عشوائي حقيقي
+                const dice = Math.floor(Math.random() * 6) + 1;
+                // الفوز إذا كان الرقم 4 أو أعلى (احتمال 50%)
+                const won = dice >= 4;
+                const multiplier = won ? 1.6 : 0;
+                const emojis = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+                return {
+                    result: `🎲 ${emojis[dice-1]} ${dice}`,
+                    won: won,
+                    multiplier: multiplier,
+                    detail: dice
+                };
+            }
+
+            // ============================================================
+            // 4. محرك اللعبة الرئيسي
+            // ============================================================
+            function playGame(gameType) {
+                switch (gameType) {
+                    case 'coinflip':
+                        return playCoinflip();
+                    case 'roulette':
+                        return playRoulette();
+                    case 'dice':
+                        return playDice();
+                    default:
+                        return { result: 'خطأ', won: false, multiplier: 0, detail: '' };
+                }
+            }
+
+            // ============================================================
+            // 5. البحث عن هدية من Fragment
+            // ============================================================
             function findGiftByPrice(maxPrice) {
-                // تصفية الهدايا التي تناسب السعر
                 const eligible = GIFT_DATABASE.filter(g => g.price <= maxPrice);
                 if (eligible.length === 0) return null;
-                // اختيار أقرب هدية للسعر
+                // اختيار أقرب هدية للسعر المطلوب
                 return eligible.reduce((prev, curr) => {
                     return (Math.abs(curr.price - maxPrice) < Math.abs(prev.price - maxPrice)) ? curr : prev;
                 });
             }
 
-            // ========== محاكاة اللعبة ==========
-            function playGame(gameType, betAmount) {
-                let result, won, multiplier;
-
-                switch (gameType) {
-                    case 'dice':
-                        const dice = Math.floor(Math.random() * 6) + 1;
-                        won = dice >= 4;
-                        multiplier = won ? 1.6 : 0;
-                        result = `🎲 نرد ${dice}`;
-                        break;
-                    case 'roulette':
-                        const colors = ['أحمر', 'أسود', 'أحمر', 'أسود', 'أخضر'];
-                        const spin = colors[Math.floor(Math.random() * colors.length)];
-                        won = spin === 'أحمر';
-                        multiplier = won ? 1.8 : 0;
-                        result = `🎡 ${spin}`;
-                        break;
-                    case 'coinflip':
-                        const coin = Math.random() < 0.5 ? 'وجه' : 'كتابة';
-                        won = coin === 'وجه';
-                        multiplier = won ? 1.3 : 0;
-                        result = `🪙 ${coin}`;
-                        break;
-                    default:
-                        return { result: 'خطأ', won: false, multiplier: 0, prize: 0 };
-                }
-
-                const prize = won ? betAmount * multiplier : 0;
-                return { result, won, multiplier, prize };
+            // جلب صورة الهدية من Fragment (محاكاة)
+            function fetchGiftImage(gift) {
+                // في الواقع يتم جلب الصورة من Fragment API
+                return gift.image || 'https://fragment.com/images/gifts/default.png';
             }
 
-            // ========== تنفيذ الرهان ==========
+            // ============================================================
+            // 6. تنفيذ الرهان
+            // ============================================================
             function placeBet() {
+                if (isPlaying) return;
+
                 const bet = parseFloat(betAmountInput.value) || 0;
                 if (bet <= 0) {
                     alert('⚠️ أدخل مبلغ رهان صحيح!');
@@ -521,56 +829,76 @@
                     return;
                 }
 
-                // خصم الرهان
-                balance -= bet;
-                updateBalance();
+                isPlaying = true;
+                playBtn.disabled = true;
+                playBtn.textContent = '⏳ جاري اللعب...';
 
-                // تشغيل اللعبة
-                const gameResult = playGame(currentGame, bet);
+                // محاكاة تأخير اللعبة (واقعية)
+                setTimeout(() => {
+                    // خصم الرهان
+                    balance -= bet;
+                    updateBalance();
 
-                let gift = null;
-                let prizeAmount = 0;
+                    // تشغيل اللعبة
+                    const gameResult = playGame(currentGame);
 
-                if (gameResult.won) {
-                    prizeAmount = gameResult.prize;
-                    // البحث عن هدية من Fragment
-                    gift = findGiftByPrice(prizeAmount);
-                    if (gift) {
-                        // إضافة الرصيد (محاكاة شراء الهدية)
-                        balance += prizeAmount;
-                        updateBalance();
+                    let gift = null;
+                    let prizeAmount = 0;
+
+                    if (gameResult.won) {
+                        prizeAmount = bet * gameResult.multiplier;
+                        // البحث عن هدية من Fragment
+                        gift = findGiftByPrice(prizeAmount);
+                        if (gift) {
+                            currentGift = gift;
+                            // إضافة الرصيد (محاكاة شراء الهدية)
+                            balance += prizeAmount;
+                            updateBalance();
+                        } else {
+                            // لو مافيش هدية بالسعر، نعطي قيمة TON
+                            balance += prizeAmount;
+                            updateBalance();
+                            currentGift = null;
+                        }
                     } else {
-                        // لو مافيش هدية بالسعر، نعطي قيمة TON
-                        balance += prizeAmount;
-                        updateBalance();
+                        currentGift = null;
                     }
-                }
 
-                // تسجيل التاريخ
-                const historyEntry = {
-                    game: gameResult.result,
-                    won: gameResult.won,
-                    amount: gameResult.won ? prizeAmount : -bet
-                };
-                history.unshift(historyEntry);
-                if (history.length > 10) history.pop();
-                renderHistory();
+                    // تسجيل التاريخ
+                    const historyEntry = {
+                        game: gameResult.result,
+                        won: gameResult.won,
+                        amount: gameResult.won ? prizeAmount : -bet
+                    };
+                    history.unshift(historyEntry);
+                    if (history.length > 10) history.pop();
+                    renderHistory();
 
-                // عرض النتيجة
-                showResult(gameResult, gift, prizeAmount);
+                    // عرض النتيجة
+                    showResult(gameResult, gift, prizeAmount);
+
+                    isPlaying = false;
+                    playBtn.disabled = false;
+                    playBtn.textContent = '🚀 ابدأ اللعب';
+                }, 600);
             }
 
-            // ========== عرض النتيجة ==========
+            // ============================================================
+            // 7. عرض النتيجة
+            // ============================================================
             function showResult(gameResult, gift, prizeAmount) {
                 giftResult.classList.add('show');
 
                 if (gameResult.won && gift) {
-                    giftImage.src = gift.image || 'https://fragment.com/images/gifts/default.png';
+                    const imgUrl = fetchGiftImage(gift);
+                    giftImage.src = imgUrl;
                     giftImage.alt = gift.name;
                     giftName.textContent = `🎁 ${gift.name}`;
                     giftPrice.textContent = `${gift.price.toFixed(2)} TON`;
                     giftStatus.textContent = `✅ فوز! +${prizeAmount.toFixed(2)} TON`;
                     giftStatus.className = 'status won';
+                    claimGiftBtn.disabled = false;
+                    claimGiftBtn.textContent = '📦 سحب الهدية';
                 } else if (gameResult.won && !gift) {
                     giftImage.src = 'https://fragment.com/images/gifts/default.png';
                     giftImage.alt = 'جائزة نقدية';
@@ -578,23 +906,57 @@
                     giftPrice.textContent = `${prizeAmount.toFixed(2)} TON`;
                     giftStatus.textContent = `✅ فوز! +${prizeAmount.toFixed(2)} TON`;
                     giftStatus.className = 'status won';
+                    claimGiftBtn.disabled = true;
+                    claimGiftBtn.textContent = '💸 تم الصرف تلقائياً';
                 } else {
                     giftImage.src = 'https://fragment.com/images/gifts/default.png';
                     giftImage.alt = 'خسارة';
                     giftName.textContent = '😔 للأسف';
                     giftPrice.textContent = '0.00 TON';
-                    giftStatus.textContent = `❌ خسارة -${Math.abs(gameResult.prize - (gameResult.won ? 0 : 0)) || 1.0} TON`;
+                    giftStatus.textContent = `❌ خسارة -${betAmountInput.value} TON`;
                     giftStatus.className = 'status lost';
+                    claimGiftBtn.disabled = true;
+                    claimGiftBtn.textContent = '❌ لا توجد هدية';
+                    currentGift = null;
                 }
-
-                // إضافة تأثير
-                giftResult.style.animation = 'none';
-                setTimeout(() => {
-                    giftResult.style.animation = 'fadeIn 0.5s ease';
-                }, 10);
             }
 
-            // ========== تحديث الرصيد ==========
+            // ============================================================
+            // 8. دوال الإيداع والسحب
+            // ============================================================
+
+            // إيداع
+            function deposit(amount) {
+                if (amount <= 0) {
+                    alert('⚠️ أدخل مبلغ صحيح!');
+                    return false;
+                }
+                balance += amount;
+                updateBalance();
+                document.getElementById('depositModal').classList.remove('show');
+                return true;
+            }
+
+            // سحب الهدية
+            function withdrawGift() {
+                if (!currentGift) {
+                    alert('❌ لا توجد هدية للسحب!');
+                    return;
+                }
+                // محاكاة تحويل الهدية
+                alert(`✅ تم سحب الهدية "${currentGift.name}" بقيمة ${currentGift.price.toFixed(2)} TON إلى محفظتك!`);
+                // إعادة ضبط الهدية
+                currentGift = null;
+                claimGiftBtn.disabled = true;
+                claimGiftBtn.textContent = '✅ تم السحب';
+                giftStatus.textContent = '✅ تم السحب';
+                giftStatus.className = 'status won';
+            }
+
+            // ============================================================
+            // 9. تحديث الواجهة
+            // ============================================================
+
             function updateBalance() {
                 balanceDisplay.textContent = balance.toFixed(2);
                 if (balance < 0.5) {
@@ -604,7 +966,19 @@
                 }
             }
 
-            // ========== عرض التاريخ ==========
+            function updatePrizePreview() {
+                const bet = parseFloat(betAmountInput.value) || 0;
+                let multiplier = 1.3;
+                if (currentGame === 'coinflip') multiplier = 1.3;
+                else if (currentGame === 'roulette') multiplier = 1.8;
+                else if (currentGame === 'dice') multiplier = 1.6;
+
+                multiplierDisplay.textContent = `× ${multiplier.toFixed(1)}`;
+                const prize = bet * multiplier;
+                prizeValueSpan.textContent = prize.toFixed(2) + ' TON';
+                return { bet, multiplier, prize };
+            }
+
             function renderHistory() {
                 historyList.innerHTML = history.map(h => {
                     const cls = h.won ? 'win' : 'loss';
@@ -613,42 +987,117 @@
                 }).join('');
             }
 
-            // ========== تبديل اللعبة ==========
+            // ============================================================
+            // 10. الأحداث
+            // ============================================================
+
+            // تبديل الألعاب
             gameBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     gameBtns.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     currentGame = this.dataset.game;
                     updatePrizePreview();
+                    // إعادة تعيين عرض الهدية
+                    giftResult.classList.remove('show');
+                    currentGift = null;
                 });
             });
 
-            // ========== أحداث ==========
+            // تحديث معاينة الجائزة
             betAmountInput.addEventListener('input', updatePrizePreview);
+
+            // زر اللعب
             playBtn.addEventListener('click', placeBet);
 
-            // ========== تهيئة ==========
+            // زر الإيداع - فتح المودال
+            document.getElementById('depositBtn').addEventListener('click', function() {
+                document.getElementById('depositModal').classList.add('show');
+                document.getElementById('depositAmount').value = '10';
+            });
+
+            // إلغاء الإيداع
+            document.getElementById('cancelDeposit').addEventListener('click', function() {
+                document.getElementById('depositModal').classList.remove('show');
+            });
+
+            // تأكيد الإيداع
+            document.getElementById('confirmDeposit').addEventListener('click', function() {
+                const amount = parseFloat(document.getElementById('depositAmount').value) || 0;
+                deposit(amount);
+            });
+
+            // إغلاق المودال بالضغط خارجها
+            document.getElementById('depositModal').addEventListener('click', function(e) {
+                if (e.target === this) this.classList.remove('show');
+            });
+
+            // زر السحب (الهدية)
+            claimGiftBtn.addEventListener('click', withdrawGift);
+
+            // زر السحب (TON) - فتح مودال السحب
+            document.getElementById('withdrawBtn').addEventListener('click', function() {
+                const modal = document.getElementById('withdrawModal');
+                // تحديث معلومات الهدية في المودال
+                if (currentGift) {
+                    document.getElementById('withdrawGiftName').textContent = currentGift.name;
+                    document.getElementById('withdrawGiftPrice').textContent = currentGift.price.toFixed(2) + ' TON';
+                } else {
+                    document.getElementById('withdrawGiftName').textContent = 'لا توجد هدية';
+                    document.getElementById('withdrawGiftPrice').textContent = '0.00 TON';
+                }
+                modal.classList.add('show');
+            });
+
+            // إلغاء السحب
+            document.getElementById('cancelWithdraw').addEventListener('click', function() {
+                document.getElementById('withdrawModal').classList.remove('show');
+            });
+
+            // تأكيد السحب
+            document.getElementById('confirmWithdraw').addEventListener('click', function() {
+                document.getElementById('withdrawModal').classList.remove('show');
+                if (currentGift) {
+                    withdrawGift();
+                } else {
+                    alert('❌ لا توجد هدية للسحب!');
+                }
+            });
+
+            // إغلاق مودال السحب
+            document.getElementById('withdrawModal').addEventListener('click', function(e) {
+                if (e.target === this) this.classList.remove('show');
+            });
+
+            // ============================================================
+            // 11. تهيئة
+            // ============================================================
+
             updatePrizePreview();
             updateBalance();
             renderHistory();
 
-            // ========== محاكاة اتصال Fragment.com ==========
-            console.log('⚡ بوت القمار جاهز - مدمج مع Fragment.com');
-            console.log('📦 قاعدة الهدايا:', GIFT_DATABASE.length, 'هدية');
-
-            // عرض هدية افتراضية للترحيب
+            // عرض هدية ترحيبية
             setTimeout(() => {
-                const welcomeGift = GIFT_DATABASE[0];
-                giftImage.src = welcomeGift.image || 'https://fragment.com/images/gifts/default.png';
-                giftName.textContent = `🌟 ${welcomeGift.name}`;
+                const welcomeGift = GIFT_DATABASE.find(g => g.name === 'تاج الملك') || GIFT_DATABASE[0];
+                giftImage.src = fetchGiftImage(welcomeGift);
+                giftImage.alt = welcomeGift.name;
+                giftName.textContent = `🎁 ${welcomeGift.name}`;
                 giftPrice.textContent = `${welcomeGift.price.toFixed(2)} TON`;
                 giftStatus.textContent = '🔄 جاهز للعب';
-                giftStatus.className = 'status';
+                giftStatus.className = 'status pending';
                 giftResult.classList.add('show');
-            }, 300);
+                claimGiftBtn.disabled = true;
+                claimGiftBtn.textContent = '🎮 اربح أولاً';
+                currentGift = null;
+            }, 400);
+
+            console.log('⚡ بوت القمار الذهبي جاهز - مدمج مع Fragment.com');
+            console.log('📦 قاعدة الهدايا:', GIFT_DATABASE.length, 'هدية');
+            console.log('🎮 الألعاب: عملة (1.3×), دولاب (1.8×), نرد (1.6×)');
 
         })();
     </script>
 
 </body>
-                  </html>
+</html>
