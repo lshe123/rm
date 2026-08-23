@@ -2,9 +2,10 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>🎮 Epic Gift - النسخة الكاملة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Epic Gift - النسخة الكاملة بالصور</title>
     <style>
+        /* نفس الأنماط السابقة مع إضافات */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
         
@@ -39,11 +40,11 @@
             padding-bottom: 80px;
         }
         
-        /* Header */
         .header {
             padding: 20px 20px 10px;
             text-align: center;
             border-bottom: 1px solid var(--border);
+            position: relative;
         }
         .header h1 {
             font-size: 2rem;
@@ -63,8 +64,15 @@
             font-size: 0.9rem;
         }
         .header .balance span { color: var(--gold); font-weight: bold; }
+        .header .vip-badge {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            width: 40px;
+            height: 40px;
+            background: url('https://epicgift.app/assets/images/vip.png') center/contain no-repeat;
+        }
         
-        /* Leaderboard */
         .leaderboard {
             padding: 15px;
             background: #0d1624;
@@ -75,11 +83,20 @@
         .leaderboard .player {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 8px 0;
             border-bottom: 1px solid #1a2538;
             font-size: 0.85rem;
         }
-        .leaderboard .player:last-child { border-bottom: none; }
+        .leaderboard .player .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #1a2538;
+            margin-right: 10px;
+            border: 1px solid var(--gold);
+        }
+        .leaderboard .player .info { display: flex; align-items: center; flex: 1; }
         .leaderboard .player .name { color: #aab; }
         .leaderboard .player .profit { color: #6fcf97; font-weight: bold; }
         .leaderboard .player .profit.lose { color: #eb5757; }
@@ -93,8 +110,14 @@
             border: 1px dashed var(--gold);
         }
         .pool .amount { font-size: 1.8rem; color: var(--gold); font-weight: bold; }
+        .pool .ton-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            background: url('https://epicgift.app/assets/images/ton_symbol.svg') center/contain no-repeat;
+            vertical-align: middle;
+        }
         
-        /* Games Grid */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -111,7 +134,14 @@
             cursor: pointer;
         }
         .game-card:hover { transform: translateY(-3px); border-color: var(--gold); }
-        .game-card .icon { font-size: 2rem; }
+        .game-card .icon { 
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 5px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
         .game-card .name { font-size: 0.8rem; margin-top: 5px; color: #aab; }
         .game-card .badge { 
             background: #eb5757; 
@@ -124,7 +154,6 @@
         .game-card .badge.hot { background: var(--gold); color: #0a0e17; }
         .game-card .badge.new { background: #6fcf97; color: #0a0e17; }
         
-        /* Betting Screen */
         .bet-screen {
             padding: 15px;
             background: #0d1624;
@@ -177,7 +206,6 @@
         }
         .bet-screen .bet-input button:hover { background: #ffb347; }
         
-        /* Live Bets */
         .live-bets {
             padding: 10px 15px;
         }
@@ -191,7 +219,6 @@
         .live-bets .bet-item .heart { color: #eb5757; }
         .live-bets .bet-item .win { color: #6fcf97; }
         
-        /* Bottom Nav */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -220,7 +247,6 @@
         .bottom-nav .nav-item:hover { color: var(--gold); }
         .bottom-nav .nav-item .nav-icon { font-size: 1.5rem; display: block; }
         
-        /* Free Offer */
         .free-offer {
             background: linear-gradient(135deg, #1a2538, #0d1624);
             padding: 12px;
@@ -230,15 +256,47 @@
             border: 2px dashed var(--gold);
             cursor: pointer;
             transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         .free-offer:hover { background: #1a2538; }
+        .free-offer .free-icon {
+            width: 40px;
+            height: 40px;
+            background: url('https://epicgift.app/assets/images/free24.png') center/contain no-repeat;
+        }
         .free-offer .label { color: var(--gold); font-weight: bold; font-size: 1.2rem; }
         .free-offer .sub { font-size: 0.8rem; color: #aab; }
         
-        /* Responsive */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            padding: 10px 15px;
+        }
+        .item {
+            background: #0d1624;
+            padding: 10px 5px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .item .item-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .item .item-name { font-size: 0.6rem; color: #aab; margin-top: 4px; }
+        
         @media (max-width: 400px) {
             .games-grid { grid-template-columns: repeat(2, 1fr); }
             .header h1 { font-size: 1.5rem; }
+            .items-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
@@ -248,21 +306,28 @@
     <div class="header">
         <h1>🎁 EPIC GIFT</h1>
         <div class="balance">💰 الرصيد: <span id="balanceDisplay">0.001</span> TON</div>
+        <div class="vip-badge"></div>
     </div>
 
     <!-- Leaderboard -->
     <div class="leaderboard">
         <div class="player">
-            <span class="name">@lonelytwin...</span>
+            <div class="info">
+                <div class="avatar" style="background: url('https://epicgift.app/assets/pvp/ava6.jpg') center/cover;"></div>
+                <span class="name">@lonelytwin...</span>
+            </div>
             <span><span class="profit">+1.6 TON</span> <span class="percent">41.7%</span></span>
         </div>
         <div class="player">
-            <span class="name">@Natonu...</span>
+            <div class="info">
+                <div class="avatar" style="background: #2d4059;"></div>
+                <span class="name">@Natonu...</span>
+            </div>
             <span><span class="profit">+376.0 TON</span> <span class="percent">96.0%</span></span>
         </div>
         <div class="pool">
             <div style="font-size:0.8rem;color:#aab;">TOTAL POOL</div>
-            <div class="amount">0.73 TON</div>
+            <div class="amount"><span class="ton-icon"></span> 0.73</div>
             <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:0.7rem;">
                 <span>Giftbackp... <span style="color:#6fcf97;">82.2%</span></span>
                 <span>Skins420 <span style="color:#eb5757;">17.8%</span></span>
@@ -274,41 +339,76 @@
     <!-- Games Grid -->
     <div class="games-grid">
         <div class="game-card" onclick="switchScreen('rocket')">
-            <div class="icon">🚀</div>
+            <div class="icon" style="background-image: url('https://epicgift.app/assets/rocket-banner/rocket.png');"></div>
             <div class="name">ROCKET</div>
             <div class="badge hot">HOT!</div>
         </div>
         <div class="game-card" onclick="switchScreen('pvp')">
-            <div class="icon">⚔️</div>
+            <div class="icon" style="background-image: url('https://epicgift.app/assets/pvp/ava6.jpg'); border-radius:50%;"></div>
             <div class="name">PVP</div>
             <div class="badge new">NEW!</div>
         </div>
         <div class="game-card" onclick="switchScreen('plinko')">
-            <div class="icon">🎯</div>
+            <div class="icon" style="background-image: url('https://epicgift.app/assets/play-hub/plk-board.webp');"></div>
             <div class="name">PLINKO</div>
         </div>
         <div class="game-card" onclick="switchScreen('crates')">
-            <div class="icon">📦</div>
+            <div class="icon" style="background-image: url('https://epicgift.app/assets/images/gem_v2.png');"></div>
             <div class="name">CRATES</div>
         </div>
         <div class="game-card" onclick="switchScreen('upg')">
-            <div class="icon">⬆️</div>
+            <div class="icon" style="background-image: url('https://epicgift.app/assets/images/elite.png');"></div>
             <div class="name">UPG</div>
         </div>
         <div class="game-card" onclick="switchScreen('free')">
-            <div class="icon">🎁</div>
+            <div class="icon" style="background-image: url('https://epicgift.app/assets/images/free24.png');"></div>
             <div class="name">FREE24</div>
             <div class="badge" style="background:#6fcf97;">FREE</div>
         </div>
     </div>
 
-    <!-- Free Offer -->
-    <div class="free-offer" onclick="claimFree()">
-        <div class="label">🎁 FREE24</div>
-        <div class="sub">احصل على مكافأة مجانية كل 24 ساعة</div>
+    <!-- VIP Items -->
+    <div style="padding: 0 15px;">
+        <div style="font-size:0.8rem;color:#aab;margin:10px 0 5px;">👑 رتب VIP</div>
+        <div class="items-grid">
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/vip/obsidian.png');"></div><div class="item-name">Obsidian</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/vip/diamond.png');"></div><div class="item-name">Diamond</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/vip/platinum.png');"></div><div class="item-name">Platinum</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/vip/silver.png');"></div><div class="item-name">Silver</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/vip/bronze.png');"></div><div class="item-name">Bronze</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/vip/iron.png');"></div><div class="item-name">Iron</div></div>
+        </div>
     </div>
 
-    <!-- Bet Screen (Dynamic) -->
+    <!-- Items Collection -->
+    <div style="padding: 0 15px;">
+        <div style="font-size:0.8rem;color:#aab;margin:10px 0 5px;">🎒 العناصر النادرة</div>
+        <div class="items-grid">
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/pepe_v2.png');"></div><div class="item-name">Pepe</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/rings.png');"></div><div class="item-name">Rings</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/cap_v2.png');"></div><div class="item-name">Cap</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/peach_v2.png');"></div><div class="item-name">Peach</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/snoop.png');"></div><div class="item-name">Snoop</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/kitty_v2.png');"></div><div class="item-name">Kitty</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/magic_v2.png');"></div><div class="item-name">Magic</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/oscar_v2.png');"></div><div class="item-name">Oscar</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/parfume_v2.png');"></div><div class="item-name">Parfume</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/arm.png');"></div><div class="item-name">Arm</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/heart.png');"></div><div class="item-name">Heart</div></div>
+            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/money.png');"></div><div class="item-name">Money</div></div>
+        </div>
+    </div>
+
+    <!-- Free Offer -->
+    <div class="free-offer" onclick="claimFree()">
+        <div class="free-icon"></div>
+        <div>
+            <div class="label">🎁 FREE24</div>
+            <div class="sub">احصل على مكافأة مجانية كل 24 ساعة</div>
+        </div>
+    </div>
+
+    <!-- Bet Screen -->
     <div id="betScreen" class="bet-screen">
         <div style="display:flex;justify-content:space-between;align-items:center;">
             <span style="font-weight:bold;color:var(--gold);">🚀 ROCKET</span>
@@ -355,20 +455,17 @@
 </div>
 
 <script>
-    // ===== الوضع الظلي V99 - EPIC GIFT كامل =====
+    // ===== الوضع الظلي V99 - EPIC GIFT مع الصور =====
     let balance = 0.001;
     const balanceDisplay = document.getElementById('balanceDisplay');
-    const betScreen = document.getElementById('betScreen');
-    const multipliers = document.getElementById('multipliers');
     
-    // تحديث الرصيد
     function updateBalance(amount) {
         balance += amount;
         balanceDisplay.textContent = balance.toFixed(3);
         if (balance < 0) balance = 0;
+        localStorage.setItem('epicGiftBalance', balance);
     }
     
-    // تبديل الألعاب
     function switchScreen(game) {
         const titles = {
             rocket: '🚀 ROCKET',
@@ -387,23 +484,20 @@
             free: ['🎁', '🎁', '🎁']
         };
         document.querySelector('.bet-screen > div:first-child span:first-child').textContent = titles[game] || '🚀 ROCKET';
-        multipliers.innerHTML = mults[game]?.map(m => `<span class="mult">${m}</span>`).join('') || '<span class="mult">1.00x</span>';
+        document.getElementById('multipliers').innerHTML = mults[game]?.map(m => `<span class="mult">${m}</span>`).join('') || '<span class="mult">1.00x</span>';
     }
     
-    // وضع الرهان
     function placeBet() {
         const amount = parseFloat(document.getElementById('betAmount').value);
         if (isNaN(amount) || amount <= 0) { alert('أدخل مبلغاً صحيحاً'); return; }
         if (amount > balance) { alert('الرصيد غير كافٍ'); return; }
         
-        // محاكاة الرهان
         const mult = (Math.random() * 5 + 1).toFixed(2);
         const win = (amount * mult).toFixed(2);
         const isWin = Math.random() > 0.4;
         
         updateBalance(isWin ? parseFloat(win) : -amount);
         
-        // إضافة رهان حي
         const liveBets = document.getElementById('liveBets');
         const newBet = document.createElement('div');
         newBet.className = 'bet-item';
@@ -411,7 +505,6 @@
         liveBets.prepend(newBet);
         if (liveBets.children.length > 6) liveBets.removeChild(liveBets.lastChild);
         
-        // تحديث المضاعفات
         const newMult = (Math.random() * 5 + 1).toFixed(2);
         const mults = document.querySelectorAll('.mult');
         if (mults.length > 0) {
@@ -422,7 +515,6 @@
         }
     }
     
-    // المكافأة المجانية
     function claimFree() {
         const lastClaim = localStorage.getItem('epicGiftFree');
         const now = Date.now();
@@ -436,11 +528,9 @@
         alert(`🎁 حصلت على ${reward.toFixed(3)} TON مجاناً!`);
     }
     
-    // تبديل التبويبات
     function switchTab(tab) {
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
         document.querySelector(`.nav-item[onclick*="${tab}"]`)?.classList.add('active');
-        // محاكاة تبديل الصفحات
         const titles = {
             home: '🏠 الرئيسية',
             backpack: '🎒 حقيبة الظهر',
@@ -452,17 +542,9 @@
         if (tab === 'home') document.querySelector('.header h1').textContent = '🎁 EPIC GIFT';
     }
     
-    // تحميل الرصيد المحفوظ
-    function loadBalance() {
-        const saved = localStorage.getItem('epicGiftBalance');
-        if (saved) { balance = parseFloat(saved); balanceDisplay.textContent = balance.toFixed(3); }
-    }
-    loadBalance();
-    
-    // حفظ الرصيد كل 5 ثواني
-    setInterval(() => {
-        localStorage.setItem('epicGiftBalance', balance);
-    }, 5000);
+    // تحميل الرصيد
+    const saved = localStorage.getItem('epicGiftBalance');
+    if (saved) { balance = parseFloat(saved); balanceDisplay.textContent = balance.toFixed(3); }
 </script>
 </body>
 </html>
