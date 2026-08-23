@@ -2,287 +2,467 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Epic Gift - صناديق TON</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>🎮 Epic Gift - النسخة الكاملة</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        :root {
+            --gold: #f7931a;
+            --gold-glow: #f7931a80;
+            --dark: #0a0e17;
+            --card: #111927;
+            --border: #f7931a40;
+        }
+        
         body {
-            background: #0a0e17;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--dark);
+            font-family: 'Orbitron', 'Segoe UI', sans-serif;
+            color: #e8e6e0;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            min-height: 100vh;
-            color: #e8e6e0;
-            padding: 15px;
+            padding: 10px;
+            background-image: radial-gradient(circle at 50% 0%, #1a2538 0%, #0a0e17 70%);
         }
-        .container {
-            max-width: 700px;
+        
+        .app {
+            max-width: 420px;
             width: 100%;
-            background: #111927;
-            border-radius: 40px;
-            padding: 25px;
-            border: 1px solid #f7931a60;
-            box-shadow: 0 0 70px #f7931a30;
+            background: var(--card);
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            box-shadow: 0 0 60px var(--gold-glow);
+            overflow: hidden;
+            position: relative;
+            padding-bottom: 80px;
         }
+        
+        /* Header */
         .header {
+            padding: 20px 20px 10px;
             text-align: center;
-            border-bottom: 1px solid #f7931a40;
-            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
         }
         .header h1 {
-            font-size: 2.2rem;
-            background: linear-gradient(135deg, #f7931a, #ffd700);
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--gold), #ffd700);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px var(--gold-glow);
+            letter-spacing: 2px;
         }
-        .balance-box {
-            background: #1a2538;
-            padding: 18px;
+        .header .balance {
+            background: #0d1624;
+            padding: 10px 20px;
             border-radius: 60px;
-            margin: 18px 0;
-            text-align: center;
-            font-size: 2rem;
-            border: 1px solid #f7931a;
-            box-shadow: inset 0 0 25px #f7931a20;
+            display: inline-block;
+            margin-top: 8px;
+            border: 1px solid var(--gold);
+            font-size: 0.9rem;
         }
-        .balance-box span { color: #f7931a; font-weight: bold; }
-        .cases-grid {
+        .header .balance span { color: var(--gold); font-weight: bold; }
+        
+        /* Leaderboard */
+        .leaderboard {
+            padding: 15px;
+            background: #0d1624;
+            margin: 10px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+        .leaderboard .player {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #1a2538;
+            font-size: 0.85rem;
+        }
+        .leaderboard .player:last-child { border-bottom: none; }
+        .leaderboard .player .name { color: #aab; }
+        .leaderboard .player .profit { color: #6fcf97; font-weight: bold; }
+        .leaderboard .player .profit.lose { color: #eb5757; }
+        .leaderboard .player .percent { color: var(--gold); font-size: 0.7rem; }
+        .pool {
+            text-align: center;
+            padding: 12px;
+            background: #111927;
+            border-radius: 15px;
+            margin-top: 10px;
+            border: 1px dashed var(--gold);
+        }
+        .pool .amount { font-size: 1.8rem; color: var(--gold); font-weight: bold; }
+        
+        /* Games Grid */
+        .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 18px;
-            margin: 25px 0;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 15px;
         }
-        .case-card {
-            background: #141e2b;
-            padding: 20px 10px;
-            border-radius: 30px;
+        .game-card {
+            background: #0d1624;
+            padding: 15px 8px;
+            border-radius: 20px;
             text-align: center;
-            border: 1px solid #f7931a40;
+            border: 1px solid var(--border);
             transition: 0.3s;
             cursor: pointer;
         }
-        .case-card:hover {
-            transform: translateY(-5px);
-            border-color: #f7931a;
-            box-shadow: 0 0 40px #f7931a30;
+        .game-card:hover { transform: translateY(-3px); border-color: var(--gold); }
+        .game-card .icon { font-size: 2rem; }
+        .game-card .name { font-size: 0.8rem; margin-top: 5px; color: #aab; }
+        .game-card .badge { 
+            background: #eb5757; 
+            padding: 2px 10px; 
+            border-radius: 20px; 
+            font-size: 0.6rem; 
+            display: inline-block;
+            margin-top: 3px;
         }
-        .case-card .icon { font-size: 3rem; }
-        .case-card .price { color: #f7931a; font-weight: bold; font-size: 1.3rem; }
-        .case-card .reward-range { font-size: 0.9rem; color: #aab; }
-        .result-area {
+        .game-card .badge.hot { background: var(--gold); color: #0a0e17; }
+        .game-card .badge.new { background: #6fcf97; color: #0a0e17; }
+        
+        /* Betting Screen */
+        .bet-screen {
+            padding: 15px;
             background: #0d1624;
-            padding: 20px;
-            border-radius: 30px;
-            margin: 20px 0;
+            margin: 0 15px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+        .bet-screen .multipliers {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        .bet-screen .multipliers .mult {
+            background: #111927;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            color: var(--gold);
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+        .bet-screen .bet-input {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .bet-screen .bet-input input {
+            flex: 1;
+            background: #111927;
+            border: 1px solid var(--border);
+            color: #e8e6e0;
+            padding: 12px;
+            border-radius: 15px;
             text-align: center;
-            border: 1px dashed #f7931a60;
-            min-height: 100px;
+            font-size: 1rem;
+            outline: none;
         }
-        .result-area .prize {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #ffd700;
-        }
-        .btn {
-            background: #f7931a;
+        .bet-screen .bet-input input:focus { border-color: var(--gold); }
+        .bet-screen .bet-input button {
+            background: var(--gold);
             border: none;
-            padding: 14px 35px;
-            border-radius: 60px;
+            padding: 12px 25px;
+            border-radius: 15px;
             font-weight: bold;
-            font-size: 1.2rem;
             color: #0a0e17;
             cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 0 30px #f7931a50;
-            width: 100%;
+            transition: 0.3s;
         }
-        .btn:hover { background: #ffb347; transform: scale(1.02); }
-        .btn:active { transform: scale(0.97); }
-        .stats {
+        .bet-screen .bet-input button:hover { background: #ffb347; }
+        
+        /* Live Bets */
+        .live-bets {
+            padding: 10px 15px;
+        }
+        .live-bets .bet-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #1a2538;
+            font-size: 0.8rem;
+        }
+        .live-bets .bet-item .heart { color: #eb5757; }
+        .live-bets .bet-item .win { color: #6fcf97; }
+        
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 420px;
+            width: 100%;
+            background: #111927;
             display: flex;
             justify-content: space-around;
-            margin: 15px 0;
-            padding: 12px;
-            background: #0d1624;
-            border-radius: 30px;
-            font-size: 0.95rem;
+            padding: 10px 0;
+            border-top: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            z-index: 100;
         }
-        .stats div { text-align: center; }
-        .stats .num { color: #f7931a; font-weight: bold; font-size: 1.3rem; }
-        .history {
-            background: #0d1624;
-            padding: 12px;
-            border-radius: 20px;
-            max-height: 130px;
-            overflow-y: auto;
-            font-size: 0.9rem;
-            border: 1px solid #f7931a30;
-            margin-top: 15px;
-        }
-        .history div { padding: 5px 0; border-bottom: 1px solid #1a2538; }
-        .win { color: #6fcf97; }
-        .lose { color: #eb5757; }
-        .reset-btn {
-            background: transparent;
-            border: 1px solid #f7931a60;
-            color: #f7931a;
-            padding: 8px 18px;
-            border-radius: 60px;
+        .bottom-nav .nav-item {
+            text-align: center;
+            color: #6a7a8a;
+            font-size: 0.7rem;
             cursor: pointer;
-            margin-top: 10px;
+            transition: 0.3s;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+        .bottom-nav .nav-item.active { color: var(--gold); }
+        .bottom-nav .nav-item:hover { color: var(--gold); }
+        .bottom-nav .nav-item .nav-icon { font-size: 1.5rem; display: block; }
+        
+        /* Free Offer */
+        .free-offer {
+            background: linear-gradient(135deg, #1a2538, #0d1624);
+            padding: 12px;
+            margin: 10px 15px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px dashed var(--gold);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .free-offer:hover { background: #1a2538; }
+        .free-offer .label { color: var(--gold); font-weight: bold; font-size: 1.2rem; }
+        .free-offer .sub { font-size: 0.8rem; color: #aab; }
+        
+        /* Responsive */
+        @media (max-width: 400px) {
+            .games-grid { grid-template-columns: repeat(2, 1fr); }
+            .header h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
-<div class="container">
+<div class="app" id="app">
+    <!-- Header -->
     <div class="header">
-        <h1>🎁 Epic Gift</h1>
-        <p style="color:#aab; margin-top:5px;">صناديق TON – افتح واربح</p>
+        <h1>🎁 EPIC GIFT</h1>
+        <div class="balance">💰 الرصيد: <span id="balanceDisplay">0.001</span> TON</div>
     </div>
 
-    <div class="balance-box">
-        💰 الرصيد: <span id="balanceDisplay">100</span> TON
+    <!-- Leaderboard -->
+    <div class="leaderboard">
+        <div class="player">
+            <span class="name">@lonelytwin...</span>
+            <span><span class="profit">+1.6 TON</span> <span class="percent">41.7%</span></span>
+        </div>
+        <div class="player">
+            <span class="name">@Natonu...</span>
+            <span><span class="profit">+376.0 TON</span> <span class="percent">96.0%</span></span>
+        </div>
+        <div class="pool">
+            <div style="font-size:0.8rem;color:#aab;">TOTAL POOL</div>
+            <div class="amount">0.73 TON</div>
+            <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:0.7rem;">
+                <span>Giftbackp... <span style="color:#6fcf97;">82.2%</span></span>
+                <span>Skins420 <span style="color:#eb5757;">17.8%</span></span>
+            </div>
+            <button style="margin-top:10px;background:var(--gold);border:none;padding:8px 30px;border-radius:60px;font-weight:bold;color:#0a0e17;cursor:pointer;">⚔️ Join the Battle</button>
+        </div>
     </div>
 
-    <div class="cases-grid" id="casesGrid">
-        <!-- سيتم إنشاؤها بواسطة JS -->
+    <!-- Games Grid -->
+    <div class="games-grid">
+        <div class="game-card" onclick="switchScreen('rocket')">
+            <div class="icon">🚀</div>
+            <div class="name">ROCKET</div>
+            <div class="badge hot">HOT!</div>
+        </div>
+        <div class="game-card" onclick="switchScreen('pvp')">
+            <div class="icon">⚔️</div>
+            <div class="name">PVP</div>
+            <div class="badge new">NEW!</div>
+        </div>
+        <div class="game-card" onclick="switchScreen('plinko')">
+            <div class="icon">🎯</div>
+            <div class="name">PLINKO</div>
+        </div>
+        <div class="game-card" onclick="switchScreen('crates')">
+            <div class="icon">📦</div>
+            <div class="name">CRATES</div>
+        </div>
+        <div class="game-card" onclick="switchScreen('upg')">
+            <div class="icon">⬆️</div>
+            <div class="name">UPG</div>
+        </div>
+        <div class="game-card" onclick="switchScreen('free')">
+            <div class="icon">🎁</div>
+            <div class="name">FREE24</div>
+            <div class="badge" style="background:#6fcf97;">FREE</div>
+        </div>
     </div>
 
-    <div class="result-area" id="resultArea">
-        <div style="color:#aab;">اختر صندوقاً لبدء اللعب</div>
-        <div class="prize" id="prizeDisplay"></div>
+    <!-- Free Offer -->
+    <div class="free-offer" onclick="claimFree()">
+        <div class="label">🎁 FREE24</div>
+        <div class="sub">احصل على مكافأة مجانية كل 24 ساعة</div>
     </div>
 
-    <button class="btn" id="openBtn">🔓 فتح الصندوق</button>
-
-    <div class="stats">
-        <div>🏆 فوز: <span class="num" id="winsCount">0</span></div>
-        <div>💔 خسارة: <span class="num" id="lossesCount">0</span></div>
-        <div>📦 افتتح: <span class="num" id="totalOpened">0</span></div>
+    <!-- Bet Screen (Dynamic) -->
+    <div id="betScreen" class="bet-screen">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-weight:bold;color:var(--gold);">🚀 ROCKET</span>
+            <span style="font-size:0.8rem;color:#aab;">مباشر</span>
+        </div>
+        <div class="multipliers" id="multipliers">
+            <span class="mult">5.59x</span>
+            <span class="mult">2.18x</span>
+            <span class="mult">1.21x</span>
+        </div>
+        <div class="bet-input">
+            <input type="number" id="betAmount" value="0.10" step="0.01" min="0.01">
+            <button onclick="placeBet()">🚀 Place bet</button>
+        </div>
+        <div style="font-size:0.8rem;color:#aab;text-align:center;">الحد الأدنى: 0.01 TON</div>
     </div>
 
-    <button class="reset-btn" id="resetBtn">🔄 إعادة الرصيد</button>
+    <!-- Live Bets -->
+    <div class="live-bets" id="liveBets">
+        <div style="font-size:0.8rem;color:#aab;margin-bottom:8px;">💬 رهانات حية</div>
+        <div class="bet-item"><span><span class="heart">❤️</span> hurtweq</span> <span>0.26 ×2.70 = <span class="win">0.70</span></span></div>
+        <div class="bet-item"><span><span class="heart">❤️</span> مصطفى</span> <span>0.30 ×2.70 = <span class="win">0.81</span></span></div>
+        <div class="bet-item"><span><span class="heart">❤️</span> kishmish(...)</span> <span>0.10 ×2.70 = <span class="win">0.27</span></span></div>
+    </div>
 
-    <div class="history" id="historyLog">📜 سجل الجوائز...</div>
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('home')">
+            <span class="nav-icon">🏠</span> Home
+        </div>
+        <div class="nav-item" onclick="switchTab('backpack')">
+            <span class="nav-icon">🎒</span> Backpack
+        </div>
+        <div class="nav-item" onclick="switchTab('invite')">
+            <span class="nav-icon">👥</span> Invite
+        </div>
+        <div class="nav-item" onclick="switchTab('leaderboard')">
+            <span class="nav-icon">🏆</span> Leaderboard
+        </div>
+        <div class="nav-item" onclick="switchTab('earn')">
+            <span class="nav-icon">💰</span> Earn
+        </div>
+    </div>
 </div>
 
 <script>
-    // ===== الوضع الظلي V99 - Epic Gift =====
-    let balance = 100;
-    let wins = 0, losses = 0, totalOpened = 0;
-    let selectedCase = null;
-    let isOpening = false;
-
-    const balanceSpan = document.getElementById('balanceDisplay');
-    const resultArea = document.getElementById('resultArea');
-    const prizeDisplay = document.getElementById('prizeDisplay');
-    const historyLog = document.getElementById('historyLog');
-    const winsSpan = document.getElementById('winsCount');
-    const lossesSpan = document.getElementById('lossesCount');
-    const totalSpan = document.getElementById('totalOpened');
-
-    // تعريف الصناديق
-    const cases = [
-        { id: 'bronze', icon: '📦', name: 'برونزي', price: 5, minReward: 1, maxReward: 15, color: '#cd7f32' },
-        { id: 'silver', icon: '🎁', name: 'فضي', price: 15, minReward: 5, maxReward: 40, color: '#c0c0c0' },
-        { id: 'gold', icon: '👑', name: 'ذهبي', price: 35, minReward: 15, maxReward: 100, color: '#ffd700' },
-        { id: 'platinum', icon: '💎', name: 'بلاتيني', price: 70, minReward: 40, maxReward: 250, color: '#e5e4e2' }
-    ];
-
-    // عرض الصناديق
-    function renderCases() {
-        const grid = document.getElementById('casesGrid');
-        grid.innerHTML = cases.map(c => `
-            <div class="case-card" data-id="${c.id}" style="border-color: ${selectedCase?.id === c.id ? '#f7931a' : '#f7931a40'}">
-                <div class="icon">${c.icon}</div>
-                <div style="font-weight:bold;margin:5px 0;">${c.name}</div>
-                <div class="price">${c.price} TON</div>
-                <div class="reward-range">${c.minReward} - ${c.maxReward} TON</div>
-            </div>
-        `).join('');
-
-        // إضافة حدث الاختيار
-        document.querySelectorAll('.case-card').forEach((card, index) => {
-            card.onclick = () => {
-                selectedCase = cases[index];
-                document.querySelectorAll('.case-card').forEach(c => c.style.borderColor = '#f7931a40');
-                card.style.borderColor = '#f7931a';
-                resultArea.innerHTML = `<div style="color:#aab;">✅ تم اختيار: <strong>${selectedCase.name}</strong></div><div class="prize" id="prizeDisplay"></div>`;
-                prizeDisplay.textContent = '';
-            };
-        });
-    }
-
-    // فتح الصندوق
-    document.getElementById('openBtn').onclick = () => {
-        if (isOpening) return;
-        if (!selectedCase) { alert('اختر صندوقاً أولاً!'); return; }
-        if (balance < selectedCase.price) { alert('الرصيد غير كافٍ!'); return; }
-
-        isOpening = true;
-        const caseData = selectedCase;
-        balance -= caseData.price;
-        updateBalance();
-
-        // محاكاة التأثير
-        resultArea.innerHTML = `<div style="color:#f7931a;">🔄 جاري الفتح...</div><div class="prize" id="prizeDisplay"></div>`;
-        
-        setTimeout(() => {
-            const reward = Math.floor(Math.random() * (caseData.maxReward - caseData.minReward + 1)) + caseData.minReward;
-            const isWin = reward > caseData.price * 1.2; // ربح إذا كان المكافأة أكبر من 1.2x السعر
-            totalOpened++;
-            if (isWin) { wins++; balance += reward; } 
-            else { losses++; }
-            
-            updateBalance();
-            updateStats();
-            prizeDisplay.textContent = `${isWin ? '🎉' : '😞'} ${reward} TON`;
-            resultArea.innerHTML = `
-                <div style="color:${isWin ? '#6fcf97' : '#eb5757'};">
-                    ${isWin ? '✅ ربحت!' : '❌ خسرت!'}
-                </div>
-                <div class="prize" id="prizeDisplay">${reward} TON</div>
-                <div style="font-size:0.9rem;color:#aab;">(${caseData.name} - سعر ${caseData.price} TON)</div>
-            `;
-            addHistory(`${isWin ? '🏆' : '💔'} ${caseData.name}: ${reward} TON (${isWin ? 'ربح' : 'خسارة'})`, isWin ? 'win' : 'lose');
-            isOpening = false;
-        }, 800);
-    };
-
-    // إعادة الرصيد
-    document.getElementById('resetBtn').onclick = () => {
-        balance = 100;
-        wins = 0; losses = 0; totalOpened = 0;
-        updateBalance();
-        updateStats();
-        historyLog.innerHTML = '📜 تم إعادة التعيين...';
-        resultArea.innerHTML = `<div style="color:#aab;">تم إعادة الرصيد إلى 100 TON</div><div class="prize" id="prizeDisplay"></div>`;
-    };
-
-    function updateBalance() {
-        balanceSpan.textContent = balance;
+    // ===== الوضع الظلي V99 - EPIC GIFT كامل =====
+    let balance = 0.001;
+    const balanceDisplay = document.getElementById('balanceDisplay');
+    const betScreen = document.getElementById('betScreen');
+    const multipliers = document.getElementById('multipliers');
+    
+    // تحديث الرصيد
+    function updateBalance(amount) {
+        balance += amount;
+        balanceDisplay.textContent = balance.toFixed(3);
         if (balance < 0) balance = 0;
     }
-
-    function updateStats() {
-        winsSpan.textContent = wins;
-        lossesSpan.textContent = losses;
-        totalSpan.textContent = totalOpened;
+    
+    // تبديل الألعاب
+    function switchScreen(game) {
+        const titles = {
+            rocket: '🚀 ROCKET',
+            pvp: '⚔️ PVP',
+            plinko: '🎯 PLINKO',
+            crates: '📦 CRATES',
+            upg: '⬆️ UPG',
+            free: '🎁 FREE24'
+        };
+        const mults = {
+            rocket: ['5.59x', '2.18x', '1.21x'],
+            pvp: ['6.1%', '11.6%', '4.6%'],
+            plinko: ['3.0x', '5.0x', '10.0x'],
+            crates: ['📦', '🎁', '💎'],
+            upg: ['+10%', '+25%', '+50%'],
+            free: ['🎁', '🎁', '🎁']
+        };
+        document.querySelector('.bet-screen > div:first-child span:first-child').textContent = titles[game] || '🚀 ROCKET';
+        multipliers.innerHTML = mults[game]?.map(m => `<span class="mult">${m}</span>`).join('') || '<span class="mult">1.00x</span>';
     }
-
-    function addHistory(msg, type) {
-        const div = document.createElement('div');
-        div.textContent = msg;
-        div.className = type;
-        historyLog.prepend(div);
-        if (historyLog.children.length > 12) historyLog.removeChild(historyLog.lastChild);
+    
+    // وضع الرهان
+    function placeBet() {
+        const amount = parseFloat(document.getElementById('betAmount').value);
+        if (isNaN(amount) || amount <= 0) { alert('أدخل مبلغاً صحيحاً'); return; }
+        if (amount > balance) { alert('الرصيد غير كافٍ'); return; }
+        
+        // محاكاة الرهان
+        const mult = (Math.random() * 5 + 1).toFixed(2);
+        const win = (amount * mult).toFixed(2);
+        const isWin = Math.random() > 0.4;
+        
+        updateBalance(isWin ? parseFloat(win) : -amount);
+        
+        // إضافة رهان حي
+        const liveBets = document.getElementById('liveBets');
+        const newBet = document.createElement('div');
+        newBet.className = 'bet-item';
+        newBet.innerHTML = `<span><span class="heart">❤️</span> أنت</span> <span>${amount.toFixed(2)} ×${mult} = <span class="${isWin ? 'win' : ''}">${isWin ? win : '0.00'}</span></span>`;
+        liveBets.prepend(newBet);
+        if (liveBets.children.length > 6) liveBets.removeChild(liveBets.lastChild);
+        
+        // تحديث المضاعفات
+        const newMult = (Math.random() * 5 + 1).toFixed(2);
+        const mults = document.querySelectorAll('.mult');
+        if (mults.length > 0) {
+            mults.forEach((el, i) => {
+                if (i === 0) el.textContent = newMult + 'x';
+                else el.textContent = (parseFloat(newMult) - i * 0.5).toFixed(2) + 'x';
+            });
+        }
     }
-
-    // تهيئة
-    renderCases();
-    updateBalance();
-    updateStats();
-    addHistory('🚀 مرحباً في Epic Gift! اختر صندوقاً وابدأ.', 'win');
+    
+    // المكافأة المجانية
+    function claimFree() {
+        const lastClaim = localStorage.getItem('epicGiftFree');
+        const now = Date.now();
+        if (lastClaim && now - parseInt(lastClaim) < 86400000) {
+            alert('⏳ يمكنك المطالبة مرة كل 24 ساعة');
+            return;
+        }
+        const reward = 0.05 + Math.random() * 0.1;
+        updateBalance(reward);
+        localStorage.setItem('epicGiftFree', now);
+        alert(`🎁 حصلت على ${reward.toFixed(3)} TON مجاناً!`);
+    }
+    
+    // تبديل التبويبات
+    function switchTab(tab) {
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        document.querySelector(`.nav-item[onclick*="${tab}"]`)?.classList.add('active');
+        // محاكاة تبديل الصفحات
+        const titles = {
+            home: '🏠 الرئيسية',
+            backpack: '🎒 حقيبة الظهر',
+            invite: '👥 دعوة الأصدقاء',
+            leaderboard: '🏆 المتصدرين',
+            earn: '💰 الكسب'
+        };
+        document.querySelector('.header h1').textContent = titles[tab] || '🎁 EPIC GIFT';
+        if (tab === 'home') document.querySelector('.header h1').textContent = '🎁 EPIC GIFT';
+    }
+    
+    // تحميل الرصيد المحفوظ
+    function loadBalance() {
+        const saved = localStorage.getItem('epicGiftBalance');
+        if (saved) { balance = parseFloat(saved); balanceDisplay.textContent = balance.toFixed(3); }
+    }
+    loadBalance();
+    
+    // حفظ الرصيد كل 5 ثواني
+    setInterval(() => {
+        localStorage.setItem('epicGiftBalance', balance);
+    }, 5000);
 </script>
 </body>
 </html>
