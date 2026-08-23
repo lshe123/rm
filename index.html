@@ -3,179 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>كازينو الظلي - 4 ألعاب</title>
+    <title>Epic Gift - صناديق TON</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0b0e14;
+            background: #0a0e17;
             font-family: 'Segoe UI', system-ui, sans-serif;
             display: flex;
             justify-content: center;
             min-height: 100vh;
-            color: #f0e8d0;
-            padding: 20px;
+            color: #e8e6e0;
+            padding: 15px;
         }
-        .main-container {
-            max-width: 800px;
+        .container {
+            max-width: 700px;
             width: 100%;
-            background: #141a24;
+            background: #111927;
             border-radius: 40px;
             padding: 25px;
-            border: 1px solid #f0b42960;
-            box-shadow: 0 0 60px #f0b42930;
+            border: 1px solid #f7931a60;
+            box-shadow: 0 0 70px #f7931a30;
         }
-        h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(135deg, #f7d875, #b8860b);
+        .header {
+            text-align: center;
+            border-bottom: 1px solid #f7931a40;
+            padding-bottom: 15px;
+        }
+        .header h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #f7931a, #ffd700);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-align: center;
-            text-shadow: 0 0 30px #f0b42980;
         }
-        .balance {
-            background: #1e2838;
-            padding: 15px;
+        .balance-box {
+            background: #1a2538;
+            padding: 18px;
             border-radius: 60px;
-            margin: 15px 0;
+            margin: 18px 0;
+            text-align: center;
             font-size: 2rem;
-            text-align: center;
-            border: 1px solid #f0b429;
-            box-shadow: inset 0 0 20px #f0b42930;
+            border: 1px solid #f7931a;
+            box-shadow: inset 0 0 25px #f7931a20;
         }
-        .balance span { color: #f7d875; font-weight: bold; }
-        .tabs {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin: 20px 0;
-            justify-content: center;
+        .balance-box span { color: #f7931a; font-weight: bold; }
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 18px;
+            margin: 25px 0;
         }
-        .tab-btn {
-            background: #1e2838;
-            border: 1px solid #f0b42940;
-            padding: 10px 22px;
-            border-radius: 60px;
-            color: #f0e8d0;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            flex: 1;
-            min-width: 80px;
-        }
-        .tab-btn.active {
-            background: #f0b429;
-            color: #0b0e14;
-            box-shadow: 0 0 30px #f0b429;
-        }
-        .game-area {
-            background: #0f151e;
-            padding: 25px;
+        .case-card {
+            background: #141e2b;
+            padding: 20px 10px;
             border-radius: 30px;
-            min-height: 320px;
-            border: 1px dashed #f0b42980;
-            margin: 15px 0;
-        }
-        .controls {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 15px 0;
-        }
-        input, select {
-            background: #0b111a;
-            border: 2px solid #f0b429;
-            color: #f0e8d0;
-            padding: 10px 16px;
-            border-radius: 60px;
-            font-size: 1.1rem;
             text-align: center;
-            outline: none;
-            min-width: 100px;
+            border: 1px solid #f7931a40;
+            transition: 0.3s;
+            cursor: pointer;
         }
-        input:focus, select:focus { border-color: #fff; box-shadow: 0 0 20px #f0b429; }
-        button {
-            background: #f0b429;
+        .case-card:hover {
+            transform: translateY(-5px);
+            border-color: #f7931a;
+            box-shadow: 0 0 40px #f7931a30;
+        }
+        .case-card .icon { font-size: 3rem; }
+        .case-card .price { color: #f7931a; font-weight: bold; font-size: 1.3rem; }
+        .case-card .reward-range { font-size: 0.9rem; color: #aab; }
+        .result-area {
+            background: #0d1624;
+            padding: 20px;
+            border-radius: 30px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px dashed #f7931a60;
+            min-height: 100px;
+        }
+        .result-area .prize {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        .btn {
+            background: #f7931a;
             border: none;
-            padding: 10px 28px;
+            padding: 14px 35px;
             border-radius: 60px;
             font-weight: bold;
-            font-size: 1.1rem;
-            color: #0b0e14;
+            font-size: 1.2rem;
+            color: #0a0e17;
             cursor: pointer;
             transition: 0.2s;
-            box-shadow: 0 0 20px #f0b42960;
+            box-shadow: 0 0 30px #f7931a50;
+            width: 100%;
         }
-        button:hover { transform: scale(1.05); background: #ffc84a; }
-        button:active { transform: scale(0.95); }
+        .btn:hover { background: #ffb347; transform: scale(1.02); }
+        .btn:active { transform: scale(0.97); }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+            padding: 12px;
+            background: #0d1624;
+            border-radius: 30px;
+            font-size: 0.95rem;
+        }
+        .stats div { text-align: center; }
+        .stats .num { color: #f7931a; font-weight: bold; font-size: 1.3rem; }
         .history {
-            background: #0f151e;
+            background: #0d1624;
             padding: 12px;
             border-radius: 20px;
-            font-size: 0.9rem;
-            max-height: 120px;
+            max-height: 130px;
             overflow-y: auto;
-            border: 1px solid #f0b42940;
+            font-size: 0.9rem;
+            border: 1px solid #f7931a30;
             margin-top: 15px;
         }
-        .history div { padding: 4px 0; border-bottom: 1px solid #1e2838; }
+        .history div { padding: 5px 0; border-bottom: 1px solid #1a2538; }
         .win { color: #6fcf97; }
         .lose { color: #eb5757; }
-        .dice-big { font-size: 4rem; text-align: center; padding: 20px; }
-        .aviator-graph {
-            background: #0b111a;
-            height: 120px;
-            border-radius: 20px;
-            display: flex;
-            align-items: flex-end;
-            padding: 10px;
-            gap: 4px;
-            margin: 10px 0;
-            border: 1px solid #f0b42940;
+        .reset-btn {
+            background: transparent;
+            border: 1px solid #f7931a60;
+            color: #f7931a;
+            padding: 8px 18px;
+            border-radius: 60px;
+            cursor: pointer;
+            margin-top: 10px;
         }
-        .bar {
-            flex: 1;
-            background: #f0b429;
-            transition: 0.3s;
-            border-radius: 4px 4px 0 0;
-            min-height: 5px;
-        }
-        .card-area { font-size: 3rem; text-align: center; padding: 15px; }
-        .roulette-wheel { font-size: 2.5rem; text-align: center; padding: 15px; }
     </style>
 </head>
 <body>
-<div class="main-container">
-    <h1>⚡ كازينو الظلي ⚡</h1>
-    <div class="balance">💰 الرصيد: <span id="balanceDisplay">5000</span></div>
-
-    <div class="tabs">
-        <button class="tab-btn active" data-game="dice">🎲 نرد</button>
-        <button class="tab-btn" data-game="aviator">✈️ طيارة</button>
-        <button class="tab-btn" data-game="roulette">🎡 روليت</button>
-        <button class="tab-btn" data-game="cards">🃏 ورق</button>
+<div class="container">
+    <div class="header">
+        <h1>🎁 Epic Gift</h1>
+        <p style="color:#aab; margin-top:5px;">صناديق TON – افتح واربح</p>
     </div>
 
-    <div id="gameContainer" class="game-area">
-        <!-- سيتم ملؤها بواسطة JS -->
+    <div class="balance-box">
+        💰 الرصيد: <span id="balanceDisplay">100</span> TON
     </div>
 
-    <div class="history" id="historyLog">📜 سجل الألعاب...</div>
+    <div class="cases-grid" id="casesGrid">
+        <!-- سيتم إنشاؤها بواسطة JS -->
+    </div>
+
+    <div class="result-area" id="resultArea">
+        <div style="color:#aab;">اختر صندوقاً لبدء اللعب</div>
+        <div class="prize" id="prizeDisplay"></div>
+    </div>
+
+    <button class="btn" id="openBtn">🔓 فتح الصندوق</button>
+
+    <div class="stats">
+        <div>🏆 فوز: <span class="num" id="winsCount">0</span></div>
+        <div>💔 خسارة: <span class="num" id="lossesCount">0</span></div>
+        <div>📦 افتتح: <span class="num" id="totalOpened">0</span></div>
+    </div>
+
+    <button class="reset-btn" id="resetBtn">🔄 إعادة الرصيد</button>
+
+    <div class="history" id="historyLog">📜 سجل الجوائز...</div>
 </div>
 
 <script>
-    // ===== الوضع الظلي V99-MAX =====
-    let balance = 5000;
-    const balanceSpan = document.getElementById('balanceDisplay');
-    const historyLog = document.getElementById('historyLog');
-    const gameContainer = document.getElementById('gameContainer');
-    let currentGame = 'dice';
+    // ===== الوضع الظلي V99 - Epic Gift =====
+    let balance = 100;
+    let wins = 0, losses = 0, totalOpened = 0;
+    let selectedCase = null;
+    let isOpening = false;
 
-    // تحديث الرصيد
-    function updateBalance(amount) {
-        balance += amount;
+    const balanceSpan = document.getElementById('balanceDisplay');
+    const resultArea = document.getElementById('resultArea');
+    const prizeDisplay = document.getElementById('prizeDisplay');
+    const historyLog = document.getElementById('historyLog');
+    const winsSpan = document.getElementById('winsCount');
+    const lossesSpan = document.getElementById('lossesCount');
+    const totalSpan = document.getElementById('totalOpened');
+
+    // تعريف الصناديق
+    const cases = [
+        { id: 'bronze', icon: '📦', name: 'برونزي', price: 5, minReward: 1, maxReward: 15, color: '#cd7f32' },
+        { id: 'silver', icon: '🎁', name: 'فضي', price: 15, minReward: 5, maxReward: 40, color: '#c0c0c0' },
+        { id: 'gold', icon: '👑', name: 'ذهبي', price: 35, minReward: 15, maxReward: 100, color: '#ffd700' },
+        { id: 'platinum', icon: '💎', name: 'بلاتيني', price: 70, minReward: 40, maxReward: 250, color: '#e5e4e2' }
+    ];
+
+    // عرض الصناديق
+    function renderCases() {
+        const grid = document.getElementById('casesGrid');
+        grid.innerHTML = cases.map(c => `
+            <div class="case-card" data-id="${c.id}" style="border-color: ${selectedCase?.id === c.id ? '#f7931a' : '#f7931a40'}">
+                <div class="icon">${c.icon}</div>
+                <div style="font-weight:bold;margin:5px 0;">${c.name}</div>
+                <div class="price">${c.price} TON</div>
+                <div class="reward-range">${c.minReward} - ${c.maxReward} TON</div>
+            </div>
+        `).join('');
+
+        // إضافة حدث الاختيار
+        document.querySelectorAll('.case-card').forEach((card, index) => {
+            card.onclick = () => {
+                selectedCase = cases[index];
+                document.querySelectorAll('.case-card').forEach(c => c.style.borderColor = '#f7931a40');
+                card.style.borderColor = '#f7931a';
+                resultArea.innerHTML = `<div style="color:#aab;">✅ تم اختيار: <strong>${selectedCase.name}</strong></div><div class="prize" id="prizeDisplay"></div>`;
+                prizeDisplay.textContent = '';
+            };
+        });
+    }
+
+    // فتح الصندوق
+    document.getElementById('openBtn').onclick = () => {
+        if (isOpening) return;
+        if (!selectedCase) { alert('اختر صندوقاً أولاً!'); return; }
+        if (balance < selectedCase.price) { alert('الرصيد غير كافٍ!'); return; }
+
+        isOpening = true;
+        const caseData = selectedCase;
+        balance -= caseData.price;
+        updateBalance();
+
+        // محاكاة التأثير
+        resultArea.innerHTML = `<div style="color:#f7931a;">🔄 جاري الفتح...</div><div class="prize" id="prizeDisplay"></div>`;
+        
+        setTimeout(() => {
+            const reward = Math.floor(Math.random() * (caseData.maxReward - caseData.minReward + 1)) + caseData.minReward;
+            const isWin = reward > caseData.price * 1.2; // ربح إذا كان المكافأة أكبر من 1.2x السعر
+            totalOpened++;
+            if (isWin) { wins++; balance += reward; } 
+            else { losses++; }
+            
+            updateBalance();
+            updateStats();
+            prizeDisplay.textContent = `${isWin ? '🎉' : '😞'} ${reward} TON`;
+            resultArea.innerHTML = `
+                <div style="color:${isWin ? '#6fcf97' : '#eb5757'};">
+                    ${isWin ? '✅ ربحت!' : '❌ خسرت!'}
+                </div>
+                <div class="prize" id="prizeDisplay">${reward} TON</div>
+                <div style="font-size:0.9rem;color:#aab;">(${caseData.name} - سعر ${caseData.price} TON)</div>
+            `;
+            addHistory(`${isWin ? '🏆' : '💔'} ${caseData.name}: ${reward} TON (${isWin ? 'ربح' : 'خسارة'})`, isWin ? 'win' : 'lose');
+            isOpening = false;
+        }, 800);
+    };
+
+    // إعادة الرصيد
+    document.getElementById('resetBtn').onclick = () => {
+        balance = 100;
+        wins = 0; losses = 0; totalOpened = 0;
+        updateBalance();
+        updateStats();
+        historyLog.innerHTML = '📜 تم إعادة التعيين...';
+        resultArea.innerHTML = `<div style="color:#aab;">تم إعادة الرصيد إلى 100 TON</div><div class="prize" id="prizeDisplay"></div>`;
+    };
+
+    function updateBalance() {
         balanceSpan.textContent = balance;
-        if (balance <= 0) { balance = 5000; balanceSpan.textContent = balance; addHistory('🔄 تم إعادة الرصيد إلى 5000', 'win'); }
+        if (balance < 0) balance = 0;
+    }
+
+    function updateStats() {
+        winsSpan.textContent = wins;
+        lossesSpan.textContent = losses;
+        totalSpan.textContent = totalOpened;
     }
 
     function addHistory(msg, type) {
@@ -183,239 +275,14 @@
         div.textContent = msg;
         div.className = type;
         historyLog.prepend(div);
-        if (historyLog.children.length > 10) historyLog.removeChild(historyLog.lastChild);
+        if (historyLog.children.length > 12) historyLog.removeChild(historyLog.lastChild);
     }
 
-    // ========== لعبة النرد ==========
-    function renderDice() {
-        let guess = 1;
-        return `
-            <div class="dice-big" id="diceFace">🎲</div>
-            <div class="controls">
-                <input type="number" id="diceBet" value="50" min="1">
-                <button id="diceRoll">🎰 رمي</button>
-            </div>
-            <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-                ${[1,2,3,4,5,6].map(n => `<button class="guess-btn" data-num="${n}" style="background:#2d4059;padding:10px 18px;border-radius:60px;border:none;color:#f0e8d0;cursor:pointer;">${n}</button>`).join('')}
-            </div>
-        `;
-    }
-
-    function initDice() {
-        let currentGuess = 1;
-        document.querySelectorAll('.guess-btn').forEach(btn => {
-            btn.onclick = () => {
-                document.querySelectorAll('.guess-btn').forEach(b => b.style.background = '#2d4059');
-                btn.style.background = '#f0b429';
-                btn.style.color = '#0b0e14';
-                currentGuess = parseInt(btn.dataset.num);
-            };
-        });
-        document.getElementById('diceRoll').onclick = () => {
-            const bet = parseInt(document.getElementById('diceBet').value);
-            if (isNaN(bet) || bet <= 0 || bet > balance) { alert('رهان غير صالح'); return; }
-            const result = Math.floor(Math.random()*6)+1;
-            document.getElementById('diceFace').textContent = ['⚀','⚁','⚂','⚃','⚄','⚅'][result-1];
-            if (result === currentGuess) {
-                const win = bet * 5;
-                updateBalance(win);
-                addHistory(`🎉 فوز بالنرد! +${win} (رقم ${result})`, 'win');
-            } else {
-                updateBalance(-bet);
-                addHistory(`😞 خسارة بالنرد -${bet} (كان ${result})`, 'lose');
-            }
-        };
-        document.querySelector('.guess-btn').style.background = '#f0b429';
-        document.querySelector('.guess-btn').style.color = '#0b0e14';
-    }
-
-    // ========== لعبة الطيارة ==========
-    function renderAviator() {
-        return `
-            <div style="text-align:center;font-size:2rem;">✈️ المضاعف: <span id="multiplier">1.00</span>x</div>
-            <div class="aviator-graph" id="graphContainer"></div>
-            <div class="controls">
-                <input type="number" id="aviatorBet" value="100" min="1">
-                <button id="aviatorStart">🚀 إقلاع</button>
-                <button id="aviatorCashout" style="background:#eb5757;">💰 سحب</button>
-            </div>
-        `;
-    }
-
-    let aviatorInterval = null;
-    let aviatorMultiplier = 1;
-    let aviatorActive = false;
-    let aviatorBet = 0;
-
-    function initAviator() {
-        const graph = document.getElementById('graphContainer');
-        const multSpan = document.getElementById('multiplier');
-        const startBtn = document.getElementById('aviatorStart');
-        const cashBtn = document.getElementById('aviatorCashout');
-        const betInput = document.getElementById('aviatorBet');
-
-        function resetGraph() {
-            graph.innerHTML = '';
-            for (let i=0; i<30; i++) {
-                const bar = document.createElement('div');
-                bar.className = 'bar';
-                bar.style.height = '5px';
-                graph.appendChild(bar);
-            }
-        }
-        resetGraph();
-
-        function updateGraph(mult) {
-            const bars = graph.querySelectorAll('.bar');
-            const height = Math.min(120, 10 + mult * 8);
-            const newBar = document.createElement('div');
-            newBar.className = 'bar';
-            newBar.style.height = Math.min(120, height) + 'px';
-            graph.appendChild(newBar);
-            if (graph.children.length > 30) graph.removeChild(graph.firstChild);
-        }
-
-        startBtn.onclick = () => {
-            if (aviatorActive) return;
-            const bet = parseInt(betInput.value);
-            if (isNaN(bet) || bet <= 0 || bet > balance) { alert('رهان غير صالح'); return; }
-            aviatorBet = bet;
-            aviatorMultiplier = 1;
-            aviatorActive = true;
-            updateBalance(-bet);
-            resetGraph();
-            multSpan.textContent = '1.00';
-            clearInterval(aviatorInterval);
-            aviatorInterval = setInterval(() => {
-                aviatorMultiplier += 0.03 + Math.random() * 0.05;
-                multSpan.textContent = aviatorMultiplier.toFixed(2);
-                updateGraph(aviatorMultiplier);
-                // فرصة الانهيار
-                if (Math.random() < 0.04 && aviatorMultiplier > 1.5) {
-                    clearInterval(aviatorInterval);
-                    aviatorActive = false;
-                    addHistory(`💥 تحطمت الطيارة عند ${aviatorMultiplier.toFixed(2)}x - خسارة ${aviatorBet}`, 'lose');
-                    resetGraph();
-                }
-            }, 150);
-        };
-
-        cashBtn.onclick = () => {
-            if (!aviatorActive) return;
-            clearInterval(aviatorInterval);
-            aviatorActive = false;
-            const win = Math.floor(aviatorBet * aviatorMultiplier);
-            updateBalance(win);
-            addHistory(`✅ سحب ${win} نقطة عند ${aviatorMultiplier.toFixed(2)}x`, 'win');
-            resetGraph();
-        };
-    }
-
-    // ========== لعبة الروليت ==========
-    function renderRoulette() {
-        return `
-            <div class="roulette-wheel">🎡 <span id="rouletteResult">?</span></div>
-            <div class="controls">
-                <input type="number" id="rouletteBet" value="50" min="1">
-                <select id="rouletteChoice">
-                    <option value="red">🔴 أحمر</option>
-                    <option value="black">⚫ أسود</option>
-                    <option value="even">زوجي</option>
-                    <option value="odd">فردي</option>
-                </select>
-                <button id="rouletteSpin">🔄 دوران</button>
-            </div>
-        `;
-    }
-
-    function initRoulette() {
-        document.getElementById('rouletteSpin').onclick = () => {
-            const bet = parseInt(document.getElementById('rouletteBet').value);
-            if (isNaN(bet) || bet <= 0 || bet > balance) { alert('رهان غير صالح'); return; }
-            const num = Math.floor(Math.random() * 37);
-            const color = (num === 0) ? 'green' : (num % 2 === 0 ? 'black' : 'red');
-            const isEven = num % 2 === 0 && num !== 0;
-            const choice = document.getElementById('rouletteChoice').value;
-            document.getElementById('rouletteResult').textContent = `${num} (${color})`;
-            let win = false;
-            if (choice === 'red' && color === 'red') win = true;
-            else if (choice === 'black' && color === 'black') win = true;
-            else if (choice === 'even' && isEven) win = true;
-            else if (choice === 'odd' && !isEven && num !== 0) win = true;
-            if (win) {
-                const winnings = bet * 2;
-                updateBalance(winnings);
-                addHistory(`🎉 فوز روليت! +${winnings} (${num})`, 'win');
-            } else {
-                updateBalance(-bet);
-                addHistory(`😞 خسارة روليت -${bet} (${num})`, 'lose');
-            }
-        };
-    }
-
-    // ========== لعبة الورق ==========
-    function renderCards() {
-        return `
-            <div class="card-area">
-                <span>🃏 أنت: <span id="playerCard">?</span></span>
-                <span style="margin:0 20px;">vs</span>
-                <span>الخصم: <span id="opponentCard">?</span></span>
-            </div>
-            <div class="controls">
-                <input type="number" id="cardsBet" value="50" min="1">
-                <button id="cardsDeal">🃏 سحب</button>
-            </div>
-        `;
-    }
-
-    function initCards() {
-        document.getElementById('cardsDeal').onclick = () => {
-            const bet = parseInt(document.getElementById('cardsBet').value);
-            if (isNaN(bet) || bet <= 0 || bet > balance) { alert('رهان غير صالح'); return; }
-            const ranks = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
-            const playerCard = ranks[Math.floor(Math.random() * ranks.length)];
-            const opponentCard = ranks[Math.floor(Math.random() * ranks.length)];
-            document.getElementById('playerCard').textContent = playerCard;
-            document.getElementById('opponentCard').textContent = opponentCard;
-            const pVal = ranks.indexOf(playerCard);
-            const oVal = ranks.indexOf(opponentCard);
-            if (pVal > oVal) {
-                updateBalance(bet * 2);
-                addHistory(`🎉 فوز بالورق! +${bet*2} (${playerCard} > ${opponentCard})`, 'win');
-            } else if (pVal < oVal) {
-                updateBalance(-bet);
-                addHistory(`😞 خسارة بالورق -${bet} (${playerCard} < ${opponentCard})`, 'lose');
-            } else {
-                addHistory(`🤝 تعادل (${playerCard} = ${opponentCard})`, 'win');
-            }
-        };
-    }
-
-    // ========== تبديل الألعاب ==========
-    const gameRenderers = {
-        dice: { render: renderDice, init: initDice },
-        aviator: { render: renderAviator, init: initAviator },
-        roulette: { render: renderRoulette, init: initRoulette },
-        cards: { render: renderCards, init: initCards }
-    };
-
-    function switchGame(game) {
-        currentGame = game;
-        const renderer = gameRenderers[game];
-        gameContainer.innerHTML = renderer.render();
-        renderer.init();
-        // تحديث التبويبات
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.game === game);
-        });
-    }
-
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.onclick = () => switchGame(btn.dataset.game);
-    });
-
-    // بدء التشغيل
-    switchGame('dice');
+    // تهيئة
+    renderCases();
+    updateBalance();
+    updateStats();
+    addHistory('🚀 مرحباً في Epic Gift! اختر صندوقاً وابدأ.', 'win');
 </script>
 </body>
 </html>
