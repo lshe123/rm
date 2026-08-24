@@ -1,906 +1,2334 @@
-<!DOCTYPE html>
-<html lang="ar">
+Enter<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎰 JETTON - النسخة النهائية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎮 Epic Games Hub - نسخة محاكاة شاملة</title>
     <style>
-        /* نفس الأنماط السابقة مع تحسينات */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
-        
-        :root {
-            --primary: #f7931a;
-            --primary-dark: #d4790e;
-            --bg-dark: #0a0e17;
-            --bg-card: #111927;
-            --bg-input: #0d1624;
-            --border: #f7931a40;
-            --text: #e8e6e0;
-            --text-muted: #8a9aae;
-            --success: #6fcf97;
-            --danger: #eb5757;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
-            background: var(--bg-dark);
-            font-family: 'Orbitron', 'Segoe UI', sans-serif;
-            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            padding: 10px;
-            background-image: radial-gradient(ellipse at 50% 0%, #1a2538 0%, #0a0e17 70%);
-        }
-        
-        .app {
-            max-width: 420px;
-            width: 100%;
-            background: var(--bg-card);
-            border-radius: 30px;
-            border: 1px solid var(--border);
-            box-shadow: 0 0 80px #f7931a30;
-            overflow: hidden;
-            padding-bottom: 85px;
-        }
-        
-        /* Header */
-        .header {
-            padding: 18px 20px 12px;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-            background: linear-gradient(180deg, #111927 0%, #0d1624 100%);
-        }
-        .header .logo {
-            font-size: 2rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 40px #f7931a60;
-            letter-spacing: 2px;
-        }
-        .header .balance {
-            background: var(--bg-input);
-            padding: 10px 20px;
-            border-radius: 60px;
-            display: inline-block;
-            margin-top: 8px;
-            border: 2px solid var(--primary);
-            font-size: 1rem;
-        }
-        .header .balance span { color: var(--primary); font-weight: bold; }
-        .header .user-info {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-top: 5px;
-        }
-        
-        /* Tabs */
-        .game-tabs {
-            display: flex;
-            gap: 5px;
-            padding: 12px 15px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg-input);
-        }
-        .game-tabs::-webkit-scrollbar { display: none; }
-        .game-tabs .tab {
-            background: var(--bg-card);
-            padding: 8px 16px;
-            border-radius: 60px;
-            font-size: 0.7rem;
-            white-space: nowrap;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: 0.3s;
-            color: var(--text-muted);
-            font-weight: bold;
-            font-family: 'Orbitron', sans-serif;
-        }
-        .game-tabs .tab.active {
-            background: var(--primary);
-            color: #0a0e17;
-            border-color: var(--primary);
-            box-shadow: 0 0 30px #f7931a50;
-        }
-        
-        /* Game Area */
-        .game-area {
-            padding: 15px;
-            min-height: 350px;
-        }
-        
-        /* Bet Screen */
-        .bet-screen {
-            background: var(--bg-input);
-            padding: 20px;
-            border-radius: 25px;
-            border: 1px solid var(--border);
-            box-shadow: inset 0 0 50px #00000050;
-        }
-        .bet-screen .game-title {
-            font-size: 1.4rem;
-            color: var(--primary);
-            text-align: center;
-            margin-bottom: 15px;
-            text-shadow: 0 0 20px #f7931a40;
-        }
-        
-        /* Aviator */
-        .aviator-container {
-            text-align: center;
-            padding: 20px;
-            background: var(--bg-card);
-            border-radius: 20px;
-            margin: 10px 0;
-            border: 1px solid var(--border);
-            min-height: 150px;
-            position: relative;
-            overflow: hidden;
-        }
-        .aviator-plane {
-            font-size: 4rem;
-            display: inline-block;
-            transition: all 0.1s linear;
-            position: relative;
-        }
-        .aviator-plane.flying {
-            animation: planeFly 0.6s ease-in-out infinite alternate;
-        }
-        @keyframes planeFly {
-            0% { transform: translateY(0) rotate(-5deg) scale(1); }
-            100% { transform: translateY(-20px) rotate(5deg) scale(1.1); }
-        }
-        .aviator-plane.exploding {
-            animation: explode 0.5s ease forwards;
-        }
-        @keyframes explode {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(3); opacity: 0; }
-        }
-        .aviator-multiplier {
-            font-size: 2.5rem;
-            color: var(--primary);
-            font-weight: bold;
-            margin: 10px 0;
-            text-shadow: 0 0 30px #f7931a60;
-        }
-        .aviator-status {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-        
-        /* Input & Buttons */
-        .bet-input {
-            display: flex;
-            gap: 12px;
-            margin: 15px 0;
-        }
-        .bet-input input {
-            flex: 1;
-            background: var(--bg-card);
-            border: 2px solid var(--border);
-            color: var(--text);
-            padding: 14px 20px;
-            border-radius: 15px;
-            text-align: center;
-            font-size: 1rem;
-            outline: none;
-            font-family: 'Orbitron', sans-serif;
-        }
-        .bet-input input:focus { border-color: var(--primary); }
-        .bet-input button {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border: none;
-            padding: 14px 25px;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 1rem;
-            color: #0a0e17;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: 'Orbitron', sans-serif;
-            box-shadow: 0 4px 20px #f7931a40;
-        }
-        .bet-input button:hover { transform: scale(1.05); }
-        .bet-input button:disabled { opacity: 0.5; cursor: not-allowed; }
-        
-        .btn-cashout {
-            width: 100%;
-            background: linear-gradient(135deg, var(--danger), #c0392b);
-            border: none;
-            padding: 14px;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 1rem;
             color: #fff;
-            cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            transition: 0.3s;
+            overflow-x: hidden;
         }
-        .btn-cashout:hover { transform: scale(1.02); }
-        .btn-cashout:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        /* Leaderboard */
-        .leaderboard {
-            background: var(--bg-input);
-            padding: 15px;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-        }
-        .leaderboard .player {
+        /* شاشة التحميل */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #1a2538;
-            font-size: 0.8rem;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
         }
-        .leaderboard .player:last-child { border-bottom: none; }
-        .leaderboard .player .profit { color: var(--success); font-weight: bold; }
-        .leaderboard .pool {
-            text-align: center;
-            padding: 12px;
-            background: var(--bg-card);
-            border-radius: 15px;
-            margin-top: 10px;
-            border: 1px dashed var(--primary);
-        }
-        .leaderboard .pool .amount { font-size: 2rem; color: var(--primary); font-weight: bold; }
         
-        /* Bottom Nav */
-        .bottom-nav {
+        #loader .rocket {
+            font-size: 80px;
+            animation: float 2s ease-in-out infinite;
+        }
+        
+        #loader .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #8774E1;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-top: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* الشريط العلوي */
+        #topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(36, 36, 36, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        #topbar .balance {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        #topbar .balance .ton-icon {
+            width: 20px;
+            height: 20px;
+            background: #0098EA;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 900;
+        }
+        
+        #topbar .deposit-btn {
+            background: linear-gradient(90deg, #8774E1, #7B68D4);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        /* التنقل السفلي */
+        #bottom-nav {
             position: fixed;
             bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(30, 30, 30, 0.98);
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            padding: 8px 0;
+            padding-bottom: calc(8px + env(safe-area-inset-bottom));
+            z-index: 100;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            padding: 8px 4px;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn.active {
+            color: #8774E1;
+        }
+        
+        .nav-btn .nav-icon {
+            font-size: 22px;
+        }
+        
+        /* المحتوى الرئيسي */
+        #main-content {
+            padding-top: 70px;
+            padding-bottom: 80px;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+        
+        /* أقسام الشاشات */
+        .screen {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* بطاقات اللعبة */
+        .game-card {
+            background: linear-gradient(135deg, #1E1E1E, #2C2C2C);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        .game-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .game-card h3 {
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .game-card p {
+            color: #999;
+            font-size: 13px;
+        }
+        
+        /* لعبة الصاروخ */
+        #rocket-game {
+            background: #1A1A1A;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        
+        #rocket-canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        #rocket-multiplier {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 64px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            z-index: 10;
+            text-align: center;
+        }
+        
+        #rocket-status {
+            position: absolute;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            max-width: 420px;
-            width: 100%;
-            background: var(--bg-card);
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0;
-            border-top: 1px solid var(--border);
-            backdrop-filter: blur(20px);
-            z-index: 100;
-        }
-        .bottom-nav .nav-item {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.6rem;
-            cursor: pointer;
-            transition: 0.3s;
-            padding: 5px 12px;
-            border-radius: 15px;
-            border: none;
-            background: transparent;
-            font-family: 'Orbitron', sans-serif;
-        }
-        .bottom-nav .nav-item.active { color: var(--primary); }
-        .bottom-nav .nav-item .nav-icon { font-size: 1.5rem; display: block; }
-        
-        /* Live Bets */
-        .live-bets {
-            margin-top: 15px;
-            background: var(--bg-input);
-            padding: 12px 15px;
+            background: rgba(0,0,0,0.8);
+            padding: 8px 16px;
             border-radius: 20px;
-            border: 1px solid var(--border);
-            max-height: 100px;
+            font-weight: bold;
+            z-index: 10;
+        }
+        
+        #rocket-bet-controls {
+            padding: 20px;
+            background: #1E1E1E;
+            border-radius: 12px;
+        }
+        
+        .bet-input {
+            width: 100%;
+            padding: 12px;
+            background: #2A2A2A;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        
+        .primary-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #0098EA, #00D4FF);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,152,234,0.3);
+        }
+        
+        .primary-btn:disabled {
+            background: #363636;
+            color: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .cashout-btn {
+            background: linear-gradient(90deg, #34d399, #10b981);
+            font-size: 20px;
+        }
+        
+        /* لعبة بلكينو */
+        #plinko-board {
+            background: #1E1E1E;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        
+        #plinko-canvas {
+            width: 100%;
+            height: 400px;
+            background: #121212;
+            border-radius: 8px;
+        }
+        
+        .plinko-multipliers {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 4px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #2A2A2A;
+            border-radius: 8px;
+        }
+        
+        .plinko-pill {
+            background: rgba(137, 113, 230, 0.2);
+            border: 1px solid rgba(172, 145, 243, 0.4);
+            color: white;
+            border-radius: 6px;
+            padding: 8px 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        /* لعبة البطاقات */
+        #pvp-cards {
+            background: #1E1E1E;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .pvp-player-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .pvp-player-row .player-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .pvp-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8774E1, #7B68D4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .pvp-player-row .bet-amount {
+            background: rgba(135, 116, 225, 0.2);
+            border: 1px solid rgba(135, 116, 225, 0.4);
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        #pvp-winner {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.2));
+            border-radius: 12px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        
+        #pvp-winner.show {
+            display: block;
+            animation: winnerPulse 2s infinite;
+        }
+        
+        @keyframes winnerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        /* لعبة الترقية */
+        #upgrade-game {
+            background: #1E1E1E;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .upgrade-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .gift-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #8774E1, #7B68D4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        
+        .upgrade-arrow {
+            font-size: 30px;
+        }
+        
+        #upgrade-progress {
+            height: 8px;
+            background: #2A2A2A;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        
+        #upgrade-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #8774E1, #7B68D4);
+            width: 70%;
+            transition: width 0.5s ease;
+        }
+        
+        #upgrade-result {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 16px;
+            min-height: 30px;
+        }
+        
+        /* لعبة الخلق */
+        #craft-game {
+            background: #1E1E1E;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .craft-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .craft-slot {
+            aspect-ratio: 1;
+            background: #2A2A2A;
+            border: 2px dashed rgba(255,255,255,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .craft-slot.filled {
+            background: linear-gradient(135deg, #8774E1, #7B68D4);
+            border: 2px solid #8774E1;
+        }
+        
+        /* النوافذ المنبثقة */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #1E1E1E;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 90%;
+            width: 400px;
+            max-height: 80vh;
             overflow-y: auto;
         }
-        .live-bets .bet-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            border-bottom: 1px solid #1a2538;
-            font-size: 0.7rem;
-        }
-        .live-bets .bet-item:last-child { border-bottom: none; }
-        .live-bets .bet-item .win { color: var(--success); }
-        .live-bets .bet-item .lose { color: var(--danger); }
         
-        /* Responsive */
-        @media (max-width: 400px) {
-            .game-tabs .tab { font-size: 0.55rem; padding: 6px 10px; }
-            .header .logo { font-size: 1.5rem; }
+        .modal-content h2 {
+            margin-bottom: 16px;
+            text-align: center;
         }
+        
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* إشعارات */
+        #toast-container {
+            position: fixed;
+            top: 70px;
+            right: 16px;
+            left: 16px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+        
+        .toast {
+            background: #2C2C2C;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            animation: toastIn 0.3s ease;
+            border-left: 4px solid #8774E1;
+        }
+        
+        .toast.success {
+            border-left-color: #34D399;
+        }
+        
+        .toast.error {
+            border-left-color: #EF4444;
+        }
+        
+        .toast.warning {
+            border-left-color: #F59E0B;
+        }
+        
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* سجل المكاسب */
+        #leaderboard {
+            background: #1E1E1E;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .leaderboard-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .leaderboard-row .rank {
+            font-weight: 900;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .leaderboard-row .rank.gold {
+            color: #FFD700;
+        }
+        
+        .leaderboard-row .rank.silver {
+            color: #C0C0C0;
+        }
+        
+        .leaderboard-row .rank.bronze {
+            color: #CD7F32;
+        }
+        
+        .leaderboard-row .score {
+            background: rgba(135, 116, 225, 0.2);
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        /* منصة الخلق */
+        #craft-container {
+            background: #1E1E1E;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .craft-mode-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .craft-mode {
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .craft-mode.selected {
+            border-color: #8774E1;
+            background: rgba(135, 116, 225, 0.1);
+        }
+        
+        .craft-mode.safe { border-left: 4px solid #34D399; }
+        .craft-mode.normal { border-left: 4px solid #8774E1; }
+        .craft-mode.risky { border-left: 4px solid #EF4444; }
+        
+        .craft-value {
+            font-size: 18px;
+            font-weight: 900;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .craft-result {
+            font-size: 16px;
+            text-align: center;
+            margin-top: 16px;
+        }
+        
+        /* خصم */
+        #discount-game {
+            background: #1E1E1E;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .discount-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .discount-item {
+            flex: 1;
+            background: #2A2A2A;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .discount-percent {
+            font-size: 40px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #8774E1, #7B68D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* البحث */
+        #search-container {
+            background: #1E1E1E;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            background: #2A2A2A;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .search-result {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+        
+        .search-result:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        /* إعدادات */
+        #settings-container {
+            background: #1E1E1E;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        /* الدعم */
+        #support-container {
+            background: #1E1E1E;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .support-card {
+            background: #2A2A2A;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .support-card .icon {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+        
+        /* الأفضلية */
+        #premium-container {
+            background: linear-gradient(135deg, #1E1E1E, #2C2C2C);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .premium-card {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        /* المحفظة */
+        #wallet-container {
+            background: #1E1E1E;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .wallet-balance {
+            font-size: 40px;
+            font-weight: 900;
+            text-align: center;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #8774E1, #7B68D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* عقود */
+        #contracts-container {
+            background: #1E1E1E;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .contract-card {
+            background: #2A2A2A;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        /* استجابة للأجهزة */
+        @media (max-width: 480px) {
+            #main-content {
+                padding: 12px;
+            }
+            
+            .game-card {
+                padding: 12px;
+            }
+        }
+        
+        /* تأثيرات */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .shake {
+            animation: shake 0.3s ease;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .mt-2 { margin-top: 8px; }
+        .mt-3 { margin-top: 12px; }
+        .mt-4 { margin-top: 16px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-3 { margin-bottom: 12px; }
+        .mb-4 { margin-bottom: 16px; }
+        .text-center { text-align: center; }
+        .font-bold { font-weight: 700; }
+        .text-sm { font-size: 14px; }
+        .text-lg { font-size: 18px; }
+        .text-xl { font-size: 24px; }
+        .text-gold { color: #FFD700; }
+        .text-green { color: #34D399; }
+        .text-red { color: #EF4444; }
+        .text-purple { color: #8774E1; }
     </style>
 </head>
 <body>
-<div class="app" id="app">
-    <!-- Header -->
-    <div class="header">
-        <div class="logo">🎰 JETTON</div>
-        <div class="balance">💰 الرصيد: <span id="balanceDisplay">3208</span></div>
-        <div class="user-info">👤 @real_player | 🆔 7513557249</div>
+    <!-- شاشة التحميل -->
+    <div id="loader">
+        <div class="rocket">🚀</div>
+        <div class="spinner"></div>
+        <p>جارٍ التحميل...</p>
     </div>
-
-    <!-- Game Tabs -->
-    <div class="game-tabs" id="gameTabs">
-        <button class="tab active" data-game="aviator">✈️ Aviator</button>
-        <button class="tab" data-game="plinko">🎯 Plinko</button>
-        <button class="tab" data-game="crates">📦 Crates</button>
-        <button class="tab" data-game="dice">🎲 Dice</button>
-        <button class="tab" data-game="cards">🃏 Cards</button>
-        <button class="tab" data-game="roulette">🎡 Roulette</button>
+    
+    <!-- شريط علوي -->
+    <div id="topbar">
+        <div class="balance">
+            <div class="ton-icon">T</div>
+            <span id="topbar-balance">1,000.00</span>
+        </div>
+        <button class="deposit-btn" onclick="showModal('deposit-modal')">+ إيداع</button>
     </div>
-
-    <!-- Game Area -->
-    <div class="game-area" id="gameArea"></div>
-
-    <!-- Bottom Nav -->
-    <div class="bottom-nav">
-        <button class="nav-item active" onclick="switchSection('home')">
-            <span class="nav-icon">🏠</span> Home
+    
+    <!-- التنقل السفلي -->
+    <div id="bottom-nav">
+        <button class="nav-btn active" onclick="showScreen('home')">
+            <span class="nav-icon">🏠</span>
+            <span>الرئيسية</span>
         </button>
-        <button class="nav-item" onclick="switchSection('leaderboard')">
-            <span class="nav-icon">🏆</span> Leaderboard
+        <button class="nav-btn" onclick="showScreen('games')">
+            <span class="nav-icon">🎮</span>
+            <span>الألعاب</span>
         </button>
-        <button class="nav-item" onclick="switchSection('backpack')">
-            <span class="nav-icon">🎒</span> Backpack
+        <button class="nav-btn" onclick="showScreen('leaderboard')">
+            <span class="nav-icon">🏆</span>
+            <span>المتصدرين</span>
         </button>
-        <button class="nav-item" onclick="switchSection('earn')">
-            <span class="nav-icon">💰</span> Earn
+        <button class="nav-btn" onclick="showScreen('wallet')">
+            <span class="nav-icon">💳</span>
+            <span>المحفظة</span>
+        </button>
+        <button class="nav-btn" onclick="showScreen('settings')">
+            <span class="nav-icon">⚙️</span>
+            <span>الإعدادات</span>
         </button>
     </div>
-</div>
-
-<script>
-    // ===== الوضع الظلي V99-REAL =====
-    let balance = 3208;
-    let currentGame = 'aviator';
-    let liveBets = [];
     
-    const balanceDisplay = document.getElementById('balanceDisplay');
-    const gameArea = document.getElementById('gameArea');
-    
-    // ========== CORE ==========
-    function updateBalance(amount) {
-        balance += amount;
-        if (balance < 0) balance = 0;
-        balanceDisplay.textContent = Math.floor(balance);
-        localStorage.setItem('jettonBalance', balance);
-        return balance;
-    }
-    
-    function addLiveBet(player, bet, mult, result) {
-        const isWin = result > 0;
-        liveBets.unshift({ player, bet, mult, result, isWin });
-        if (liveBets.length > 15) liveBets.pop();
-        renderLiveBets();
-    }
-    
-    function renderLiveBets() {
-        const container = document.querySelector('.live-bets .bets-container');
-        if (!container) return;
-        container.innerHTML = liveBets.map(b => `
-            <div class="bet-item">
-                <span>${b.player}</span>
-                <span>${b.bet} × ${b.mult}x = <span class="${b.isWin ? 'win' : 'lose'}">${b.result}</span></span>
-            </div>
-        `).join('');
-    }
-    
-    function playSound(type) {
-        try {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            if (type === 'win') {
-                osc.frequency.value = 1200;
-                gain.gain.value = 0.15;
-                osc.start();
-                setTimeout(() => { osc.frequency.value = 1600; }, 0.2);
-                osc.stop(0.5);
-            } else if (type === 'lose') {
-                osc.frequency.value = 300;
-                gain.gain.value = 0.15;
-                osc.start();
-                osc.stop(0.3);
-            } else if (type === 'explosion') {
-                osc.frequency.value = 100;
-                gain.gain.value = 0.2;
-                osc.type = 'sawtooth';
-                osc.start();
-                osc.stop(0.3);
-            }
-        } catch(e) {}
-    }
-    
-    // ========== RENDER GAMES ==========
-    function renderGame(game) {
-        currentGame = game;
-        const templates = {
-            aviator: renderAviator,
-            plinko: renderPlinko,
-            crates: renderCrates,
-            dice: renderDice,
-            cards: renderCards,
-            roulette: renderRoulette
-        };
-        gameArea.innerHTML = (templates[game] || renderAviator)();
-        document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.game === game));
-        initGameEvents(game);
-    }
-    
-    // ===== AVIATOR (الطائرة) =====
-    function renderAviator() {
-        return `
-            <div class="bet-screen">
-                <div class="game-title">✈️ AVIATOR</div>
-                <div class="aviator-container" id="aviatorContainer">
-                    <div class="aviator-plane" id="aviatorPlane">✈️</div>
-                    <div class="aviator-multiplier" id="aviatorMultiplier">1.00x</div>
-                    <div class="aviator-status" id="aviatorStatus">🟢 جاهز للإقلاع</div>
-                </div>
-                <div class="bet-input">
-                    <input type="number" id="aviatorBet" value="10" min="1" step="1" placeholder="الرهان">
-                    <button id="aviatorStart">✈️ إقلاع</button>
-                </div>
-                <button class="btn-cashout" id="aviatorCashout" disabled>💰 سحب</button>
-                <div style="font-size:0.7rem;color:var(--text-muted);text-align:center;margin-top:8px;">⚠️ الطائرة قد تنفجر! اسحب قبل التحطم</div>
-            </div>
-            <div class="live-bets">
-                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:5px;">💬 رهانات حية</div>
-                <div class="bets-container"></div>
-            </div>
-        `;
-    }
-    
-    function initAviator() {
-        let interval = null;
-        let multiplier = 1;
-        let active = false;
-        let bet = 0;
-        const plane = document.getElementById('aviatorPlane');
-        const multDisplay = document.getElementById('aviatorMultiplier');
-        const status = document.getElementById('aviatorStatus');
-        const startBtn = document.getElementById('aviatorStart');
-        const cashBtn = document.getElementById('aviatorCashout');
-        const betInput = document.getElementById('aviatorBet');
-        
-        startBtn.onclick = () => {
-            if (active) return;
-            const val = parseInt(betInput.value);
-            if (isNaN(val) || val <= 0) { alert('أدخل رهاناً صحيحاً'); return; }
-            if (val > balance) { alert('الرصيد غير كافٍ'); return; }
-            bet = val;
-            multiplier = 1;
-            active = true;
-            startBtn.disabled = true;
-            cashBtn.disabled = false;
-            plane.className = 'aviator-plane flying';
-            status.textContent = '✈️ تحلق...';
-            updateBalance(-bet);
-            playSound('drop');
-            clearInterval(interval);
-            interval = setInterval(() => {
-                multiplier += 0.04 + Math.random() * 0.1;
-                multDisplay.textContent = multiplier.toFixed(2) + 'x';
-                // تحريك الطائرة مع المضاعف
-                const height = Math.min(multiplier * 15, 80);
-                plane.style.transform = `translateY(-${height}px) rotate(${multiplier * 2}deg)`;
-                if (Math.random() < 0.025 && multiplier > 1.5) {
-                    clearInterval(interval);
-                    active = false;
-                    startBtn.disabled = false;
-                    cashBtn.disabled = true;
-                    plane.className = 'aviator-plane exploding';
-                    status.textContent = '💥 تحطم!';
-                    playSound('explosion');
-                    addLiveBet('أنت', bet, multiplier.toFixed(2), -bet);
-                }
-            }, 130);
-        };
-        
-        cashBtn.onclick = () => {
-            if (!active) return;
-            clearInterval(interval);
-            active = false;
-            startBtn.disabled = false;
-            cashBtn.disabled = true;
-            const win = Math.floor(bet * multiplier);
-            updateBalance(win);
-            plane.className = 'aviator-plane';
-            status.textContent = `✅ سحب ${win}`;
-            playSound('win');
-            addLiveBet('أنت', bet, multiplier.toFixed(2), win);
-        };
-    }
-    
-    // ===== PLINKO =====
-    function renderPlinko() {
-        let html = `
-            <div class="bet-screen">
-                <div class="game-title">🎯 PLINKO</div>
-                <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:15px 0;" id="plinkoBoard">
-        `;
-        for (let i = 0; i < 7; i++) {
-            const cols = i + 3;
-            for (let j = 0; j < cols; j++) {
-                const isHigh = j === 0 || j === cols - 1;
-                const isMedium = j === 1 || j === cols - 2;
-                const cls = isHigh ? 'high' : isMedium ? 'medium' : 'low';
-                const label = isHigh ? 'x10' : isMedium ? 'x3' : 'x1';
-                const color = isHigh ? '#6fcf97' : isMedium ? '#f7931a' : '#eb5757';
-                html += `<div style="background:var(--bg-card);padding:8px 0;text-align:center;border-radius:8px;font-size:0.6rem;border:1px solid ${color};color:${color};">${label}</div>`;
-            }
-        }
-        html += `
-                </div>
-                <div style="text-align:center;font-size:2rem;padding:15px;min-height:60px;" id="plinkoResult">🎯</div>
-                <div class="bet-input">
-                    <input type="number" id="plinkoBet" value="10" min="1" step="1">
-                    <button id="plinkoDrop">⬇️ إسقاط</button>
-                </div>
-            </div>
-            <div class="live-bets">
-                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:5px;">💬 رهانات حية</div>
-                <div class="bets-container"></div>
-            </div>
-        `;
-        return html;
-    }
-    
-    function initPlinko() {
-        document.getElementById('plinkoDrop').onclick = () => {
-            const bet = parseInt(document.getElementById('plinkoBet').value);
-            if (isNaN(bet) || bet <= 0) { alert('أدخل رهاناً صحيحاً'); return; }
-            if (bet > balance) { alert('الرصيد غير كافٍ'); return; }
-            const result = document.getElementById('plinkoResult');
-            const slots = document.querySelectorAll('#plinkoBoard div');
-            updateBalance(-bet);
-            let count = 0;
-            const interval = setInterval(() => {
-                const randomSlot = slots[Math.floor(Math.random() * slots.length)];
-                slots.forEach(s => s.style.background = 'var(--bg-card)');
-                randomSlot.style.background = 'var(--primary)';
-                count++;
-                if (count > 12) {
-                    clearInterval(interval);
-                    const finalSlot = slots[Math.floor(Math.random() * slots.length)];
-                    slots.forEach(s => s.style.background = 'var(--bg-card)');
-                    finalSlot.style.background = 'var(--primary)';
-                    const mult = finalSlot.textContent === 'x10' ? 10 : finalSlot.textContent === 'x3' ? 3 : 1;
-                    const win = bet * mult;
-                    updateBalance(win);
-                    result.textContent = `${win > bet ? '🎉' : '😞'} ${win}`;
-                    playSound(win > bet ? 'win' : 'lose');
-                    addLiveBet('أنت', bet, mult, win > bet ? win : -bet);
-                }
-            }, 150);
-        };
-    }
-    
-    // ===== CRATES =====
-    function renderCrates() {
-        const crates = [
-            { icon: '📦', name: 'برونزي', price: 10 },
-            { icon: '🎁', name: 'فضي', price: 25 },
-            { icon: '👑', name: 'ذهبي', price: 50 },
-            { icon: '💎', name: 'بلاتيني', price: 100 }
-        ];
-        let html = `
-            <div class="bet-screen">
-                <div class="game-title">📦 CRATES</div>
-                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:15px 0;" id="cratesGrid">
-        `;
-        crates.forEach(c => {
-            html += `
-                <div class="crate-card" style="background:var(--bg-card);padding:15px 5px;border-radius:15px;text-align:center;border:2px solid var(--border);cursor:pointer;transition:0.3s;">
-                    <div style="font-size:2rem;">${c.icon}</div>
-                    <div style="font-size:0.6rem;color:var(--text-muted);">${c.name}</div>
-                    <div style="font-size:0.8rem;color:var(--primary);">${c.price}</div>
-                </div>
-            `;
-        });
-        html += `
-                </div>
-                <div style="text-align:center;font-size:1.5rem;padding:15px;min-height:60px;" id="crateResult">📦 اختر صندوقاً</div>
-                <button style="width:100%;background:var(--primary);border:none;padding:12px;border-radius:15px;font-weight:bold;color:#0a0e17;cursor:pointer;font-family:Orbitron,sans-serif;" id="crateOpen">🔓 فتح</button>
-            </div>
-            <div class="live-bets">
-                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:5px;">🎁 آخر الجوائز</div>
-                <div class="bets-container"></div>
-            </div>
-        `;
-        return html;
-    }
-    
-    function initCrates() {
-        const crates = [
-            { icon: '📦', name: 'برونزي', price: 10, min: 1, max: 25 },
-            { icon: '🎁', name: 'فضي', price: 25, min: 5, max: 60 },
-            { icon: '👑', name: 'ذهبي', price: 50, min: 15, max: 150 },
-            { icon: '💎', name: 'بلاتيني', price: 100, min: 40, max: 350 }
-        ];
-        let selected = null;
-        const resultDiv = document.getElementById('crateResult');
-        
-        document.querySelectorAll('.crate-card').forEach((card, index) => {
-            card.onclick = () => {
-                document.querySelectorAll('.crate-card').forEach(c => c.style.borderColor = 'var(--border)');
-                card.style.borderColor = 'var(--primary)';
-                selected = crates[index];
-                resultDiv.textContent = `${selected.icon} ${selected.name} - ${selected.price}`;
-            };
-        });
-        
-        document.getElementById('crateOpen').onclick = () => {
-            if (!selected) { alert('اختر صندوقاً'); return; }
-            if (balance < selected.price) { alert('الرصيد غير كافٍ'); return; }
-            updateBalance(-selected.price);
-            const reward = Math.floor(Math.random() * (selected.max - selected.min + 1)) + selected.min;
-            const isWin = reward > selected.price * 1.2;
-            updateBalance(reward);
-            resultDiv.textContent = `${isWin ? '🎉' : '😞'} ${reward}`;
-            playSound(isWin ? 'win' : 'lose');
-            addLiveBet('أنت', selected.price, 'x' + (reward/selected.price).toFixed(1), isWin ? reward : -selected.price);
-        };
-    }
-    
-    // ===== DICE =====
-    function renderDice() {
-        let html = `
-            <div class="bet-screen">
-                <div class="game-title">🎲 DICE</div>
-                <div style="text-align:center;font-size:4rem;padding:15px;" id="diceResult">⚀</div>
-                <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0;">
-        `;
-        for (let i = 1; i <= 6; i++) {
-            html += `<button class="dice-guess" data-num="${i}" style="background:var(--bg-card);border:2px solid var(--border);padding:10px 16px;border-radius:15px;color:var(--text);cursor:pointer;font-family:Orbitron,sans-serif;">${i}</button>`;
-        }
-        html += `
-                </div>
-                <div class="bet-input">
-                    <input type="number" id="diceBet" value="10" min="1" step="1">
-                    <button id="diceRoll">🎲 رمي</button>
-                </div>
-            </div>
-            <div class="live-bets">
-                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:5px;">💬 رهانات حية</div>
-                <div class="bets-container"></div>
-            </div>
-        `;
-        return html;
-    }
-    
-    function initDice() {
-        let guess = 1;
-        document.querySelectorAll('.dice-guess').forEach(btn => {
-            btn.onclick = () => {
-                document.querySelectorAll('.dice-guess').forEach(b => { b.style.background = 'var(--bg-card)'; b.style.borderColor = 'var(--border)'; });
-                btn.style.background = 'var(--primary)';
-                btn.style.borderColor = 'var(--primary)';
-                guess = parseInt(btn.dataset.num);
-            };
-        });
-        document.querySelector('.dice-guess').style.background = 'var(--primary)';
-        document.querySelector('.dice-guess').style.borderColor = 'var(--primary)';
-        
-        document.getElementById('diceRoll').onclick = () => {
-            const bet = parseInt(document.getElementById('diceBet').value);
-            if (isNaN(bet) || bet <= 0) { alert('أدخل رهاناً صحيحاً'); return; }
-            if (bet > balance) { alert('الرصيد غير كافٍ'); return; }
-            const resultDiv = document.getElementById('diceResult');
-            updateBalance(-bet);
-            const result = Math.floor(Math.random() * 6) + 1;
-            const emojis = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
-            resultDiv.textContent = emojis[result-1];
-            if (result === guess) {
-                const win = bet * 5;
-                updateBalance(win);
-                resultDiv.style.color = '#6fcf97';
-                playSound('win');
-                addLiveBet('أنت', bet, 'x5', win);
-            } else {
-                resultDiv.style.color = '#eb5757';
-                playSound('lose');
-                addLiveBet('أنت', bet, 'x0', -bet);
-            }
-        };
-    }
-    
-    // ===== CARDS =====
-    function renderCards() {
-        return `
-            <div class="bet-screen">
-                <div class="game-title">🃏 CARDS</div>
-                <div style="text-align:center;font-size:2.5rem;padding:15px;">
-                    <span id="playerCard">🂠</span> vs <span id="opponentCard">🂠</span>
-                </div>
-                <div class="bet-input">
-                    <input type="number" id="cardsBet" value="10" min="1" step="1">
-                    <button id="cardsDeal">🃏 سحب</button>
-                </div>
-            </div>
-            <div class="live-bets">
-                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:5px;">💬 رهانات حية</div>
-                <div class="bets-container"></div>
-            </div>
-        `;
-    }
-    
-    function initCards() {
-        document.getElementById('cardsDeal').onclick = () => {
-            const bet = parseInt(document.getElementById('cardsBet').value);
-            if (isNaN(bet) || bet <= 0) { alert('أدخل رهاناً صحيحاً'); return; }
-            if (bet > balance) { alert('الرصيد غير كافٍ'); return; }
-            const ranks = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
-            const suits = ['♠','♥','♦','♣'];
-            const pCard = ranks[Math.floor(Math.random() * ranks.length)] + suits[Math.floor(Math.random() * 4)];
-            const oCard = ranks[Math.floor(Math.random() * ranks.length)] + suits[Math.floor(Math.random() * 4)];
-            document.getElementById('playerCard').textContent = pCard;
-            document.getElementById('opponentCard').textContent = oCard;
-            const pVal = ranks.indexOf(pCard.slice(0, -1));
-            const oVal = ranks.indexOf(oCard.slice(0, -1));
-            updateBalance(-bet);
-            if (pVal > oVal) {
-                const win = bet * 2;
-                updateBalance(win);
-                playSound('win');
-                addLiveBet('أنت', bet, 'x2', win);
-            } else if (pVal < oVal) {
-                playSound('lose');
-                addLiveBet('أنت', bet, 'x0', -bet);
-            } else {
-                updateBalance(bet);
-                addLiveBet('أنت', bet, 'x1', 0);
-            }
-        };
-    }
-    
-    // ===== ROULETTE =====
-    function renderRoulette() {
-        return `
-            <div class="bet-screen">
-                <div class="game-title">🎡 ROULETTE</div>
-                <div style="text-align:center;font-size:2.5rem;padding:15px;" id="rouletteResult">🎡</div>
-                <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0;">
-                    <button class="roulette-choice" data-choice="red" style="background:#eb5757;border:none;padding:10px 18px;border-radius:15px;color:#fff;cursor:pointer;font-family:Orbitron,sans-serif;">🔴 أحمر</button>
-                    <button class="roulette-choice" data-choice="black" style="background:#1a1a1a;border:1px solid #444;padding:10px 18px;border-radius:15px;color:#fff;cursor:pointer;font-family:Orbitron,sans-serif;">⚫ أسود</button>
-                    <button class="roulette-choice" data-choice="even" style="background:var(--bg-card);border:1px solid var(--border);padding:10px 18px;border-radius:15px;color:var(--text);cursor:pointer;font-family:Orbitron,sans-serif;">زوجي</button>
-                    <button class="roulette-choice" data-choice="odd" style="background:var(--bg-card);border:1px solid var(--border);padding:10px 18px;border-radius:15px;color:var(--text);cursor:pointer;font-family:Orbitron,sans-serif;">فردي</button>
-                </div>
-                <div class="bet-input">
-                    <input type="number" id="rouletteBet" value="10" min="1" step="1">
-                    <button id="rouletteSpin">🔄 دوران</button>
-                </div>
-            </div>
-            <div class="live-bets">
-                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:5px;">💬 رهانات حية</div>
-                <div class="bets-container"></div>
-            </div>
-        `;
-    }
-    
-    function initRoulette() {
-        let choice = 'red';
-        document.querySelectorAll('.roulette-choice').forEach(btn => {
-            btn.onclick = () => {
-                document.querySelectorAll('.roulette-choice').forEach(b => b.style.opacity = '0.6');
-                btn.style.opacity = '1';
-                choice = btn.dataset.choice;
-            };
-        });
-        document.querySelector('.roulette-choice').style.opacity = '1';
-        
-        document.getElementById('rouletteSpin').onclick = () => {
-            const bet = parseInt(document.getElementById('rouletteBet').value);
-            if (isNaN(bet) || bet <= 0) { alert('أدخل رهاناً صحيحاً'); return; }
-            if (bet > balance) { alert('الرصيد غير كافٍ'); return; }
-            const num = Math.floor(Math.random() * 37);
-            const color = num === 0 ? 'green' : num % 2 === 0 ? 'black' : 'red';
-            const isEven = num % 2 === 0 && num !== 0;
-            document.getElementById('rouletteResult').textContent = `${num} (${color})`;
-            let win = false;
-            if (choice === 'red' && color === 'red') win = true;
-            else if (choice === 'black' && color === 'black') win = true;
-            else if (choice === 'even' && isEven) win = true;
-            else if (choice === 'odd' && !isEven && num !== 0) win = true;
-            updateBalance(-bet);
-            if (win) {
-                const prize = bet * 2;
-                updateBalance(prize);
-                playSound('win');
-                addLiveBet('أنت', bet, 'x2', prize);
-            } else {
-                playSound('lose');
-                addLiveBet('أنت', bet, 'x0', -bet);
-            }
-        };
-    }
-    
-    // ========== INIT ==========
-    function initGameEvents(game) {
-        const initMap = {
-            aviator: initAviator,
-            plinko: initPlinko,
-            crates: initCrates,
-            dice: initDice,
-            cards: initCards,
-            roulette: initRoulette
-        };
-        if (initMap[game]) setTimeout(initMap[game], 50);
-        if (!liveBets.length) {
-            const names = ['@player1', '@gamer', '@pro'];
-            for (let i = 0; i < 3; i++) {
-                const bet = Math.floor(Math.random() * 30) + 5;
-                const mult = (Math.random() * 3 + 1).toFixed(1);
-                const result = Math.floor(bet * mult);
-                liveBets.push({ player: names[i % names.length], bet, mult, result, isWin: Math.random() > 0.4 });
-            }
-            renderLiveBets();
-        }
-    }
-    
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.onclick = () => renderGame(tab.dataset.game);
-    });
-    
-    // ========== BOTTOM NAV ==========
-    function switchSection(section) {
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.querySelector(`.nav-item[onclick*="${section}"]`)?.classList.add('active');
-        if (section === 'home') renderGame(currentGame);
-        else if (section === 'leaderboard') {
-            gameArea.innerHTML = `
-                <div class="leaderboard">
-                    <div class="player"><span>👑 @champion</span> <span class="profit">+2,450</span></div>
-                    <div class="player"><span>🥈 @pro</span> <span class="profit">+1,820</span></div>
-                    <div class="player"><span>🥉 @gamer</span> <span class="profit">+1,150</span></div>
-                    <div class="player"><span>4️⃣ @lucky</span> <span class="profit">+890</span></div>
-                    <div class="pool"><div style="font-size:0.7rem;color:var(--text-muted);">TOTAL POOL</div><div class="amount">12,450</div></div>
-                </div>
-            `;
-        } else if (section === 'backpack') {
-            gameArea.innerHTML = `
-                <div style="background:var(--bg-input);padding:20px;border-radius:25px;border:1px solid var(--border);">
-                    <div style="font-size:1.2rem;color:var(--primary);text-align:center;margin-bottom:15px;">🎒 حقيبتي</div>
-                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
-                        <div class="item" style="background:var(--bg-card);padding:15px;border-radius:15px;text-align:center;border:1px solid var(--border);"><div style="font-size:2rem;">💎</div><div style="font-size:0.6rem;">ماسة</div></div>
-                        <div class="item" style="background:var(--bg-card);padding:15px;border-radius:15px;text-align:center;border:1px solid var(--border);"><div style="font-size:2rem;">👑</div><div style="font-size:0.6rem;">تاج</div></div>
-                        <div class="item" style="background:var(--bg-card);padding:15px;border-radius:15px;text-align:center;border:1px solid var(--border);"><div style="font-size:2rem;">🎁</div><div style="font-size:0.6rem;">هدية</div></div>
+    <!-- المحتوى الرئيسي -->
+    <div id="main-content">
+        <!-- الصفحة الرئيسية -->
+        <div id="home-screen" class="screen active">
+            <h2 style="margin-bottom: 16px;">مرحباً بك في 🎮 Epic Games</h2>
+            <p style="color: #999; margin-bottom: 20px;">أفضل منصة ألعاب بلوكشين على TON</p>
+            
+            <div class="game-card" onclick="showScreen('rocket')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">🚀</div>
+                    <div>
+                        <h3>Rocket</h3>
+                        <p>اربح حتى 500x - لعبة الانفجار الشهيرة</p>
                     </div>
                 </div>
-            `;
-        } else if (section === 'earn') {
-            gameArea.innerHTML = `
-                <div style="background:var(--bg-input);padding:20px;border-radius:25px;border:1px solid var(--border);">
-                    <div style="font-size:1.2rem;color:var(--primary);text-align:center;margin-bottom:15px;">💰 الكسب</div>
-                    <div class="free-offer" onclick="claimDaily()" style="background:linear-gradient(135deg,#1a2538,var(--bg-input));padding:15px;border-radius:20px;border:2px dashed var(--primary);cursor:pointer;text-align:center;">
-                        <div style="font-size:2rem;">🎁</div>
-                        <div style="color:var(--primary);font-weight:bold;">مكافأة يومية</div>
-                        <div style="font-size:0.7rem;color:var(--text-muted);">احصل على 50 مجاناً كل 24 ساعة</div>
+            </div>
+            
+            <div class="game-card" onclick="showScreen('plinko')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">🎯</div>
+                    <div>
+                        <h3>Plinko</h3>
+                        <p>راهن وشاهد الكرة تقفز حتى 1000x</p>
                     </div>
                 </div>
+            </div>
+            
+            <div class="game-card" onclick="showScreen('pvp')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">🃏</div>
+                    <div>
+                        <h3>PvP Cards</h3>
+                        <p>الفائز ياخذ كل الپوول</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-card" onclick="showScreen('upgrade')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">⭐</div>
+                    <div>
+                        <h3>Upgrade</h3>
+                        <p>حوّل هديتك لأغلى هدية</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-card" onclick="showScreen('craft')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">⚒️</div>
+                    <div>
+                        <h3>Craft</h3>
+                        <p>ادمج هداياك لهدية جديدة</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-card" onclick="showScreen('discount')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">💎</div>
+                    <div>
+                        <h3>Discount</h3>
+                        <p>خصومات حصرية وصفقات مميزة</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-card" onclick="showScreen('search')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">🔍</div>
+                    <div>
+                        <h3>Search</h3>
+                        <p>ابحث في كل الهدايا والألعاب</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-card" onclick="showScreen('support')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">🎧</div>
+                    <div>
+                        <h3>Support</h3>
+                        <p>فريق الدعم متاح على مدار الساعة</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-card" onclick="showScreen('premium')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">👑</div>
+                    <div>
+                        <h3>Premium</h3>
+                        <p>مزايا حصرية لأعضاء بريميوم</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- شاشة الألعاب -->
+        <div id="games-screen" class="screen">
+            <h2 style="margin-bottom: 16px;">جميع الألعاب</h2>
+            <div class="game-card" onclick="showScreen('rocket')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">🚀</div>
+                    <div>
+                        <h3>Rocket</h3>
+                        <p>لعبة الانفجار الكلاسيكية</p>
+                    </div>
+                </div>
+            </div>
+            <div class="game-card" onclick="showScreen('plinko')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">🎯</div>
+                    <div>
+                        <h3>Plinko</h3>
+                        <p>التصويب الذكي</p>
+                    </div>
+                </div>
+            </div>
+            <div class="game-card" onclick="showScreen('pvp')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">🃏</div>
+                    <div>
+                        <h3>PvP Cards</h3>
+                        <p>مواجهة مباشرة</p>
+                    </div>
+                </div>
+            </div>
+            <div class="game-card" onclick="showScreen('upgrade')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">⭐</div>
+                    <div>
+                        <h3>Upgrade</h3>
+                        <p>طوّر هداياك</p>
+                    </div>
+                </div>
+            </div>
+            <div class="game-card" onclick="showScreen('craft')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">⚒️</div>
+                    <div>
+                        <h3>Craft</h3>
+                        <p>ادمج هداياك</p>
+                    </div>
+                </div>
+            </div>
+            <div class="game-card" onclick="showScreen('discount')">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 50px;">💎</div>
+                    <div>
+                        <h3>Discount</h3>
+                        <p>خصومات وصفقات</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- شاشة Rocket -->
+        <div id="rocket-screen" class="screen">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h2>🚀 Rocket</h2>
+                <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;" onclick="showScreen('home')">رجوع</button>
+            </div>
+            
+            <div id="rocket-game">
+                <canvas id="rocket-canvas"></canvas>
+                <div id="rocket-multiplier">1.00x</div>
+                <div id="rocket-status">انتظار الجولة...</div>
+            </div>
+            
+            <div id="rocket-bet-controls">
+                <div style="margin-bottom: 12px;">
+                    <label style="color: #999; font-size: 14px;">مبلغ الرهان (TON)</label>
+                    <input type="number" id="rocket-bet-amount" class="bet-input" value="1" min="0.01" step="0.01" placeholder="أدخل المبلغ">
+                </div>
+                <button id="rocket-bet-btn" class="primary-btn" onclick="placeRocketBet()">🛡️ راهن</button>
+                <button id="rocket-cashout-btn" class="primary-btn cashout-btn" style="display: none;" onclick="cashOutRocket()">💵 اسحب الآن</button>
+            </div>
+            
+            <div style="margin-top: 16px; background: #1E1E1E; border-radius: 12px; padding: 16px;">
+                <h3 style="margin-bottom: 10px;">آخر النتائج</h3>
+                <div id="rocket-history" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+            </div>
+        </div>
+        
+        <!-- شاشة Plinko -->
+        <div id="plinko-screen" class="screen">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h2>🎯 Plinko</h2>
+                <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;" onclick="showScreen('home')">رجوع</button>
+            </div>
+            
+            <div id="plinko-board">
+                <canvas id="plinko-canvas" width="800" height="400"></canvas>
+                <div class="plinko-multipliers">
+                    <!-- سيتم ملؤها بجافاسكريبت -->
+                </div>
+            </div>
+            
+            <div style="padding: 16px; background: #1E1E1E; border-radius: 12px;">
+                <div class="grid-3" style="margin-bottom: 12px;">
+                    <button class="craft-mode selected" onclick="setPlinkoRisk('easy', this)">سهل</button>
+                    <button class="craft-mode" onclick="setPlinkoRisk('medium', this)">وسط</button>
+                    <button class="craft-mode" onclick="setPlinkoRisk('hard', this)">صعب</button>
+                </div>
+                <input type="number" id="plinko-bet-amount" class="bet-input" value="1" min="0.01" step="0.01" placeholder="أدخل المبلغ">
+                <button class="primary-btn" onclick="playPlinko()">🎯 ارمِ الكرة</button>
+            </div>
+        </div>
+        
+        <!-- شاشة PvP Cards -->
+        <div id="pvp-screen" class="screen">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h2>🃏 PvP Cards</h2>
+                <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;" onclick="showScreen('home')">رجوع</button>
+            </div>
+            
+            <div id="pvp-winner"></div>
+            
+            <div id="pvp-cards">
+                <h3 style="margin-bottom: 16px;">اللاعبون</h3>
+                <div id="pvp-players-list"></div>
+            </div>
+            
+            <div style="padding: 16px; background: #1E1E1E; border-radius: 12px;">
+                <input type="number" id="pvp-bet-amount" class="bet-input" value="1" min="0.01" step="0.01" placeholder="أدخل المبلغ">
+                <button class="primary-btn" onclick="joinPvP()">🎮 انضم للعبة</button>
+                <div style="margin-top: 12px; text-align: center; color: #999; font-size: 14px;">
+                    الپوول الحالي: <span id="pvp-total-pool">0</span> TON
+                </div>
+            </div>
+        </div>
+        
+        <!-- شاشة Upgrade -->
+        <div id="upgrade-screen" class="screen">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h2>⭐ Upgrade</h2>
+                <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;" onclick="showScreen('home')">رجوع</button>
+            </div>
+            
+            <div id="upgrade-game">
+                <div style="text-align: center; margin-bottom: 16px;">
+                    <div style="color: #999; font-size: 14px;">اختار الهدية</div>
+                    <div style="font-size: 16px; margin-top: 4px;">🎁 هدية افتراضية</div>
+                </div>
+                
+                <div class="upgrade-row" style="justify-content: center;">
+                    <div class="gift-icon">🎁</div>
+                    <div class="upgrade-arrow">→</div>
+                    <div class="gift-icon" style="background: linear-gradient(135deg, #FFD700, #FFA500);">💎</div>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="display: flex; justify-content: space-between; color: #999; font-size: 14px; margin-bottom: 8px;">
+                        <span>نسبة الفوز: <span id="upgrade-chance">70%</span></span>
+                        <span>الربح المحتمل: +<span id="upgrade-profit">150</span> TON</span>
+                    </div>
+                    <div id="upgrade-progress">
+                        <div id="upgrade-progress-bar"></div>
+                    </div>
+                </div>
+                
+                <button class="primary-btn" onclick="doUpgrade()">⭐ ابدأ الترقية</button>
+                <div id="upgrade-result" class="mt-3"></div>
+                
+                <div class="mt-4" style="background: #2A2A2A; border-radius: 8px; padding: 12px;">
+                    <h4 style="margin-bottom: 8px;">الهدايا المتاحة</h4>
+                    <div class="grid-3">
+                        <div class="discount-item" style="padding: 8px;" onclick="selectUpgradeGift(this)">
+                            <div style="font-size: 24px;">🎁</div>
+                            <div style="font-size: 12px;">هدية 1</div>
+                            <div style="font-size: 12px; color: #999;">100 TON</div>
+                        </div>
+                        <div class="discount-item" style="padding: 8px;" onclick="selectUpgradeGift(this)">
+                            <div style="font-size: 24px;">💎</div>
+                            <div style="font-size: 12px;">هدية 2</div>
+                            <div style="font-size: 12px; color: #999;">250 TON</div>
+                        </div>
+                        <div class="discount-item" style="padding: 8px;" onclick="selectUpgradeGift(this)">
+                            <div style="font-size: 24px;">🌟</div>
+                            <div style="font-size: 12px;">هدية 3</div>
+                            <div style="font-size: 12px; color: #999;">500 TON</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- شاشة Craft -->
+        <div id="craft-screen" class="screen">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h2>⚒️ Craft</h2>
+                <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;" onclick="showScreen('home')">رجوع</button>
+            </div>
+            
+            <div id="craft-container">
+                <div class="craft-mode-selector" style="margin-bottom: 16px;">
+                    <div class="craft-mode safe" onclick="setCraftMode('safe', this)">🔒 آمن</div>
+                    <div class="craft-mode normal selected" onclick="setCraftMode('normal', this)">⚖️ عادي</div>
+                    <div class="craft-mode risky" onclick="setCraftMode('risky', this)">🔥 مخاطرة</div>
+                </div>
+                
+                <div style="margin-bottom: 16px; text-align: center;">
+                    <span style="color: #999; font-size: 14px;">اختار هداياك (2-5)</span>
+                </div>
+                
+                <div class="craft-grid">
+                    <div class="craft-slot" onclick="craftSelection(0, this)">🎁</div>
+                    <div class="craft-slot" onclick="craftSelection(1, this)">🎁</div>
+                    <div class="craft-slot" onclick="craftSelection(2, this)">🎁</div>
+                    <div class="craft-slot" onclick="craftSelection(3, this)">🎁</div>
+                    <div class="craft-slot" onclick="craftSelection(4, this)">🎁</div>
+                </div>
+                
+                <div class="craft-value">
+                    القيمة: <span id="craft-total">0</span> TON
+                </div>
+                
+                <button class="primary-btn" onclick="doCraft()">⚒️ نفّذ التصنيع</button>
+                <div id="craft-result" class="craft-result mt-3"></div>
+            </div>
+        </div>
+        
+        <!-- شاشة Discount -->
+        <div id="discount-screen" class="screen">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h2>💎 Discount</h2>
+                <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;" onclick="showScreen('home')">رجوع</button>
+            </div>
+            
+            <div id="discount-game">
+                <div class="discount-area">
+                    <div class="discount-item">
+                        <div class="discount-percent">50%</div>
+                        <div style="font-size: 12px; color: #999;">خصم</div>
+                    </div>
+                    <div class="discount-item">
+                        <div class="discount-percent" style="font-size: 30px;">🎁</div>
+                        <div style="font-size: 12px; color: #999;">هدية</div>
+                    </div>
+                    <div class="discount-item">
+                        <div class="discount-percent" style="font-size: 30px;">💰</div>
+                        <div style="font-size: 12px; color: #999;">عرض</div>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,165,0,0.1)); border: 1px solid rgba(255,215,0,0.2); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+                    <h3 style="color: #FFD700;">عرض اليوم</h3>
+                    <p style="color: #999; font-size: 14px;">اشترِ هدية Premium واحصل على خصم 50%</p>
+                    <button class="primary-btn mt-3" onclick="showToast('تم تطبيق الخصم!', 'success')">⚡ احصل على العرض</button>
+                </div>
+                
+                <div class="grid-2">
+                    <div style="background: #2A2A2A; border-radius: 8px; padding: 12px;">
+                        <div style="font-size: 30px;">💎</div>
+                        <div style="font-weight: bold;">هدية Diamond</div>
+                        <div style="color: #999; font-size: 14px;">كان: 500 TON</div>
+                        <div style="color: #34D399; font-weight: bold;">الآن: 250 TON</div>
+                    </div>
+                    <div style="background: #2A2A2A; border-radius: 8px; padding: 12px;">
+                        <div style="font-size: 30px;">🌟</div>
+                        <div style="font-weight: bold;">هدية Gold</div>
+                        <div style="color: #999; font-size: 14px;">كان: 200 TON</div>
+                        <div style="color: #34D399; font-weight: bold;">الآن: 140 TON</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- شاشة Search -->
+        <div id="search-screen" class="screen">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h2>🔍 Search</h2>
+                <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;" onclick="showScreen('home')">رجوع</button>
+            </div>
+            
+            <div id="search-container">
+                <input type="text" class="search-input" placeholder="ابحث عن هدية أو لعبة..." oninput="performSearch(this.value)">
+                <div id="search-results"></div>
+            </div>
+        </div>
+        
+        <!-- شاشة Support -->
+        <div id="support-screen" class="screen">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h2>🎧 Support</h2>
+                <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;" onclick="showScreen('home')">رجوع</button>
+            </div>
+            
+            <div id="support-container">
+                <div class="support-card">
+                    <div class="icon">💬</div>
+                    <h3>دعم مباشر</h3>
+                    <p style="color: #999; font-size: 14px;">تواصل مع فريق الدعم على مدار الساعة</p>
+                    <button class="primary-btn mt-3" onclick="showToast('تم فتح الدردشة!', 'success')">💬 ابدأ المحادثة</button>
+                </div>
+                
+                <div class="support-card">
+                    <div class="icon">📚</div>
+                    <h3>مركز المساعدة</h3>
+                    <p style="color: #999; font-size: 14px;">الأسئلة الشائعة وأدلة الاستخدام</p>
+                    <button class="primary-btn mt-3" style="background: #363636;" onclick="showToast('فتح مركز المساعدة', 'info')">📖 تصفح</button>
+                </div>
+                
+                <div class="support-card">
+                    <div class="icon">📢</div>
+                    <h3>قناة التحديثات</h3>
+                    <p style="color: #999; font-size: 14px;">آخر الأخبار والتحديثات من الفريق</p>
+                    <button class="primary-btn mt-3" style="background: linear-gradient(90deg, #0088cc, #00AEEF);" onclick="showToast('فتح القناة', 'info')">📢 متابعة</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- شاشة Premium -->
+        <div id="premium-screen" class="screen">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h2>👑 Premium</h2>
+                <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;" onclick="showScreen('home')">رجوع</button>
+            </div>
+            
+            <div id="premium-container">
+                <div class="premium-card">👑 Premium Member</div>
+                <p style="color: #999; font-size: 14px; margin: 16px 0;">مزايا حصرية لأعضاء بريميوم</p>
+                
+                <div style="background: #2A2A2A; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="font-size: 20px;">🚀</div>
+                        <div>مضاعفات أعلى في Rocket</div>
+                    </div>
+                </div>
+                
+                <div style="background: #2A2A2A; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="font-size: 20px;">🎯</div>
+                        <div>احتمالات أفضل في Plinko</div>
+                    </div>
+                </div>
+                
+                <div style="background: #2A2A2A; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="font-size: 20px;">🏆</div>
+                        <div>تحديات حصرية بأموال حقيقية</div>
+                    </div>
+                </div>
+                
+                <div style="background: #2A2A2A; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="font-size: 20px;">🎧</div>
+                        <div>دعم VIP مخصص</div>
+                    </div>
+                </div>
+                
+                <button class="primary-btn mt-4" style="background: linear-gradient(90deg, #FFD700, #FFA500);" onclick="showToast('أنت الآن عضو بريميوم!', 'success')">🔥 فعّل بريميوم</button>
+            </div>
+        </div>
+        
+        <!-- شاشة المتصدرين -->
+        <div id="leaderboard-screen" class="screen">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h2>🏆 المتصدرين</h2>
+                <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;" onclick="showScreen('home')">رجوع</button>
+            </div>
+            
+            <div id="leaderboard">
+                <!-- سيتم ملؤها بجافاسكريبت -->
+            </div>
+        </div>
+        
+        <!-- شاشة المحفظة -->
+        <div id="wallet-screen" class="screen">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h2>💳 المحفظة</h2>
+                <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;" onclick="showScreen('home')">رجوع</button>
+            </div>
+            
+            <div id="wallet-container">
+                <div style="text-align: center; margin: 20px 0;">
+                    <div style="color: #999; font-size: 14px;">الرصيد الحالي</div>
+                    <div class="wallet-balance" id="wallet-balance">1,000.00</div>
+                    <div style="color: #999; font-size: 14px;">TON</div>
+                </div>
+                
+                <div class="grid-2">
+                    <div style="background: #2A2A2A; border-radius: 12px; padding: 16px;">
+                        <div style="color: #999; font-size: 14px;">قابل للسحب</div>
+                        <div style="font-size: 24px; font-weight: bold;">1,000.00</div>
+                    </div>
+                    <div style="background: #2A2A2A; border-radius: 12px; padding: 16px;">
+                        <div style="color: #999; font-size: 14px;">مقفل</div>
+                        <div style="font-size: 24px; font-weight: bold;">0.00</div>
+                    </div>
+                </div>
+                
+                <button class="primary-btn mt-4" onclick="showToast('طلب السحب قيد المعالجة', 'info')">💸 اسحب</button>
+                <button class="primary-btn mt-4" onclick="showModal('deposit-modal')">+ إيداع</button>
+                
+                <div style="margin-top: 20px; background: #2A2A2A; border-radius: 12px; padding: 16px;">
+                    <h3>سجل المعاملات</h3>
+                    <div id="wallet-transactions"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- شاشة الإعدادات -->
+        <div id="settings-screen" class="screen">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h2>⚙️ الإعدادات</h2>
+                <button style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer;" onclick="showScreen('home')">رجوع</button>
+            </div>
+            
+            <div id="settings-container">
+                <div class="setting-row">
+                    <span>اللغة</span>
+                    <button onclick="showToast('خيارات اللغة قيد التطوير', 'info')" style="background: #2A2A2A; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 8px; cursor: pointer;">🇸🇦 العربية</button>
+                </div>
+                
+                <div class="setting-row">
+                    <span>الوضع الليلي</span>
+                    <button onclick="toggleDarkMode(this)" style="background: #2A2A2A; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 8px; cursor: pointer;">🌙 تفعيل</button>
+                </div>
+                
+                <div class="setting-row">
+                    <span>الإشعارات</span>
+                    <button onclick="toggleNotifications(this)" style="background: #2A2A2A; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 8px; cursor: pointer;">🔔 تفعيل</button>
+                </div>
+                
+                <div class="setting-row">
+                    <span>الاهتزاز</span>
+                    <button onclick="toggleVibration(this)" style="background: #2A2A2A; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 8px; cursor: pointer;">📳 تفعيل</button>
+                </div>
+                
+                <div class="setting-row">
+                    <span>تسجيل الخروج</span>
+                    <button onclick="confirmLogout()" style="background: #EF4444; border: none; color: #fff; padding: 6px 12px; border-radius: 8px; cursor: pointer;">🚪 خروج</button>
+                </div>
+                
+                <div style="text-align: center; color: #666; font-size: 12px; margin-top: 20px;">
+                    الإصدار 1.0.0
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- النوافذ المنبثقة -->
+    <div id="deposit-modal" class="modal-overlay" onclick="hideModal('deposit-modal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h2>💰 إيداع TON</h2>
+            <input type="text" class="bet-input" placeholder="عنوان محفظتك (TON)">
+            <button class="primary-btn" onclick="showToast('تم إرسال طلب الإيداع', 'success'); hideModal('deposit-modal')">إرسال</button>
+        </div>
+    </div>
+    
+    <!-- إشعارات -->
+    <div id="toast-container"></div>
+    
+    <script>
+        // ==========================================
+        // نظام إدارة الحالة
+        // ==========================================
+        const State = {
+            balance: 1000.00,
+            rocket: {
+                betAmount: 1,
+                isBetting: false,
+                isPlaying: false,
+                currentMultiplier: 1.00,
+                crashed: false,
+                history: []
+            },
+            plinko: {
+                risk: 'medium',
+                betAmount: 1
+            },
+            pvp: {
+                players: [],
+                totalPool: 0,
+                myBet: null,
+                isPlaying: false
+            },
+            upgrade: {
+                selectedGift: null,
+                currentChance: 70
+            },
+            craft: {
+                mode: 'normal',
+                selected: []
+            },
+            settings: {
+                darkMode: false,
+                notifications: true,
+                vibration: true
+            }
+        };
+        
+        // ==========================================
+        // إدارة الشاشات
+        // ==========================================
+        function showScreen(screenName) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(`${screenName}-screen`).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // تحديث التنقل
+            const navMapping = {
+                'home': 0,
+                'games': 1,
+                'leaderboard': 2,
+                'wallet': 3,
+                'settings': 4
+            };
+            
+            if (navMapping[screenName] !== undefined) {
+                document.querySelectorAll('.nav-btn')[navMapping[screenName]].classList.add('active');
+            }
+            
+            // تحديث الألعاب
+            if (screenName === 'rocket') initRocketGame();
+            if (screenName === 'plinko') initPlinkoGame();
+            if (screenName === 'pvp') initPvP();
+            if (screenName === 'leaderboard') loadLeaderboard();
+            if (screenName === 'wallet') loadTransactions();
+        }
+        
+        // ==========================================
+        // نظام الإشعارات
+        // ==========================================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(20px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        // ==========================================
+        // إدارة النوافذ المنبثقة
+        // ==========================================
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        }
+        
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+        
+        // ==========================================
+        // لعبة Rocket
+        // ==========================================
+        let rocketTimer = null;
+        let rocketCanvas = null;
+        let rocketCtx = null;
+        
+        function initRocketGame() {
+            if (rocketCanvas) return;
+            
+            rocketCanvas = document.getElementById('rocket-canvas');
+            rocketCtx = rocketCanvas.getContext('2d');
+            rocketCanvas.width = rocketCanvas.parentElement.clientWidth;
+            rocketCanvas.height = 300;
+            
+            // تاريخ لعبة
+            const historyDiv = document.getElementById('rocket-history');
+            historyDiv.innerHTML = '';
+            State.rocket.history.slice(0, 20).forEach(point => {
+                const multiplier = point;
+                const color = multiplier >= 10 ? '#F59E0B' : multiplier >= 5 ? '#8B5CF6' : multiplier >= 2 ? '#34D399' : multiplier < 1.2 ? '#EF4444' : '#3B82F6';
+                const badge = document.createElement('span');
+                badge.style.cssText = `background: ${color}; color: white; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 12px;`;
+                badge.textContent = `${multiplier.toFixed(2)}x`;
+                historyDiv.appendChild(badge);
+            });
+        }
+        
+        function placeRocketBet() {
+            const amount = parseFloat(document.getElementById('rocket-bet-amount').value);
+            
+            if (State.rocket.isBetting || State.rocket.isPlaying) {
+                showToast('أنت بالفعل في جولة!', 'warning');
+                return;
+            }
+            
+            if (!amount || amount <= 0) {
+                showToast('أدخل مبلغ صحيح!', 'error');
+                return;
+            }
+            
+            if (amount > State.balance) {
+                showToast('رصيدك غير كافٍ!', 'error');
+                return;
+            }
+            
+            State.rocket.betAmount = amount;
+            State.rocket.isBetting = true;
+            State.balance -= amount;
+            updateBalanceUI();
+            
+            const betBtn = document.getElementById('rocket-bet-btn');
+            betBtn.disabled = true;
+            betBtn.textContent = '⏳ جارٍ الرهان...';
+            
+            // محاكاة رهان
+            setTimeout(() => {
+                State.rocket.isBetting = false;
+                State.rocket.isPlaying = true;
+                State.rocket.crashed = false;
+                State.rocket.currentMultiplier = 1.00;
+                
+                betBtn.style.display = 'none';
+                document.getElementById('rocket-cashout-btn').style.display = 'block';
+                document.getElementById('rocket-status').textContent = '🚀 الصاروخ انطلق!';
+                
+                // بدء اللعبة
+                startRocketAnimation();
+            }, 1000);
+        }
+        
+        function startRocketAnimation() {
+            let multiplier = 1.00;
+            const startTime = Date.now();
+            const shouldCrash = Math.random() > 0.6; // 40% فرصة للفوز
+            const targetMultiplier = shouldCrash ? Math.random() * 5 + 1 : Math.random() * 15 + 5;
+            const crashPoint = shouldCrash ? targetMultiplier : Infinity;
+            
+            rocketTimer = setInterval(() => {
+                if (State.rocket.crashed) {
+                    clearInterval(rocketTimer);
+                    return;
+                }
+                
+                multiplier += 0.01 + (multiplier * 0.005);
+                State.rocket.currentMultiplier = multiplier;
+                
+                document.getElementById('rocket-multiplier').textContent = `${multiplier.toFixed(2)}x`;
+                
+                // رسم الصاروخ
+                drawRocketCanvas(multiplier);
+                
+                if (multiplier >= crashPoint) {
+                    rocketCrash();
+                }
+            }, 50);
+        }
+        
+        function drawRocketCanvas(multiplier) {
+            rocketCtx.clearRect(0, 0, rocketCanvas.width, rocketCanvas.height);
+            
+            // خلفية متدرجة
+            const gradient = rocketCtx.createLinearGradient(0, 0, rocketCanvas.width, rocketCanvas.height);
+            gradient.addColorStop(0, '#1A1A2E');
+            gradient.addColorStop(1, '#16213E');
+            rocketCtx.fillStyle = gradient;
+            rocketCtx.fillRect(0, 0, rocketCanvas.width, rocketCanvas.height);
+            
+            // نجمة
+            rocketCtx.fillStyle = '#fff';
+            rocketCtx.beginPath();
+            rocketCtx.arc(rocketCanvas.width - 50, 50, 3, 0, Math.PI * 2);
+            rocketCtx.fill();
+            
+            // مسار الصاروخ
+            const pathWidth = rocketCanvas.width - 100;
+            const pathHeight = rocketCanvas.height - 100;
+            const progress = Math.min(multiplier / 20, 1);
+            
+            rocketCtx.beginPath();
+            rocketCtx.moveTo(50, 250);
+            rocketCtx.bezierCurveTo(200, 200, 300, 100, 50 + pathWidth * progress, 100 + (1 - progress) * 100);
+            rocketCtx.strokeStyle = `rgba(135, 116, 225, ${0.5 + progress * 0.5})`;
+            rocketCtx.lineWidth = 3;
+            rocketCtx.stroke();
+            
+            // الصاروخ
+            const rocketX = 50 + pathWidth * progress;
+            const rocketY = 100 + (1 - progress) * 100;
+            
+            rocketCtx.font = '40px serif';
+            rocketCtx.fillText('🚀', rocketX - 20, rocketY + 15);
+            
+            // لهب
+            const flameLength = 20 + Math.random() * 10;
+            rocketCtx.beginPath();
+            rocketCtx.moveTo(rocketX - 15, rocketY + 20);
+            rocketCtx.lineTo(rocketX, rocketY + 20 + flameLength);
+            rocketCtx.lineTo(rocketX + 15, rocketY + 20);
+            rocketCtx.closePath();
+            rocketCtx.fillStyle = Math.random() > 0.5 ? '#FF6B35' : '#FFD700';
+            rocketCtx.fill();
+        }
+        
+        function cashOutRocket() {
+            if (!State.rocket.isPlaying) {
+                showToast('لا يوجد رهان نشط!', 'warning');
+                return;
+            }
+            
+            if (State.rocket.crashed) {
+                showToast('الصاروخ انفجر!', 'error');
+                return;
+            }
+            
+            const multiplier = State.rocket.currentMultiplier;
+            const profit = State.rocket.betAmount * multiplier;
+            State.balance += profit;
+            updateBalanceUI();
+            
+            clearInterval(rocketTimer);
+            State.rocket.isPlaying = false;
+            State.rocket.crashed = true;
+            
+            document.getElementById('rocket-multiplier').textContent = `${multiplier.toFixed(2)}x`;
+            document.getElementById('rocket-status').textContent = '💰 فوز!';
+            document.getElementById('rocket-status').style.color = '#34D399';
+            document.getElementById('rocket-cashout-btn').style.display = 'none';
+            document.getElementById('rocket-bet-btn').style.display = 'block';
+            document.getElementById('rocket-bet-btn').disabled = false;
+            document.getElementById('rocket-bet-btn').textContent = '🛡️ راهن';
+            
+            // إضافة للتاريخ
+            State.rocket.history.unshift(multiplier);
+            State.rocket.history = State.rocket.history.slice(0, 20);
+            initRocketGame();
+            
+            showToast(`🎉 ربحت ${profit.toFixed(2)} TON!`, 'success');
+        }
+        
+        function rocketCrash() {
+            clearInterval(rocketTimer);
+            State.rocket.isPlaying = false;
+            State.rocket.crashed = true;
+            
+            document.getElementById('rocket-multiplier').textContent = '💥';
+            document.getElementById('rocket-multiplier').style.color = '#EF4444';
+            document.getElementById('rocket-status').textContent = '💥 انفجر!';
+            document.getElementById('rocket-status').style.color = '#EF4444';
+            document.getElementById('rocket-cashout-btn').style.display = 'none';
+            document.getElementById('rocket-bet-btn').style.display = 'block';
+            document.getElementById('rocket-bet-btn').disabled = false;
+            document.getElementById('rocket-bet-btn').textContent = '🛡️ راهن';
+            
+            // إضافة للتاريخ
+            State.rocket.history.unshift(State.rocket.currentMultiplier);
+            State.rocket.history = State.rocket.history.slice(0, 20);
+            initRocketGame();
+            
+            showToast('💥 خسرت! حاول مرة أخرى', 'error');
+        }
+        
+        // ==========================================
+        // لعبة Plinko
+        // ==========================================
+        let plinkoCanvas = null;
+        let plinkoCtx = null;
+        let plinkoBalls = [];
+        let plinkoAnimationId = null;
+        
+        function initPlinkoGame() {
+            if (plinkoCanvas) return;
+            
+            plinkoCanvas = document.getElementById('plinko-canvas');
+            plinkoCtx = plinkoCanvas.getContext('2d');
+            plinkoCanvas.width = plinkoCanvas.parentElement.clientWidth;
+            
+            // رسم المسامير
+            const rows = State.plinko.risk === 'easy' ? 8 : State.plinko.risk === 'medium' ? 12 : 16;
+            const multipliers = getPlinkoMultipliers(rows);
+            
+            // عرض المضاعفات
+            const multDiv = document.querySelector('.plinko-multipliers');
+            multDiv.innerHTML = '';
+            multipliers.forEach(mult => {
+                const pill = document.createElement('div');
+                pill.className = 'plinko-pill';
+                pill.textContent = `${mult}x`;
+                multDiv.appendChild(pill);
+            });
+            
+            // رسم اللوحة
+            plinkoCtx.clearRect(0, 0, plinkoCanvas.width, plinkoCanvas.height);
+            plinkoCtx.fillStyle = '#121212';
+            plinkoCtx.fillRect(0, 0, plinkoCanvas.width, plinkoCanvas.height);
+            
+            const pegSpacingX = plinkoCanvas.width / (rows + 2);
+            const pegSpacingY = 30;
+            
+            for (let row = 0; row < rows; row++) {
+                const numPegs = row + 2;
+                for (let peg = 0; peg < numPegs; peg++) {
+                    const x = (peg + 1) * pegSpacingX + (peg - numPegs / 2) * pegSpacingX / 2;
+                    const y = 100 + row * pegSpacingY;
+                    
+                    plinkoCtx.beginPath();
+                    plinkoCtx.arc(x, y, 4, 0, Math.PI * 2);
+                    plinkoCtx.fillStyle = '#8774E1';
+                    plinkoCtx.fill();
+                }
+            }
+        }
+        
+        function getPlinkoMultipliers(rows) {
+            if (rows === 8) return [5.6, 2.1, 1.1, 1, 0.5, 1, 1.1, 2.1, 5.6];
+            if (rows === 12) return [10, 3, 1.6, 1.4, 1.1, 1, 0.5, 1, 1.1, 1.4, 1.6, 3, 10];
+            return [100, 22, 4, 2, 1.5, 1, 0.2, 0.5, 1, 1.5, 2, 4, 22, 100];
+        }
+        
+        function setPlinkoRisk(risk, element) {
+            State.plinko.risk = risk;
+            document.querySelectorAll('.craft-mode').forEach(mode => mode.classList.remove('selected'));
+            element.classList.add('selected');
+            
+            // إعادة تهيئة اللوحة
+            plinkoCanvas = null;
+            initPlinkoGame();
+        }
+        
+        function playPlinko() {
+            const amount = parseFloat(document.getElementById('plinko-bet-amount').value);
+            
+            if (!amount || amount <= 0) {
+                showToast('أدخل مبلغ صحيح!', 'error');
+                return;
+            }
+            
+            if (amount > State.balance) {
+                showToast('رصيدك غير كافٍ!', 'error');
+                return;
+            }
+            
+            State.balance -= amount;
+            updateBalanceUI();
+            
+            const rows = State.plinko.risk === 'easy' ? 8 : State.plinko.risk === 'medium' ? 12 : 16;
+            const multipliers = getPlinkoMultipliers(rows);
+            
+            // محاكاة رمي الكرة
+            let position = Math.floor(rows / 2) + (Math.random() * 2 - 1);
+            const finalPosition = Math.max(0, Math.min(multipliers.length - 1, Math.floor(Math.random() * multipliers.length)));
+            
+            const ball = {
+                x: plinkoCanvas.width / 2,
+                y: 50,
+                targetX: (finalPosition + 1) * (plinkoCanvas.width / (multipliers.length + 1)),
+                targetY: plinkoCanvas.height - 50,
+                progress: 0,
+                speed: 0.02
+            };
+            
+            plinkoBalls.push(ball);
+            
+            if (plinkoAnimationId) cancelAnimationFrame(plinkoAnimationId);
+            animatePlinko(amount, multipliers[finalPosition]);
+        }
+        
+        function animatePlinko(betAmount, multiplier) {
+            const canvas = plinkoCanvas;
+            const ctx = plinkoCtx;
+            
+            function animationFrame() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#121212';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // رسم المسامير
+                const rows = State.plinko.risk === 'easy' ? 8 : State.plinko.risk === 'medium' ? 12 : 16;
+                const pegSpacingX = canvas.width / (rows + 2);
+                const pegSpacingY = 30;
+                
+                for (let row = 0; row < rows; row++) {
+                    const numPegs = row + 2;
+                    for (let peg = 0; peg < numPegs; peg++) {
+                        const x = (peg + 1) * pegSpacingX + (peg - numPegs / 2) * pegSpacingX / 2;
+                        const y = 100 + row * pegSpacingY;
+                        
+                        ctx.beginPath();
+                        ctx.arc(x, y, 4, 0, Math.PI * 2);
+                        ctx.fillStyle = '#8774E1';
+                        ctx.fill();
+                    }
+                }
+                
+                plinkoBalls.forEach(ball => {
+                    ball.progress += ball.speed;
+                    
+                    if (ball.progress >= 1) {
+                        ball.progress = 1;
+                        // انتهت الكرة
+                        const win = betAmount * multiplier;
+                        State.balance += win;
+                        updateBalanceUI();
+                        
+                        showToast(`🎯 ربحت ${win.toFixed(2)} TON!`, multiplier > 1 ? 'success' : 'warning');
+                        
+                        // إزالة الكرة
+                        setTimeout(() => {
+                            plinkoBalls = [];
+                        }, 500);
+                    }
+                    
+                    const x = ball.x + (ball.targetX - ball.x) * ball.progress;
+                    const y = ball.y + (ball.targetY - ball.y) * ball.progress;
+                    
+                    ctx.font = '30px serif';
+                    ctx.fillText('🟡', x - 15, y + 10);
+                });
+                
+                if (plinkoBalls.length > 0) {
+                    plinkoAnimationId = requestAnimationFrame(animationFrame);
+                }
+            }
+            
+            plinkoAnimationId = requestAnimationFrame(animationFrame);
+        }
+        
+        // ==========================================
+        // لعبة PvP
+        // ==========================================
+        function initPvP() {
+            document.getElementById('pvp-players-list').innerHTML = '';
+            document.getElementById('pvp-winner').classList.remove('show');
+            document.getElementById('pvp-total-pool').textContent = State.pvp.totalPool.toFixed(2);
+            
+            // إضافة لاعب تجريبي
+            if (State.pvp.players.length === 0) {
+                State.pvp.players = [
+                    { name: 'لاعب 1', avatar: '👤', bet: 5, color: '#8774E1' },
+                    { name: 'لاعب 2', avatar: '👤', bet: 10, color: '#34D399' },
+                    { name: 'لاعب 3', avatar: '👤', bet: 3, color: '#F59E0B' }
+                ];
+                State.pvp.totalPool = 18;
+            }
+            
+            renderPvPPlayers();
+        }
+        
+        function renderPvPPlayers() {
+            const list = document.getElementById('pvp-players-list');
+            list.innerHTML = '';
+            
+            State.pvp.players.forEach(player => {
+                const row = document.createElement('div');
+                row.className = 'pvp-player-row';
+                row.innerHTML = `
+                    <div class="player-info">
+                        <div class="pvp-avatar" style="background: ${player.color};">${player.name.charAt(0)}</div>
+                        <div>
+                            <div style="font-weight: 600;">${player.name}</div>
+                            <div style="font-size: 12px; color: #999;">${player.avatar}</div>
+                        </div>
+                    </div>
+                    <div class="bet-amount">${player.bet.toFixed(2)} TON</div>
+                `;
+                list.appendChild(row);
+            });
+        }
+        
+        function joinPvP() {
+            const amount = parseFloat(document.getElementById('pvp-bet-amount').value);
+            
+            if (!amount || amount <= 0) {
+                showToast('أدخل مبلغ صحيح!', 'error');
+                return;
+            }
+            
+            if (amount > State.balance) {
+                showToast('رصيدك غير كافٍ!', 'error');
+                return;
+            }
+            
+            State.balance -= amount;
+            updateBalanceUI();
+            
+            State.pvp.players.push({
+                name: 'أنت',
+                avatar: '😎',
+                bet: amount,
+                color: '#FFD700'
+            });
+            State.pvp.totalPool += amount;
+            
+            document.getElementById('pvp-total-pool').textContent = State.pvp.totalPool.toFixed(2);
+            renderPvPPlayers();
+            
+            showToast('🎮 انضممت للعبة!', 'success');
+            
+            // محاكاة اختيار الفائز
+            if (State.pvp.players.length >= 4) {
+                setTimeout(startPvPDraw, 2000);
+            }
+        }
+        
+        function startPvPDraw() {
+            const winnerIndex = Math.floor(Math.random() * State.pvp.players.length);
+            const winner = State.pvp.players[winnerIndex];
+            
+            const winnerDiv = document.getElementById('pvp-winner');
+            winnerDiv.innerHTML = `
+                <div style="font-size: 50px;">🏆</div>
+                <div style="font-size: 24px; font-weight: bold; margin: 10px 0;">الفائز!</div>
+                <div style="font-size: 20px;">${winner.name}</div>
+                <div style="color: #FFD700; font-size: 18px; font-weight: bold; margin-top: 8px;">+${State.pvp.totalPool.toFixed(2)} TON</div>
             `;
+            winnerDiv.classList.add('show');
+            
+            // إعادة اللاعبين
+            State.pvp.players = [];
+            State.pvp.totalPool = 0;
+            
+            // صانع الإشعار
+            showToast(`🏆 ${winner.name} فاز باللعبة!`, 'success');
         }
-    }
-    
-    function claimDaily() {
-        const last = localStorage.getItem('jettonDaily');
-        const now = Date.now();
-        if (last && now - parseInt(last) < 86400000) {
-            alert('⏳ يمكنك المطالبة مرة كل 24 ساعة');
-            return;
+        
+        // ==========================================
+        // لعبة Upgrade
+        // ==========================================
+        let selectedUpgradeGift = null;
+        
+        function selectUpgradeGift(element) {
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+                selectedUpgradeGift = null;
+                document.getElementById('upgrade-chance').textContent = '70%';
+                document.getElementById('upgrade-profit').textContent = '150';
+                document.getElementById('upgrade-progress-bar').style.width = '70%';
+                return;
+            }
+            
+            document.querySelectorAll('.discount-item').forEach(item => item.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedUpgradeGift = element;
+            
+            const chance = Math.floor(Math.random() * 30 + 50);
+            const profit = Math.floor(Math.random() * 200 + 100);
+            
+            document.getElementById('upgrade-chance').textContent = `${chance}%`;
+            document.getElementById('upgrade-profit').textContent = profit;
+            document.getElementById('upgrade-progress-bar').style.width = `${chance}%`;
         }
-        updateBalance(50);
-        localStorage.setItem('jettonDaily', now);
-        alert('🎁 حصلت على 50 مجاناً!');
-    }
-    
-    // ========== LOAD ==========
-    const saved = localStorage.getItem('jettonBalance');
-    if (saved) balance = parseFloat(saved);
-    balanceDisplay.textContent = Math.floor(balance);
-    
-    renderGame('aviator');
-</script>
+        
+        function doUpgrade() {
+            if (!selectedUpgradeGift) {
+                showToast('اختار هدية أول!', 'warning');
+                return;
+            }
+            
+            const chance = parseInt(document.getElementById('upgrade-chance').textContent);
+            const profit = parseInt(document.getElementById('upgrade-profit').textContent);
+            const roll = Math.random() * 100;
+            
+            document.getElementById('upgrade-result').textContent = '⏳ جارٍ الترقية...';
+            
+            setTimeout(() => {
+                if (roll < chance) {
+                    document.getElementById('upgrade-result').innerHTML = '<span style="color: #34D399; font-size: 20px;">🎉 نجحت الترقية!</span>';
+                    State.balance += profit;
+                    updateBalanceUI();
+                    showToast(`🎉 ربحت ${profit} TON!`, 'success');
+                } else {
+                    document.getElementById('upgrade-result').innerHTML = '<span style="color: #EF4444; font-size: 20px;">💔 فشلت الترقية!</span>';
+                    showToast('💔 خسرت الهدية!', 'error');
+                }
+            }, 1500);
+        }
+        
+        // ==========================================
+        // لعبة Craft
+        // ==========================================
+        let craftState = {
+            mode: 'normal',
+            selected: [],
+            selectedElements: []
+        };
+        
+        function setCraftMode(mode, element) {
+            craftState.mode = mode;
+            document.querySelectorAll('.craft-mode').forEach(m => m.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+        
+        function craftSelection(index, element) {
+            if (element.classList.contains('filled')) {
+                // إزالة
+                element.classList.remove('filled');
+                element.innerHTML = '🎁';
+                craftState.selected = craftState.selected.filter(item => item !== index);
+                craftState.selectedElements = craftState.selectedElements.filter(item => item !== element);
+            } else {
+                if (craftState.selected.length >= 5) {
+                    showToast('الحد الأقصى 5 هدايا', 'warning');
+                    return;
+                }
+                
+                // إضافة
+                element.classList.add('filled');
+                element.innerHTML = '💎';
+                craftState.selected.push(index);
+                craftState.selectedElements.push(element);
+            }
+            
+            // حساب القيمة
+            const values = [100, 150, 200, 300, 500];
+            const total = craftState.selected.reduce((sum, idx) => sum + values[idx], 0);
+            document.getElementById('craft-total').textContent = total.toFixed(2);
+        }
+        
+        function doCraft() {
+            if (craftState.selected.length < 2) {
+                showToast('اختار 2 هدايا على الأقل!', 'warning');
+                return;
+            }
+            
+            const total = parseFloat(document.getElementById('craft-total').textContent);
+            if (total > State.balance) {
+                showToast('القيمة أعلى من رصيدك!', 'error');
+                return;
+            }
+            
+            State.balance -= total;
+            updateBalanceUI();
+            
+            document.getElementById('craft-result').textContent = '⏳ جارٍ التصنيع...';
+            
+            setTimeout(() => {
+                // نتيجة عشوائية
+                const successChance = craftState.mode === 'safe' ? 0.8 : craftState.mode === 'normal' ? 0.6 : 0.3;
+                const win = Math.random() < successChance;
+                
+                if (win) {
+                    const winAmount = total * (craftState.mode === 'safe' ? 2 : craftState.mode === 'normal' ? 8 : 20);
+                    State.balance += winAmount;
+                    updateBalanceUI();
+                    
+                    document.getElementById('craft-result').innerHTML = `
+                        <div style="font-size: 30px;">🎉</div>
+                        <div style="font-size: 20px; color: #34D399; font-weight: bold;">نجح التصنيع!</div>
+                        <div style="font-size: 18px; margin-top: 8px;">ربحت: ${winAmount.toFixed(2)} TON</div>
+                    `;
+                    
+                    showToast(`🎉 ربحت ${winAmount.toFixed(2)} TON!`, 'success');
+                } else {
+                    document.getElementById('craft-result').innerHTML = `
+                        <div style="font-size: 30px;">💔</div>
+                        <div style="font-size: 20px; color: #EF4444; font-weight: bold;">فشل التصنيع!</div>
+                        <div style="font-size: 16px; margin-top: 8px; color: #999;">خسرت الهدايا</div>
+                    `;
+                    
+                    showToast('💔 فشل التصنيع!', 'error');
+                }
+                
+                // إعادة تعيين
+                craftState.selected = [];
+                craftState.selectedElements = [];
+                document.querySelectorAll('.craft-slot').forEach(slot => {
+                    slot.classList.remove('filled');
+                    slot.innerHTML = '🎁';
+                });
+                document.getElementById('craft-total').textContent = '0';
+            }, 1500);
+        }
+        
+        // ==========================================
+        // البحث
+        // ==========================================
+        const searchData = [
+            { name: 'Rocket', type: 'لعبة', icon: '🚀', path: 'rocket' },
+            { name: 'Plinko', type: 'لعبة', icon: '🎯', path: 'plinko' },
+            { name: 'PvP Cards', type: 'لعبة', icon: '🃏', path: 'pvp' },
+            { name: 'Upgrade', type: 'لعبة', icon: '⭐', path: 'upgrade' },
+            { name: 'Craft', type: 'لعبة', icon: '⚒️', path: 'craft' },
+            { name: 'Discount', type: 'لعبة', icon: '💎', path: 'discount' },
+            { name: 'هدية 1', type: 'هدية', icon: '🎁', value: '100 TON' },
+            { name: 'هدية 2', type: 'هدية', icon: '💎', value: '250 TON' },
+            { name: 'هدية 3', type: 'هدية', icon: '🌟', value: '500 TON' },
+            { name: 'هدية 4', type: 'هدية', icon: '💎', value: '1000 TON' }
+        ];
+        
+        function performSearch(query) {
+            const results = document.getElementById('search-results');
+            
+            if (!query) {
+                results.innerHTML = '<div style="color: #666; text-align: center; padding: 20px;">ابدأ البحث...</div>';
+                return;
+            }
+            
+            const filtered = searchData.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
+            
+            if (filtered.length === 0) {
+                results.innerHTML = '<div style="color: #666; text-align: center; padding: 20px;">لا نتائج</div>';
+                return;
+            }
+            
+            results.innerHTML = '';
+            filtered.forEach(item => {
+                const result = document.createElement('div');
+                result.className = 'search-result';
+                result.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="font-size: 24px;">${item.icon}</div>
+                        <div>
+                            <div style="font-weight: 600;">${item.name}</div>
+                            <div style="font-size: 12px; color: #999;">${item.type} ${item.value || ''}</div>
+                        </div>
+                    </div>
+                `;
+                result.onclick = () => {
+                    if (item.path) showScreen(item.path);
+                    else showToast(`تم العثور على ${item.name}`, 'info');
+                };
+                results.appendChild(result);
+            });
+        }
+        
+        // ==========================================
+        // المتصدرين
+        // ==========================================
+        function loadLeaderboard() {
+            const leaderboard = document.getElementById('leaderboard');
+            leaderboard.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;">جارٍ التحميل...</div>';
+            
+            setTimeout(() => {
+                const players = [
+                    { name: 'مستخدم 1', score: 2500, rank: 1 },
+                    { name: 'مستخدم 2', score: 1800, rank: 2 },
+                    { name: 'مستخدم 3', score: 1200, rank: 3 },
+                    { name: 'مستخدم 4', score: 800, rank: 4 },
+                    { name: 'مستخدم 5', score: 500, rank: 5 },
+                    { name: 'مستخدم 6', score: 300, rank: 6 },
+                    { name: 'مستخدم 7', score: 150, rank: 7 },
+                    { name: 'أنت', score: 100, rank: 8 }
+                ];
+                
+                leaderboard.innerHTML = '';
+                players.forEach(player => {
+                    const row = document.createElement('div');
+                    row.className = 'leaderboard-row';
+                    row.innerHTML = `
+                        <div class="rank ${player.rank === 1 ? 'gold' : player.rank === 2 ? 'silver' : player.rank === 3 ? 'bronze' : ''}">${player.rank}</div>
+                        <div>${player.name}</div>
+                        <div class="score">${player.score} pts</div>
+                    `;
+                    leaderboard.appendChild(row);
+                });
+            }, 500);
+        }
+        
+        // ==========================================
+        // المحفظة
+        // ==========================================
+        function updateBalanceUI() {
+            document.getElementById('topbar-balance').textContent = State.balance.toFixed(2);
+            document.getElementById('wallet-balance').textContent = State.balance.toFixed(2);
+        }
+        
+        function loadTransactions() {
+            const transactions = document.getElementById('wallet-transactions');
+            transactions.innerHTML = '';
+            
+            // معاملات تجريبية
+            const tx = [
+                { type: 'إيداع', amount: '+100', icon: '💰', date: 'اليوم' },
+                { type: 'رهان', amount: '-10', icon: '🎮', date: 'قبل 2 ساعة' },
+                { type: 'فوز', amount: '+150', icon: '🏆', date: 'قبل 2 ساعة' },
+                { type: 'إيداع', amount: '+500', icon: '💰', date: 'أمس' }
+            ];
+            
+            tx.forEach(t => {
+                const row = document.createElement('div');
+                row.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);';
+                row.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="font-size: 20px;">${t.icon}</div>
+                        <div>
+                            <div style="font-weight: 600;">${t.type}</div>
+                            <div style="font-size: 12px; color: #999;">${t.date}</div>
+                        </div>
+                    </div>
+                    <div style="font-weight: 600; color: ${t.amount.startsWith('+') ? '#34D399' : '#EF4444'};">${t.amount} TON</div>
+                `;
+                transactions.appendChild(row);
+            });
+        }
+        
+        // ==========================================
+        // الإعدادات
+        // ==========================================
+        function toggleDarkMode(btn) {
+            State.settings.darkMode = !State.settings.darkMode;
+            btn.textContent = State.settings.darkMode ? '☀️ إيقاف' : '🌙 تفعيل';
+            document.body.style.background = State.settings.darkMode ? 'linear-gradient(135deg, #1E1E1E, #0F0F0F)' : 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)';
+            showToast(State.settings.darkMode ? 'الوضع الليلي مفعّل' : 'الوضع النهاري مفعّل', 'info');
+        }
+        
+        function toggleNotifications(btn) {
+            State.settings.notifications = !State.settings.notifications;
+            btn.textContent = State.settings.notifications ? '🔕 إيقاف' : '🔔 تفعيل';
+            showToast(State.settings.notifications ? 'الإشعارات مفعّلة' : 'الإشعارات متوقفة', 'info');
+        }
+        
+        function toggleVibration(btn) {
+            State.settings.vibration = !State.settings.vibration;
+            btn.textContent = State.settings.vibration ? '📳 إيقاف' : '📳 تفعيل';
+            showToast(State.settings.vibration ? 'الاهتزاز مفعّل' : 'الاهتزاز متوقف', 'info');
+        }
+        
+        function confirmLogout() {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                showToast('تم تسجيل الخروج', 'info');
+                setTimeout(() => location.reload(), 1000);
+            }
+        }
+        
+        // ==========================================
+        // تهيئة التطبيق
+        // ==========================================
+        function initApp() {
+            // إخفاء شاشة التحميل
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                document.getElementById('loader').style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    document.getElementById('loader').remove();
+                }, 500);
+                
+                showToast('مرحباً بك في Epic Games! 🎮', 'success');
+                updateBalanceUI();
+            }, 1500);
+        }
+        
+        // تشغيل التطبيق
+        document.addEventListener('DOMContentLoaded', initApp);
+        
+        // محاكاة إضافية
+        setInterval(() => {
+            // رصيد افتراضي يتحرك قليلاً
+            // (للمحاكاة فقط - لا تستخدم هذا في الإنتاج)
+            if (Math.random() > 0.9) {
+                const delta = Math.random() * 2 - 1;
+                State.balance = Math.max(0, State.balance + delta);
+                updateBalanceUI();
+            }
+        }, 5000);
+    </script>
 </body>
-</html>
+    </html>
