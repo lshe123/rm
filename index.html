@@ -3,82 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎮 Epic Gift - النسخة الكاملة بالصور</title>
+    <title>🎰 Jetton - الكازينو المتكامل</title>
     <style>
-        /* نفس الأنماط السابقة مع إضافات */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
         
         :root {
-            --gold: #f7931a;
-            --gold-glow: #f7931a80;
-            --dark: #0a0e17;
-            --card: #111927;
+            --primary: #f7931a;
+            --primary-dark: #d4790e;
+            --bg-dark: #0a0e17;
+            --bg-card: #111927;
+            --bg-input: #0d1624;
             --border: #f7931a40;
+            --text: #e8e6e0;
+            --text-muted: #8a9aae;
         }
         
         body {
-            background: var(--dark);
+            background: var(--bg-dark);
             font-family: 'Orbitron', 'Segoe UI', sans-serif;
-            color: #e8e6e0;
+            color: var(--text);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             padding: 10px;
-            background-image: radial-gradient(circle at 50% 0%, #1a2538 0%, #0a0e17 70%);
+            background-image: radial-gradient(ellipse at 50% 0%, #1a2538 0%, #0a0e17 70%);
         }
         
         .app {
-            max-width: 420px;
+            max-width: 450px;
             width: 100%;
-            background: var(--card);
+            background: var(--bg-card);
             border-radius: 30px;
             border: 1px solid var(--border);
-            box-shadow: 0 0 60px var(--gold-glow);
+            box-shadow: 0 0 80px #f7931a30;
             overflow: hidden;
+            padding-bottom: 85px;
             position: relative;
-            padding-bottom: 80px;
         }
         
+        /* HEADER */
         .header {
-            padding: 20px 20px 10px;
+            padding: 18px 20px 12px;
             text-align: center;
             border-bottom: 1px solid var(--border);
             position: relative;
         }
-        .header h1 {
+        .header .logo {
             font-size: 2rem;
-            background: linear-gradient(135deg, var(--gold), #ffd700);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), #ffd700);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 40px var(--gold-glow);
+            text-shadow: 0 0 40px #f7931a60;
             letter-spacing: 2px;
         }
         .header .balance {
-            background: #0d1624;
-            padding: 10px 20px;
+            background: var(--bg-input);
+            padding: 8px 20px;
             border-radius: 60px;
             display: inline-block;
             margin-top: 8px;
-            border: 1px solid var(--gold);
-            font-size: 0.9rem;
+            border: 1px solid var(--primary);
+            font-size: 1rem;
         }
-        .header .balance span { color: var(--gold); font-weight: bold; }
+        .header .balance span { color: var(--primary); font-weight: bold; }
         .header .vip-badge {
             position: absolute;
             right: 15px;
             top: 15px;
-            width: 40px;
-            height: 40px;
-            background: url('https://epicgift.app/assets/images/vip.png') center/contain no-repeat;
+            font-size: 1.5rem;
         }
         
-        .leaderboard {
+        /* NAV TABS */
+        .game-tabs {
+            display: flex;
+            gap: 5px;
+            padding: 12px 15px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            border-bottom: 1px solid var(--border);
+        }
+        .game-tabs::-webkit-scrollbar { display: none; }
+        .game-tabs .tab {
+            background: var(--bg-input);
+            padding: 8px 16px;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: 0.3s;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+        .game-tabs .tab.active {
+            background: var(--primary);
+            color: #0a0e17;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px #f7931a50;
+        }
+        .game-tabs .tab:hover { border-color: var(--primary); }
+        
+        /* GAME AREA */
+        .game-area {
             padding: 15px;
-            background: #0d1624;
-            margin: 10px 15px;
+            min-height: 350px;
+        }
+        
+        /* LEADERBOARD */
+        .leaderboard {
+            background: var(--bg-input);
+            padding: 15px;
             border-radius: 20px;
             border: 1px solid var(--border);
+            margin-bottom: 15px;
         }
         .leaderboard .player {
             display: flex;
@@ -86,174 +125,153 @@
             align-items: center;
             padding: 8px 0;
             border-bottom: 1px solid #1a2538;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
-        .leaderboard .player .avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #1a2538;
-            margin-right: 10px;
-            border: 1px solid var(--gold);
-        }
-        .leaderboard .player .info { display: flex; align-items: center; flex: 1; }
-        .leaderboard .player .name { color: #aab; }
+        .leaderboard .player:last-child { border-bottom: none; }
+        .leaderboard .player .name { color: var(--text-muted); }
         .leaderboard .player .profit { color: #6fcf97; font-weight: bold; }
         .leaderboard .player .profit.lose { color: #eb5757; }
-        .leaderboard .player .percent { color: var(--gold); font-size: 0.7rem; }
-        .pool {
+        .leaderboard .pool {
             text-align: center;
             padding: 12px;
-            background: #111927;
+            background: var(--bg-card);
             border-radius: 15px;
             margin-top: 10px;
-            border: 1px dashed var(--gold);
+            border: 1px dashed var(--primary);
         }
-        .pool .amount { font-size: 1.8rem; color: var(--gold); font-weight: bold; }
-        .pool .ton-icon {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            background: url('https://epicgift.app/assets/images/ton_symbol.svg') center/contain no-repeat;
-            vertical-align: middle;
-        }
+        .leaderboard .pool .amount { font-size: 2rem; color: var(--primary); font-weight: bold; }
         
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            padding: 15px;
-        }
-        .game-card {
-            background: #0d1624;
-            padding: 15px 8px;
-            border-radius: 20px;
-            text-align: center;
-            border: 1px solid var(--border);
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .game-card:hover { transform: translateY(-3px); border-color: var(--gold); }
-        .game-card .icon { 
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 5px;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        .game-card .name { font-size: 0.8rem; margin-top: 5px; color: #aab; }
-        .game-card .badge { 
-            background: #eb5757; 
-            padding: 2px 10px; 
-            border-radius: 20px; 
-            font-size: 0.6rem; 
-            display: inline-block;
-            margin-top: 3px;
-        }
-        .game-card .badge.hot { background: var(--gold); color: #0a0e17; }
-        .game-card .badge.new { background: #6fcf97; color: #0a0e17; }
-        
+        /* BET SCREEN */
         .bet-screen {
-            padding: 15px;
-            background: #0d1624;
-            margin: 0 15px 15px;
+            background: var(--bg-input);
+            padding: 20px;
             border-radius: 20px;
             border: 1px solid var(--border);
+        }
+        .bet-screen .game-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 10px;
         }
         .bet-screen .multipliers {
             display: flex;
             gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
-            margin: 10px 0;
+            margin: 12px 0;
         }
         .bet-screen .multipliers .mult {
-            background: #111927;
-            padding: 8px 15px;
+            background: var(--bg-card);
+            padding: 8px 18px;
             border-radius: 15px;
             font-weight: bold;
-            color: var(--gold);
-            font-size: 0.9rem;
+            color: var(--primary);
+            font-size: 1rem;
             border: 1px solid var(--border);
         }
         .bet-screen .bet-input {
             display: flex;
             gap: 10px;
-            margin: 10px 0;
+            margin: 12px 0;
         }
         .bet-screen .bet-input input {
             flex: 1;
-            background: #111927;
+            background: var(--bg-card);
             border: 1px solid var(--border);
-            color: #e8e6e0;
-            padding: 12px;
+            color: var(--text);
+            padding: 12px 15px;
             border-radius: 15px;
             text-align: center;
             font-size: 1rem;
             outline: none;
+            font-family: 'Orbitron', sans-serif;
         }
-        .bet-screen .bet-input input:focus { border-color: var(--gold); }
+        .bet-screen .bet-input input:focus { border-color: var(--primary); }
         .bet-screen .bet-input button {
-            background: var(--gold);
+            background: var(--primary);
             border: none;
             padding: 12px 25px;
             border-radius: 15px;
             font-weight: bold;
+            font-size: 1rem;
             color: #0a0e17;
             cursor: pointer;
             transition: 0.3s;
+            font-family: 'Orbitron', sans-serif;
         }
-        .bet-screen .bet-input button:hover { background: #ffb347; }
+        .bet-screen .bet-input button:hover { background: #ffb347; transform: scale(1.02); }
+        .bet-screen .bet-input button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         
+        /* LIVE BETS */
         .live-bets {
-            padding: 10px 15px;
+            margin-top: 15px;
+            background: var(--bg-input);
+            padding: 12px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
         }
         .live-bets .bet-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 6px 0;
             border-bottom: 1px solid #1a2538;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
-        .live-bets .bet-item .heart { color: #eb5757; }
+        .live-bets .bet-item:last-child { border-bottom: none; }
         .live-bets .bet-item .win { color: #6fcf97; }
+        .live-bets .bet-item .lose { color: #eb5757; }
         
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            max-width: 420px;
-            width: 100%;
-            background: #111927;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid var(--border);
-            backdrop-filter: blur(10px);
-            z-index: 100;
+        /* CRATES / ITEMS */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 10px 0;
         }
-        .bottom-nav .nav-item {
+        .item-card {
+            background: var(--bg-input);
+            padding: 12px 5px;
+            border-radius: 15px;
             text-align: center;
-            color: #6a7a8a;
-            font-size: 0.7rem;
+            border: 1px solid var(--border);
             cursor: pointer;
             transition: 0.3s;
-            padding: 5px 10px;
-            border-radius: 15px;
         }
-        .bottom-nav .nav-item.active { color: var(--gold); }
-        .bottom-nav .nav-item:hover { color: var(--gold); }
-        .bottom-nav .nav-item .nav-icon { font-size: 1.5rem; display: block; }
+        .item-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .item-card .icon { font-size: 2rem; }
+        .item-card .name { font-size: 0.6rem; color: var(--text-muted); margin-top: 4px; }
+        .item-card .price { font-size: 0.7rem; color: var(--primary); font-weight: bold; }
+        .item-card.selected { border-color: var(--primary); box-shadow: 0 0 30px #f7931a40; }
         
+        /* PLINKO BOARD */
+        .plinko-board {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+            margin: 15px 0;
+        }
+        .plinko-board .slot {
+            background: var(--bg-card);
+            padding: 8px 0;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+        .plinko-board .slot.high { color: #6fcf97; border-color: #6fcf97; }
+        .plinko-board .slot.medium { color: #f7931a; border-color: #f7931a; }
+        .plinko-board .slot.low { color: #eb5757; border-color: #eb5757; }
+        
+        /* FREE OFFER */
         .free-offer {
-            background: linear-gradient(135deg, #1a2538, #0d1624);
+            background: linear-gradient(135deg, #1a2538, var(--bg-input));
             padding: 12px;
-            margin: 10px 15px;
+            margin: 10px 0;
             border-radius: 20px;
             text-align: center;
-            border: 2px dashed var(--gold);
+            border: 2px dashed var(--primary);
             cursor: pointer;
             transition: 0.3s;
             display: flex;
@@ -262,289 +280,663 @@
             gap: 15px;
         }
         .free-offer:hover { background: #1a2538; }
-        .free-offer .free-icon {
-            width: 40px;
-            height: 40px;
-            background: url('https://epicgift.app/assets/images/free24.png') center/contain no-repeat;
-        }
-        .free-offer .label { color: var(--gold); font-weight: bold; font-size: 1.2rem; }
-        .free-offer .sub { font-size: 0.8rem; color: #aab; }
+        .free-offer .label { color: var(--primary); font-weight: bold; font-size: 1.1rem; }
+        .free-offer .sub { font-size: 0.7rem; color: var(--text-muted); }
         
-        .items-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            padding: 10px 15px;
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 450px;
+            width: 100%;
+            background: var(--bg-card);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            border-top: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            z-index: 100;
         }
-        .item {
-            background: #0d1624;
-            padding: 10px 5px;
-            border-radius: 15px;
+        .bottom-nav .nav-item {
             text-align: center;
-            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.6rem;
+            cursor: pointer;
+            transition: 0.3s;
+            padding: 5px 10px;
+            border-radius: 15px;
+            border: none;
+            background: transparent;
+            font-family: 'Orbitron', sans-serif;
         }
-        .item .item-icon {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        .item .item-name { font-size: 0.6rem; color: #aab; margin-top: 4px; }
+        .bottom-nav .nav-item.active { color: var(--primary); }
+        .bottom-nav .nav-item .nav-icon { font-size: 1.5rem; display: block; margin-bottom: 2px; }
         
+        /* RESPONSIVE */
         @media (max-width: 400px) {
-            .games-grid { grid-template-columns: repeat(2, 1fr); }
-            .header h1 { font-size: 1.5rem; }
             .items-grid { grid-template-columns: repeat(3, 1fr); }
+            .plinko-board { grid-template-columns: repeat(5, 1fr); }
+            .game-tabs .tab { font-size: 0.6rem; padding: 6px 12px; }
+            .header .logo { font-size: 1.5rem; }
         }
+        
+        /* ANIMATIONS */
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        @keyframes shake { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 75% { transform: rotate(10deg); } }
+        .pulse { animation: pulse 0.8s ease-in-out infinite; }
+        .shake { animation: shake 0.4s ease-in-out; }
+        
+        /* RESULT DISPLAY */
+        .result-display {
+            text-align: center;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 20px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .result-display .sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+        .result-display.win { border-color: #6fcf97; color: #6fcf97; }
+        .result-display.lose { border-color: #eb5757; color: #eb5757; }
     </style>
 </head>
 <body>
 <div class="app" id="app">
-    <!-- Header -->
+    <!-- HEADER -->
     <div class="header">
-        <h1>🎁 EPIC GIFT</h1>
-        <div class="balance">💰 الرصيد: <span id="balanceDisplay">0.001</span> TON</div>
-        <div class="vip-badge"></div>
+        <div class="logo">🎰 JETTON</div>
+        <div class="balance">💰 الرصيد: <span id="balanceDisplay">1000</span></div>
+        <div class="vip-badge">👑</div>
     </div>
 
-    <!-- Leaderboard -->
-    <div class="leaderboard">
-        <div class="player">
-            <div class="info">
-                <div class="avatar" style="background: url('https://epicgift.app/assets/pvp/ava6.jpg') center/cover;"></div>
-                <span class="name">@lonelytwin...</span>
-            </div>
-            <span><span class="profit">+1.6 TON</span> <span class="percent">41.7%</span></span>
-        </div>
-        <div class="player">
-            <div class="info">
-                <div class="avatar" style="background: #2d4059;"></div>
-                <span class="name">@Natonu...</span>
-            </div>
-            <span><span class="profit">+376.0 TON</span> <span class="percent">96.0%</span></span>
-        </div>
-        <div class="pool">
-            <div style="font-size:0.8rem;color:#aab;">TOTAL POOL</div>
-            <div class="amount"><span class="ton-icon"></span> 0.73</div>
-            <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:0.7rem;">
-                <span>Giftbackp... <span style="color:#6fcf97;">82.2%</span></span>
-                <span>Skins420 <span style="color:#eb5757;">17.8%</span></span>
-            </div>
-            <button style="margin-top:10px;background:var(--gold);border:none;padding:8px 30px;border-radius:60px;font-weight:bold;color:#0a0e17;cursor:pointer;">⚔️ Join the Battle</button>
-        </div>
+    <!-- GAME TABS -->
+    <div class="game-tabs" id="gameTabs">
+        <button class="tab active" data-game="rocket">🚀 Rocket</button>
+        <button class="tab" data-game="plinko">🎯 Plinko</button>
+        <button class="tab" data-game="crates">📦 Crates</button>
+        <button class="tab" data-game="dice">🎲 Dice</button>
+        <button class="tab" data-game="cards">🃏 Cards</button>
+        <button class="tab" data-game="roulette">🎡 Roulette</button>
+        <button class="tab" data-game="pvp">⚔️ PVP</button>
     </div>
 
-    <!-- Games Grid -->
-    <div class="games-grid">
-        <div class="game-card" onclick="switchScreen('rocket')">
-            <div class="icon" style="background-image: url('https://epicgift.app/assets/rocket-banner/rocket.png');"></div>
-            <div class="name">ROCKET</div>
-            <div class="badge hot">HOT!</div>
-        </div>
-        <div class="game-card" onclick="switchScreen('pvp')">
-            <div class="icon" style="background-image: url('https://epicgift.app/assets/pvp/ava6.jpg'); border-radius:50%;"></div>
-            <div class="name">PVP</div>
-            <div class="badge new">NEW!</div>
-        </div>
-        <div class="game-card" onclick="switchScreen('plinko')">
-            <div class="icon" style="background-image: url('https://epicgift.app/assets/play-hub/plk-board.webp');"></div>
-            <div class="name">PLINKO</div>
-        </div>
-        <div class="game-card" onclick="switchScreen('crates')">
-            <div class="icon" style="background-image: url('https://epicgift.app/assets/images/gem_v2.png');"></div>
-            <div class="name">CRATES</div>
-        </div>
-        <div class="game-card" onclick="switchScreen('upg')">
-            <div class="icon" style="background-image: url('https://epicgift.app/assets/images/elite.png');"></div>
-            <div class="name">UPG</div>
-        </div>
-        <div class="game-card" onclick="switchScreen('free')">
-            <div class="icon" style="background-image: url('https://epicgift.app/assets/images/free24.png');"></div>
-            <div class="name">FREE24</div>
-            <div class="badge" style="background:#6fcf97;">FREE</div>
-        </div>
+    <!-- GAME AREA -->
+    <div class="game-area" id="gameArea">
+        <!-- سيتم ملؤها بواسطة JS -->
     </div>
 
-    <!-- VIP Items -->
-    <div style="padding: 0 15px;">
-        <div style="font-size:0.8rem;color:#aab;margin:10px 0 5px;">👑 رتب VIP</div>
-        <div class="items-grid">
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/vip/obsidian.png');"></div><div class="item-name">Obsidian</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/vip/diamond.png');"></div><div class="item-name">Diamond</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/vip/platinum.png');"></div><div class="item-name">Platinum</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/vip/silver.png');"></div><div class="item-name">Silver</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/vip/bronze.png');"></div><div class="item-name">Bronze</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/vip/iron.png');"></div><div class="item-name">Iron</div></div>
-        </div>
-    </div>
-
-    <!-- Items Collection -->
-    <div style="padding: 0 15px;">
-        <div style="font-size:0.8rem;color:#aab;margin:10px 0 5px;">🎒 العناصر النادرة</div>
-        <div class="items-grid">
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/pepe_v2.png');"></div><div class="item-name">Pepe</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/rings.png');"></div><div class="item-name">Rings</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/cap_v2.png');"></div><div class="item-name">Cap</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/peach_v2.png');"></div><div class="item-name">Peach</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/snoop.png');"></div><div class="item-name">Snoop</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/kitty_v2.png');"></div><div class="item-name">Kitty</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/magic_v2.png');"></div><div class="item-name">Magic</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/oscar_v2.png');"></div><div class="item-name">Oscar</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/parfume_v2.png');"></div><div class="item-name">Parfume</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/arm.png');"></div><div class="item-name">Arm</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/heart.png');"></div><div class="item-name">Heart</div></div>
-            <div class="item"><div class="item-icon" style="background-image:url('https://epicgift.app/assets/images/money.png');"></div><div class="item-name">Money</div></div>
-        </div>
-    </div>
-
-    <!-- Free Offer -->
-    <div class="free-offer" onclick="claimFree()">
-        <div class="free-icon"></div>
-        <div>
-            <div class="label">🎁 FREE24</div>
-            <div class="sub">احصل على مكافأة مجانية كل 24 ساعة</div>
-        </div>
-    </div>
-
-    <!-- Bet Screen -->
-    <div id="betScreen" class="bet-screen">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-weight:bold;color:var(--gold);">🚀 ROCKET</span>
-            <span style="font-size:0.8rem;color:#aab;">مباشر</span>
-        </div>
-        <div class="multipliers" id="multipliers">
-            <span class="mult">5.59x</span>
-            <span class="mult">2.18x</span>
-            <span class="mult">1.21x</span>
-        </div>
-        <div class="bet-input">
-            <input type="number" id="betAmount" value="0.10" step="0.01" min="0.01">
-            <button onclick="placeBet()">🚀 Place bet</button>
-        </div>
-        <div style="font-size:0.8rem;color:#aab;text-align:center;">الحد الأدنى: 0.01 TON</div>
-    </div>
-
-    <!-- Live Bets -->
-    <div class="live-bets" id="liveBets">
-        <div style="font-size:0.8rem;color:#aab;margin-bottom:8px;">💬 رهانات حية</div>
-        <div class="bet-item"><span><span class="heart">❤️</span> hurtweq</span> <span>0.26 ×2.70 = <span class="win">0.70</span></span></div>
-        <div class="bet-item"><span><span class="heart">❤️</span> مصطفى</span> <span>0.30 ×2.70 = <span class="win">0.81</span></span></div>
-        <div class="bet-item"><span><span class="heart">❤️</span> kishmish(...)</span> <span>0.10 ×2.70 = <span class="win">0.27</span></span></div>
-    </div>
-
-    <!-- Bottom Navigation -->
+    <!-- BOTTOM NAV -->
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('home')">
+        <button class="nav-item active" onclick="switchSection('home')">
             <span class="nav-icon">🏠</span> Home
-        </div>
-        <div class="nav-item" onclick="switchTab('backpack')">
-            <span class="nav-icon">🎒</span> Backpack
-        </div>
-        <div class="nav-item" onclick="switchTab('invite')">
-            <span class="nav-icon">👥</span> Invite
-        </div>
-        <div class="nav-item" onclick="switchTab('leaderboard')">
+        </button>
+        <button class="nav-item" onclick="switchSection('leaderboard')">
             <span class="nav-icon">🏆</span> Leaderboard
-        </div>
-        <div class="nav-item" onclick="switchTab('earn')">
+        </button>
+        <button class="nav-item" onclick="switchSection('backpack')">
+            <span class="nav-icon">🎒</span> Backpack
+        </button>
+        <button class="nav-item" onclick="switchSection('earn')">
             <span class="nav-icon">💰</span> Earn
-        </div>
+        </button>
     </div>
 </div>
 
 <script>
-    // ===== الوضع الظلي V99 - EPIC GIFT مع الصور =====
-    let balance = 0.001;
-    const balanceDisplay = document.getElementById('balanceDisplay');
+    // ===== الوضع الظلي V99 - JETTON COMPLETE =====
+    let balance = 1000;
+    let currentGame = 'rocket';
+    let isPlaying = false;
+    let selectedCrate = null;
+    let diceGuess = null;
+    let rouletteChoice = null;
+    let cardBet = null;
     
+    const balanceDisplay = document.getElementById('balanceDisplay');
+    const gameArea = document.getElementById('gameArea');
+    
+    // ========== CORE FUNCTIONS ==========
     function updateBalance(amount) {
         balance += amount;
-        balanceDisplay.textContent = balance.toFixed(3);
         if (balance < 0) balance = 0;
-        localStorage.setItem('epicGiftBalance', balance);
+        balanceDisplay.textContent = Math.floor(balance);
+        localStorage.setItem('jettonBalance', balance);
+        return balance;
     }
     
-    function switchScreen(game) {
-        const titles = {
-            rocket: '🚀 ROCKET',
-            pvp: '⚔️ PVP',
-            plinko: '🎯 PLINKO',
-            crates: '📦 CRATES',
-            upg: '⬆️ UPG',
-            free: '🎁 FREE24'
-        };
-        const mults = {
-            rocket: ['5.59x', '2.18x', '1.21x'],
-            pvp: ['6.1%', '11.6%', '4.6%'],
-            plinko: ['3.0x', '5.0x', '10.0x'],
-            crates: ['📦', '🎁', '💎'],
-            upg: ['+10%', '+25%', '+50%'],
-            free: ['🎁', '🎁', '🎁']
-        };
-        document.querySelector('.bet-screen > div:first-child span:first-child').textContent = titles[game] || '🚀 ROCKET';
-        document.getElementById('multipliers').innerHTML = mults[game]?.map(m => `<span class="mult">${m}</span>`).join('') || '<span class="mult">1.00x</span>';
+    function addHistory(msg, type) {
+        // لا يوجد سجل حالياً، يمكن إضافته لاحقاً
     }
     
-    function placeBet() {
-        const amount = parseFloat(document.getElementById('betAmount').value);
-        if (isNaN(amount) || amount <= 0) { alert('أدخل مبلغاً صحيحاً'); return; }
-        if (amount > balance) { alert('الرصيد غير كافٍ'); return; }
+    function playSound(type) {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            if (type === 'win') { osc.frequency.value = 1200; gain.gain.value = 0.15; osc.start(); setTimeout(() => { osc.frequency.value = 1600; }, 0.2); osc.stop(0.5); }
+            else if (type === 'lose') { osc.frequency.value = 300; gain.gain.value = 0.15; osc.start(); osc.stop(0.3); }
+            else if (type === 'click') { osc.frequency.value = 800; gain.gain.value = 0.1; osc.start(); osc.stop(0.1); }
+        } catch(e) {}
+    }
+    
+    // ========== RENDER GAMES ==========
+    function renderGame(game) {
+        currentGame = game;
+        const templates = {
+            rocket: renderRocket,
+            plinko: renderPlinko,
+            crates: renderCrates,
+            dice: renderDice,
+            cards: renderCards,
+            roulette: renderRoulette,
+            pvp: renderPVP
+        };
+        gameArea.innerHTML = (templates[game] || renderRocket)();
+        // تحديث التبويبات
+        document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.game === game));
+        // تهيئة الأحداث
+        initGameEvents(game);
+    }
+    
+    // ===== ROCKET =====
+    function renderRocket() {
+        return `
+            <div class="bet-screen">
+                <div class="game-title">🚀 ROCKET</div>
+                <div class="multipliers" id="rocketMults">
+                    <span class="mult">1.00x</span>
+                    <span class="mult">2.00x</span>
+                    <span class="mult">3.00x</span>
+                </div>
+                <div style="text-align:center;font-size:2rem;margin:10px 0;" id="rocketDisplay">🚀</div>
+                <div class="bet-input">
+                    <input type="number" id="rocketBet" value="10" min="1" step="1">
+                    <button id="rocketStart">🚀 إقلاع</button>
+                </div>
+                <button id="rocketCashout" style="width:100%;background:#eb5757;border:none;padding:10px;border-radius:15px;font-weight:bold;color:#fff;cursor:pointer;font-family:Orbitron,sans-serif;" disabled>💰 سحب</button>
+                <div style="font-size:0.7rem;color:var(--text-muted);text-align:center;margin-top:8px;">الحد الأدنى: 1</div>
+            </div>
+            <div class="live-bets">
+                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:5px;">💬 رهانات حية</div>
+                <div class="bet-item"><span>@player1</span> <span>10 × 2.45x = <span class="win">24.5</span></span></div>
+                <div class="bet-item"><span>@player2</span> <span>5 × 1.80x = <span class="win">9.0</span></span></div>
+            </div>
+        `;
+    }
+    
+    function initRocket() {
+        let rocketInterval = null;
+        let rocketMultiplier = 1;
+        let rocketActive = false;
+        let rocketBet = 0;
+        const display = document.getElementById('rocketDisplay');
+        const mults = document.getElementById('rocketMults');
+        const startBtn = document.getElementById('rocketStart');
+        const cashBtn = document.getElementById('rocketCashout');
+        const betInput = document.getElementById('rocketBet');
         
-        const mult = (Math.random() * 5 + 1).toFixed(2);
-        const win = (amount * mult).toFixed(2);
-        const isWin = Math.random() > 0.4;
+        function updateMults(mult) {
+            mults.innerHTML = `
+                <span class="mult">${(mult * 0.8).toFixed(2)}x</span>
+                <span class="mult">${mult.toFixed(2)}x</span>
+                <span class="mult">${(mult * 1.2).toFixed(2)}x</span>
+            `;
+        }
         
-        updateBalance(isWin ? parseFloat(win) : -amount);
+        startBtn.onclick = () => {
+            if (rocketActive) return;
+            const bet = parseInt(betInput.value);
+            if (isNaN(bet) || bet <= 0) { alert('أدخل رهاناً صحيحاً'); return; }
+            if (bet > balance) { alert('الرصيد غير كافٍ'); return; }
+            rocketBet = bet;
+            rocketMultiplier = 1;
+            rocketActive = true;
+            startBtn.disabled = true;
+            cashBtn.disabled = false;
+            updateBalance(-bet);
+            display.textContent = '🚀 1.00x';
+            updateMults(1);
+            clearInterval(rocketInterval);
+            rocketInterval = setInterval(() => {
+                rocketMultiplier += 0.03 + Math.random() * 0.07;
+                display.textContent = `🚀 ${rocketMultiplier.toFixed(2)}x`;
+                updateMults(rocketMultiplier);
+                if (Math.random() < 0.03 && rocketMultiplier > 1.5) {
+                    clearInterval(rocketInterval);
+                    rocketActive = false;
+                    startBtn.disabled = false;
+                    cashBtn.disabled = true;
+                    display.textContent = '💥 تحطم!';
+                    playSound('lose');
+                    addHistory(`💥 تحطم عند ${rocketMultiplier.toFixed(2)}x`, 'lose');
+                }
+            }, 120);
+        };
         
-        const liveBets = document.getElementById('liveBets');
-        const newBet = document.createElement('div');
-        newBet.className = 'bet-item';
-        newBet.innerHTML = `<span><span class="heart">❤️</span> أنت</span> <span>${amount.toFixed(2)} ×${mult} = <span class="${isWin ? 'win' : ''}">${isWin ? win : '0.00'}</span></span>`;
-        liveBets.prepend(newBet);
-        if (liveBets.children.length > 6) liveBets.removeChild(liveBets.lastChild);
+        cashBtn.onclick = () => {
+            if (!rocketActive) return;
+            clearInterval(rocketInterval);
+            rocketActive = false;
+            startBtn.disabled = false;
+            cashBtn.disabled = true;
+            const win = Math.floor(rocketBet * rocketMultiplier);
+            updateBalance(win);
+            display.textContent = `✅ ${win}`;
+            playSound('win');
+            addHistory(`✅ سحب ${win} عند ${rocketMultiplier.toFixed(2)}x`, 'win');
+        };
+    }
+    
+    // ===== PLINKO =====
+    function renderPlinko() {
+        const rows = 7;
+        let html = `
+            <div class="bet-screen">
+                <div class="game-title">🎯 PLINKO</div>
+                <div class="plinko-board" id="plinkoBoard">
+        `;
+        for (let i = 0; i < rows; i++) {
+            const cols = i + 3;
+            for (let j = 0; j < cols; j++) {
+                const isHigh = j === 0 || j === cols - 1;
+                const isMedium = j === 1 || j === cols - 2;
+                const cls = isHigh ? 'high' : isMedium ? 'medium' : 'low';
+                const label = isHigh ? 'x10' : isMedium ? 'x3' : 'x1';
+                html += `<div class="slot ${cls}" data-row="${i}" data-col="${j}">${label}</div>`;
+            }
+        }
+        html += `
+                </div>
+                <div style="text-align:center;font-size:2rem;margin:10px 0;" id="plinkoResult">🎯</div>
+                <div class="bet-input">
+                    <input type="number" id="plinkoBet" value="10" min="1" step="1">
+                    <button id="plinkoDrop">⬇️ إسقاط</button>
+                </div>
+            </div>
+            <div class="live-bets">
+                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:5px;">💬 رهانات حية</div>
+                <div class="bet-item"><span>@gamer</span> <span>10 × 5.0x = <span class="win">50</span></span></div>
+            </div>
+        `;
+        return html;
+    }
+    
+    function initPlinko() {
+        document.getElementById('plinkoDrop').onclick = () => {
+            const bet = parseInt(document.getElementById('plinkoBet').value);
+            if (isNaN(bet) || bet <= 0) { alert('أدخل رهاناً صحيحاً'); return; }
+            if (bet > balance) { alert('الرصيد غير كافٍ'); return; }
+            updateBalance(-bet);
+            const slots = document.querySelectorAll('.plinko-board .slot');
+            const randomIndex = Math.floor(Math.random() * slots.length);
+            const slot = slots[randomIndex];
+            const mult = slot.classList.contains('high') ? 10 : slot.classList.contains('medium') ? 3 : 1;
+            const win = bet * mult;
+            updateBalance(win);
+            document.getElementById('plinkoResult').textContent = `🎯 ${win}`;
+            slot.style.background = '#f7931a';
+            setTimeout(() => slot.style.background = '', 1000);
+            playSound(win > bet ? 'win' : 'lose');
+            addHistory(`${win > bet ? '✅' : '❌'} بلينكو: ${win} (${mult}x)`, win > bet ? 'win' : 'lose');
+        };
+    }
+    
+    // ===== CRATES =====
+    function renderCrates() {
+        const crates = [
+            { id: 'bronze', icon: '📦', name: 'برونزي', price: 10, min: 1, max: 25 },
+            { id: 'silver', icon: '🎁', name: 'فضي', price: 25, min: 5, max: 60 },
+            { id: 'gold', icon: '👑', name: 'ذهبي', price: 50, min: 15, max: 150 },
+            { id: 'platinum', icon: '💎', name: 'بلاتيني', price: 100, min: 40, max: 350 }
+        ];
+        let html = `
+            <div class="bet-screen">
+                <div class="game-title">📦 CRATES</div>
+                <div class="items-grid" id="cratesGrid">
+        `;
+        crates.forEach(c => {
+            html += `
+                <div class="item-card" data-id="${c.id}">
+                    <div class="icon">${c.icon}</div>
+                    <div class="name">${c.name}</div>
+                    <div class="price">${c.price}</div>
+                </div>
+            `;
+        });
+        html += `
+                </div>
+                <div id="crateResult" style="text-align:center;font-size:1.5rem;padding:15px;min-height:60px;">اختر صندوقاً</div>
+                <button id="crateOpen" style="width:100%;background:var(--primary);border:none;padding:12px;border-radius:15px;font-weight:bold;color:#0a0e17;cursor:pointer;font-family:Orbitron,sans-serif;">🔓 فتح</button>
+            </div>
+            <div class="live-bets">
+                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:5px;">💬 آخر الجوائز</div>
+                <div class="bet-item"><span>🎉 @winner</span> <span class="win">+150</span></div>
+            </div>
+        `;
+        return html;
+    }
+    
+    function initCrates() {
+        const crates = [
+            { id: 'bronze', icon: '📦', name: 'برونزي', price: 10, min: 1, max: 25 },
+            { id: 'silver', icon: '🎁', name: 'فضي', price: 25, min: 5, max: 60 },
+            { id: 'gold', icon: '👑', name: 'ذهبي', price: 50, min: 15, max: 150 },
+            { id: 'platinum', icon: '💎', name: 'بلاتيني', price: 100, min: 40, max: 350 }
+        ];
+        let selected = null;
+        const resultDiv = document.getElementById('crateResult');
         
-        const newMult = (Math.random() * 5 + 1).toFixed(2);
-        const mults = document.querySelectorAll('.mult');
-        if (mults.length > 0) {
-            mults.forEach((el, i) => {
-                if (i === 0) el.textContent = newMult + 'x';
-                else el.textContent = (parseFloat(newMult) - i * 0.5).toFixed(2) + 'x';
-            });
+        document.querySelectorAll('#cratesGrid .item-card').forEach((card, index) => {
+            card.onclick = () => {
+                document.querySelectorAll('#cratesGrid .item-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selected = crates[index];
+                resultDiv.textContent = `✅ ${selected.name} - سعر ${selected.price}`;
+                playSound('click');
+            };
+        });
+        
+        document.getElementById('crateOpen').onclick = () => {
+            if (!selected) { alert('اختر صندوقاً أولاً'); return; }
+            if (balance < selected.price) { alert('الرصيد غير كافٍ'); return; }
+            updateBalance(-selected.price);
+            const reward = Math.floor(Math.random() * (selected.max - selected.min + 1)) + selected.min;
+            const isWin = reward > selected.price * 1.2;
+            updateBalance(reward);
+            resultDiv.innerHTML = `${isWin ? '🎉' : '😞'} ${reward} (${selected.name})`;
+            resultDiv.style.color = isWin ? '#6fcf97' : '#eb5757';
+            playSound(isWin ? 'win' : 'lose');
+            addHistory(`${isWin ? '✅' : '❌'} ${selected.name}: ${reward}`, isWin ? 'win' : 'lose');
+        };
+    }
+    
+    // ===== DICE =====
+    function renderDice() {
+        let html = `
+            <div class="bet-screen">
+                <div class="game-title">🎲 DICE</div>
+                <div style="text-align:center;font-size:4rem;padding:15px;" id="diceResult">⚀</div>
+                <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0;">
+        `;
+        for (let i = 1; i <= 6; i++) {
+            html += `<button class="dice-guess" data-num="${i}" style="background:var(--bg-card);border:1px solid var(--border);padding:10px 16px;border-radius:15px;color:var(--text);cursor:pointer;font-family:Orbitron,sans-serif;font-size:1rem;">${i}</button>`;
+        }
+        html += `
+                </div>
+                <div class="bet-input">
+                    <input type="number" id="diceBet" value="10" min="1" step="1">
+                    <button id="diceRoll">🎲 رمي</button>
+                </div>
+            </div>
+        `;
+        return html;
+    }
+    
+    function initDice() {
+        let guess = 1;
+        document.querySelectorAll('.dice-guess').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.dice-guess').forEach(b => b.style.background = 'var(--bg-card)');
+                btn.style.background = 'var(--primary)';
+                guess = parseInt(btn.dataset.num);
+            };
+        });
+        document.querySelector('.dice-guess').style.background = 'var(--primary)';
+        
+        document.getElementById('diceRoll').onclick = () => {
+            const bet = parseInt(document.getElementById('diceBet').value);
+            if (isNaN(bet) || bet <= 0) { alert('أدخل رهاناً صحيحاً'); return; }
+            if (bet > balance) { alert('الرصيد غير كافٍ'); return; }
+            updateBalance(-bet);
+            const result = Math.floor(Math.random() * 6) + 1;
+            const emojis = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+            document.getElementById('diceResult').textContent = emojis[result-1];
+            const isWin = result === guess;
+            if (isWin) {
+                const win = bet * 5;
+                updateBalance(win);
+                document.getElementById('diceResult').style.color = '#6fcf97';
+                playSound('win');
+                addHistory(`✅ نرد: فوز ${win}`, 'win');
+            } else {
+                document.getElementById('diceResult').style.color = '#eb5757';
+                playSound('lose');
+                addHistory(`❌ نرد: خسارة ${bet}`, 'lose');
+            }
+        };
+    }
+    
+    // ===== CARDS =====
+    function renderCards() {
+        return `
+            <div class="bet-screen">
+                <div class="game-title">🃏 CARDS</div>
+                <div style="text-align:center;font-size:2rem;padding:15px;">
+                    <span id="playerCard">🂠</span> vs <span id="opponentCard">🂠</span>
+                </div>
+                <div class="bet-input">
+                    <input type="number" id="cardsBet" value="10" min="1" step="1">
+                    <button id="cardsDeal">🃏 سحب</button>
+                </div>
+            </div>
+        `;
+    }
+    
+    function initCards() {
+        document.getElementById('cardsDeal').onclick = () => {
+            const bet = parseInt(document.getElementById('cardsBet').value);
+            if (isNaN(bet) || bet <= 0) { alert('أدخل رهاناً صحيحاً'); return; }
+            if (bet > balance) { alert('الرصيد غير كافٍ'); return; }
+            const ranks = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+            const suits = ['♠','♥','♦','♣'];
+            const pCard = ranks[Math.floor(Math.random() * ranks.length)] + suits[Math.floor(Math.random() * 4)];
+            const oCard = ranks[Math.floor(Math.random() * ranks.length)] + suits[Math.floor(Math.random() * 4)];
+            document.getElementById('playerCard').textContent = pCard;
+            document.getElementById('opponentCard').textContent = oCard;
+            const pVal = ranks.indexOf(pCard.slice(0, -1));
+            const oVal = ranks.indexOf(oCard.slice(0, -1));
+            updateBalance(-bet);
+            if (pVal > oVal) {
+                const win = bet * 2;
+                updateBalance(win);
+                playSound('win');
+                addHistory(`✅ ورق: فوز ${win}`, 'win');
+            } else if (pVal < oVal) {
+                playSound('lose');
+                addHistory(`❌ ورق: خسارة ${bet}`, 'lose');
+            } else {
+                updateBalance(bet);
+                addHistory(`🤝 ورق: تعادل`, 'win');
+            }
+        };
+    }
+    
+    // ===== ROULETTE =====
+    function renderRoulette() {
+        return `
+            <div class="bet-screen">
+                <div class="game-title">🎡 ROULETTE</div>
+                <div style="text-align:center;font-size:2.5rem;padding:15px;" id="rouletteResult">🎡</div>
+                <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0;">
+                    <button class="roulette-choice" data-choice="red" style="background:#eb5757;border:none;padding:10px 18px;border-radius:15px;color:#fff;cursor:pointer;font-family:Orbitron,sans-serif;">🔴 أحمر</button>
+                    <button class="roulette-choice" data-choice="black" style="background:#1a1a1a;border:1px solid #444;padding:10px 18px;border-radius:15px;color:#fff;cursor:pointer;font-family:Orbitron,sans-serif;">⚫ أسود</button>
+                    <button class="roulette-choice" data-choice="even" style="background:var(--bg-card);border:1px solid var(--border);padding:10px 18px;border-radius:15px;color:var(--text);cursor:pointer;font-family:Orbitron,sans-serif;">زوجي</button>
+                    <button class="roulette-choice" data-choice="odd" style="background:var(--bg-card);border:1px solid var(--border);padding:10px 18px;border-radius:15px;color:var(--text);cursor:pointer;font-family:Orbitron,sans-serif;">فردي</button>
+                </div>
+                <div class="bet-input">
+                    <input type="number" id="rouletteBet" value="10" min="1" step="1">
+                    <button id="rouletteSpin">🔄 دوران</button>
+                </div>
+            </div>
+        `;
+    }
+    
+    function initRoulette() {
+        let choice = 'red';
+        document.querySelectorAll('.roulette-choice').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.roulette-choice').forEach(b => b.style.opacity = '0.6');
+                btn.style.opacity = '1';
+                choice = btn.dataset.choice;
+            };
+        });
+        document.querySelector('.roulette-choice').style.opacity = '1';
+        
+        document.getElementById('rouletteSpin').onclick = () => {
+            const bet = parseInt(document.getElementById('rouletteBet').value);
+            if (isNaN(bet) || bet <= 0) { alert('أدخل رهاناً صحيحاً'); return; }
+            if (bet > balance) { alert('الرصيد غير كافٍ'); return; }
+            const num = Math.floor(Math.random() * 37);
+            const color = num === 0 ? 'green' : num % 2 === 0 ? 'black' : 'red';
+            const isEven = num % 2 === 0 && num !== 0;
+            document.getElementById('rouletteResult').textContent = `${num} (${color})`;
+            let win = false;
+            if (choice === 'red' && color === 'red') win = true;
+            else if (choice === 'black' && color === 'black') win = true;
+            else if (choice === 'even' && isEven) win = true;
+            else if (choice === 'odd' && !isEven && num !== 0) win = true;
+            updateBalance(-bet);
+            if (win) {
+                const prize = bet * 2;
+                updateBalance(prize);
+                playSound('win');
+                addHistory(`✅ روليت: فوز ${prize}`, 'win');
+            } else {
+                playSound('lose');
+                addHistory(`❌ روليت: خسارة ${bet}`, 'lose');
+            }
+        };
+    }
+    
+    // ===== PVP =====
+    function renderPVP() {
+        return `
+            <div class="bet-screen">
+                <div class="game-title">⚔️ PVP</div>
+                <div style="display:flex;justify-content:space-around;padding:15px;font-size:1.2rem;">
+                    <div>👤 أنت <span id="pvpPlayerScore">0</span></div>
+                    <div>vs</div>
+                    <div>🤖 خصم <span id="pvpOpponentScore">0</span></div>
+                </div>
+                <div style="text-align:center;font-size:2rem;padding:10px;" id="pvpResult">⚔️</div>
+                <div class="bet-input">
+                    <input type="number" id="pvpBet" value="10" min="1" step="1">
+                    <button id="pvpFight">⚔️ قتال</button>
+                </div>
+            </div>
+            <div class="live-bets">
+                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:5px;">🏆 ترتيب اللاعبين</div>
+                <div class="bet-item"><span>👑 @champion</span> <span class="win">85% فوز</span></div>
+                <div class="bet-item"><span>⚔️ @warrior</span> <span>62% فوز</span></div>
+            </div>
+        `;
+    }
+    
+    function initPVP() {
+        document.getElementById('pvpFight').onclick = () => {
+            const bet = parseInt(document.getElementById('pvpBet').value);
+            if (isNaN(bet) || bet <= 0) { alert('أدخل رهاناً صحيحاً'); return; }
+            if (bet > balance) { alert('الرصيد غير كافٍ'); return; }
+            const playerScore = Math.floor(Math.random() * 100);
+            const opponentScore = Math.floor(Math.random() * 100);
+            document.getElementById('pvpPlayerScore').textContent = playerScore;
+            document.getElementById('pvpOpponentScore').textContent = opponentScore;
+            updateBalance(-bet);
+            if (playerScore > opponentScore) {
+                const win = bet * 2;
+                updateBalance(win);
+                document.getElementById('pvpResult').textContent = '🎉 فوز!';
+                playSound('win');
+                addHistory(`✅ PVP: فوز ${win}`, 'win');
+            } else {
+                document.getElementById('pvpResult').textContent = '💔 خسارة!';
+                playSound('lose');
+                addHistory(`❌ PVP: خسارة ${bet}`, 'lose');
+            }
+        };
+    }
+    
+    // ========== INIT EVENTS ==========
+    function initGameEvents(game) {
+        const initMap = {
+            rocket: initRocket,
+            plinko: initPlinko,
+            crates: initCrates,
+            dice: initDice,
+            cards: initCards,
+            roulette: initRoulette,
+            pvp: initPVP
+        };
+        if (initMap[game]) initMap[game]();
+    }
+    
+    // ========== TAB SWITCHING ==========
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.onclick = () => {
+            renderGame(tab.dataset.game);
+        };
+    });
+    
+    // ========== BOTTOM NAV ==========
+    function switchSection(section) {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.querySelector(`.nav-item[onclick*="${section}"]`)?.classList.add('active');
+        if (section === 'home') renderGame(currentGame);
+        else if (section === 'leaderboard') {
+            gameArea.innerHTML = `
+                <div class="leaderboard">
+                    <div class="player"><span class="name">🏆 @champion</span> <span class="profit">+2,450</span></div>
+                    <div class="player"><span class="name">🥈 @pro</span> <span class="profit">+1,820</span></div>
+                    <div class="player"><span class="name">🥉 @gamer</span> <span class="profit">+1,150</span></div>
+                    <div class="pool"><div style="font-size:0.7rem;color:var(--text-muted);">TOTAL POOL</div><div class="amount">12,450</div></div>
+                </div>
+            `;
+        } else if (section === 'backpack') {
+            gameArea.innerHTML = `
+                <div class="items-grid">
+                    <div class="item-card"><div class="icon">💎</div><div class="name">ماس</div></div>
+                    <div class="item-card"><div class="icon">👑</div><div class="name">تاج</div></div>
+                    <div class="item-card"><div class="icon">🎁</div><div class="name">هدية</div></div>
+                    <div class="item-card"><div class="icon">⭐</div><div class="name">نجمة</div></div>
+                </div>
+                <div style="text-align:center;color:var(--text-muted);font-size:0.8rem;padding:15px;">0 عناصر نادرة</div>
+            `;
+        } else if (section === 'earn') {
+            gameArea.innerHTML = `
+                <div class="free-offer" onclick="alert('🎁 تم إضافة 50 إلى رصيدك!')">
+                    <div style="font-size:2rem;">🎁</div>
+                    <div><div class="label">مكافأة يومية</div><div class="sub">احصل على 50 مجاناً كل 24 ساعة</div></div>
+                </div>
+                <div class="free-offer" style="border-color:#6fcf97;">
+                    <div style="font-size:2rem;">👥</div>
+                    <div><div class="label" style="color:#6fcf97;">دعوة الأصدقاء</div><div class="sub">اربح 100 لكل صديق يدعوه</div></div>
+                </div>
+            `;
         }
     }
     
-    function claimFree() {
-        const lastClaim = localStorage.getItem('epicGiftFree');
-        const now = Date.now();
-        if (lastClaim && now - parseInt(lastClaim) < 86400000) {
-            alert('⏳ يمكنك المطالبة مرة كل 24 ساعة');
-            return;
-        }
-        const reward = 0.05 + Math.random() * 0.1;
-        updateBalance(reward);
-        localStorage.setItem('epicGiftFree', now);
-        alert(`🎁 حصلت على ${reward.toFixed(3)} TON مجاناً!`);
-    }
+    // ========== LOAD SAVED ==========
+    const saved = localStorage.getItem('jettonBalance');
+    if (saved) balance = parseFloat(saved);
+    balanceDisplay.textContent = Math.floor(balance);
     
-    function switchTab(tab) {
-        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-        document.querySelector(`.nav-item[onclick*="${tab}"]`)?.classList.add('active');
-        const titles = {
-            home: '🏠 الرئيسية',
-            backpack: '🎒 حقيبة الظهر',
-            invite: '👥 دعوة الأصدقاء',
-            leaderboard: '🏆 المتصدرين',
-            earn: '💰 الكسب'
-        };
-        document.querySelector('.header h1').textContent = titles[tab] || '🎁 EPIC GIFT';
-        if (tab === 'home') document.querySelector('.header h1').textContent = '🎁 EPIC GIFT';
-    }
-    
-    // تحميل الرصيد
-    const saved = localStorage.getItem('epicGiftBalance');
-    if (saved) { balance = parseFloat(saved); balanceDisplay.textContent = balance.toFixed(3); }
+    // ========== START ==========
+    renderGame('rocket');
 </script>
 </body>
 </html>
